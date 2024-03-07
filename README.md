@@ -4,14 +4,11 @@
 
 - Node.js
 - npm
+- npx
 
 ## Dépendances
 
 Pour installer les dépendances, exécutez les commandes suivantes :
-
-\```
-$ npm install -g @angular/cli
-\```
 
 \```
 $ npm install -g @ionic/cli
@@ -19,8 +16,16 @@ $ npm install -g @ionic/cli
 
 ## Compilation
 
-Pour compiler le projet, exécutez les commandes suivantes :
+Pour compiler et lancer le **frontend** et le **backend**, exécutez la commande suivante :
 
 \```
-$ docker-compose up
+$ docker-compose up --build -d
+\```
+
+## Partie mobile
+
+Pour lancer la version mobile, exécutez la commande suivante :
+
+\```
+$ npx ionic serve
 \```
