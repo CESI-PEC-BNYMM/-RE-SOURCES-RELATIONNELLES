@@ -1,37 +1,54 @@
 version: '3.8'
 
 services:
-  frontend:
-    hostname: frontend
-    container_name: frontend
-    build:
-      context: ./frontend
-    ports:
-      - 4200:4200
+  mysql:
+    image: mysql:8.0.34
+    container_name: db_ressources_relationnelles
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ressources_relationnelles
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
 
-  # mobile:
-  #   build:
-  #     context: ./mobile
-  #   ports:
-  #     - "8100:8100"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_ressources_relationnelles
+    depends_on:
+      mysql:
+        condition: service_started
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
 
   # backend:
   #   build:
   #     context: ./backend
+  #   container_name: backend_ressources_relationnelles
   #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ressources_relationnelles
-  #     SPRING_DATASOURCE_USERNAME: admin
-  #     SPRING_DATASOURCE_PASSWORD: admin
+  #     - 8000:8000
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./backend:/usr/src/app
 
-  # mysql:
-  #   image: mysql:8.0.34
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_DATABASE: ressources_relationnelles
-  #     MYSQL_USER: admin
-  #     MYSQL_PASSWORD: admin
-  #   ports:
-  #     - "3306:3306"
+  frontend:
+    container_name: frontend_ressources_relationnelles
+    build:
+      context: ./frontend
+    # depends_on:
+    #   backend:
+    #     condition: service_started
+    ports:
+      - 3000:3000
+    stdin_open: true
+    volumes:
+      - ./frontend:/usr/src/app:delegated
+      - /usr/src/app/node_modules/
 
+volumes:
+  db_data:
