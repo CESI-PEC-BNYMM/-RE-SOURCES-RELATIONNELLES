@@ -25,17 +25,17 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Citoyen` (
   `nom` VARCHAR(45) NULL,
   `prenom` VARCHAR(45) NULL,
   `mail` VARCHAR(45) NULL,
-  `num_tel` VARCHAR(10) NULL,
-  `num_sec` VARCHAR(13) NULL,
+  `numTel` VARCHAR(10) NULL,
+  `numSec` VARCHAR(13) NULL,
   `role` VARCHAR(45) NULL,
-  `date_naissance` DATE NULL,
+  `dateNaissance` DATE NULL,
   `sexe` CHAR(1) NULL,
   `actif` TINYINT(1) NULL DEFAULT 1,
   `validaton` TINYINT(1) NULL DEFAULT 1,
-  `code_postal` VARCHAR(5) NULL,
+  `codePostal` VARCHAR(5) NULL,
   `ville` VARCHAR(45) NULL,
   `mdp` VARCHAR(512) NULL,
-  `date_derniere_connexion` DATETIME NULL,
+  `dateDerniereConnexion` DATETIME NULL,
   PRIMARY KEY (`idCitoyen`))
 ENGINE = InnoDB;
 
@@ -48,15 +48,15 @@ DROP TABLE IF EXISTS `ressources_relationnelles`.`Publication` ;
 CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Publication` (
   `idPublication` INT NOT NULL AUTO_INCREMENT,
   `description` LONGTEXT NULL,
-  `date_pub` DATETIME NULL,
-  `pub_validee` TINYINT(1) NULL DEFAULT 0,
-  `pub_signalee` TINYINT(1) NULL DEFAULT 0,
-  `nbr_vues` INT NULL,
-  `Citoyen_idCitoyen` INT NOT NULL,
+  `datePub` DATETIME NULL,
+  `pubValidee` TINYINT(1) NULL DEFAULT 0,
+  `pubSignalee` TINYINT(1) NULL DEFAULT 0,
+  `nbrVues` INT NULL,
+  `idCitoyen` INT NOT NULL,
   PRIMARY KEY (`idPublication`),
-  INDEX `fk_Publication_Citoyen_idx` (`Citoyen_idCitoyen` ASC) VISIBLE,
+  INDEX `fk_Publication_Citoyen_idx` (`idCitoyen` ASC) VISIBLE,
   CONSTRAINT `fk_Publication_Citoyen`
-    FOREIGN KEY (`Citoyen_idCitoyen`)
+    FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -64,15 +64,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ressources_relationnelles`.`Catégorie`
+-- Table `ressources_relationnelles`.`Categorie`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ressources_relationnelles`.`Catégorie` ;
+DROP TABLE IF EXISTS `ressources_relationnelles`.`Categorie` ;
 
-CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Catégorie` (
-  `idCatégorie` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Categorie` (
+  `idCategorie` INT NOT NULL AUTO_INCREMENT,
   `libelle` VARCHAR(45) NULL,
   `actif` TINYINT(1) NULL DEFAULT 1,
-  PRIMARY KEY (`idCatégorie`))
+  PRIMARY KEY (`idCategorie`))
 ENGINE = InnoDB;
 
 
@@ -86,11 +86,11 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Ressource` (
   `type` VARCHAR(45) NULL,
   `lien` VARCHAR(255) NULL,
   `extension` VARCHAR(45) NULL,
-  `Publication_idPublication` INT NOT NULL,
+  `idPublication` INT NOT NULL,
   PRIMARY KEY (`idRessource`),
-  INDEX `fk_Ressource_Publication1_idx` (`Publication_idPublication` ASC) VISIBLE,
+  INDEX `fk_Ressource_Publication1_idx` (`idPublication` ASC) VISIBLE,
   CONSTRAINT `fk_Ressource_Publication1`
-    FOREIGN KEY (`Publication_idPublication`)
+    FOREIGN KEY (`idPublication`)
     REFERENCES `ressources_relationnelles`.`Publication` (`idPublication`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -107,14 +107,14 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Ticket` (
   `objet` VARCHAR(45) NULL,
   `description` LONGTEXT NULL,
   `etat` TINYINT(1) NULL DEFAULT 0,
-  `nom_createur` VARCHAR(45) NULL,
-  `prenom_createur` VARCHAR(45) NULL,
-  `mail_createur` VARCHAR(45) NULL,
-  `Citoyen_idCitoyen` INT NOT NULL,
+  `nomCreateur` VARCHAR(45) NULL,
+  `prenomCreateur` VARCHAR(45) NULL,
+  `mailCreateur` VARCHAR(45) NULL,
+  `idCitoyen` INT NOT NULL,
   PRIMARY KEY (`idticket`),
-  INDEX `fk_ticket_Citoyen1_idx` (`Citoyen_idCitoyen` ASC) VISIBLE,
+  INDEX `fk_ticket_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
   CONSTRAINT `fk_ticket_Citoyen1`
-    FOREIGN KEY (`Citoyen_idCitoyen`)
+    FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -122,27 +122,27 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ressources_relationnelles`.`commentaire`
+-- Table `ressources_relationnelles`.`Commentaire`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ressources_relationnelles`.`commentaire` ;
+DROP TABLE IF EXISTS `ressources_relationnelles`.`Commentaire` ;
 
-CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`commentaire` (
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Commentaire` (
   `idCommentaire` VARCHAR(45) NOT NULL,
-  `Citoyen_idCitoyen` INT NULL,
-  `Publication_idPublication` INT NOT NULL,
-  `text_commentaire` LONGTEXT NULL,
-  `commentaire_signale` TINYINT(1) NULL DEFAULT 0,
+  `idCitoyen` INT NULL,
+  `idPublication` INT NOT NULL,
+  `textCommentaire` LONGTEXT NULL,
+  `commentaireSignale` TINYINT(1) NULL DEFAULT 0,
   `type` TINYINT(1) NULL,
-  INDEX `fk_Citoyen_has_Publication_Publication1_idx` (`Publication_idPublication` ASC) VISIBLE,
-  INDEX `fk_Citoyen_has_Publication_Citoyen1_idx` (`Citoyen_idCitoyen` ASC) VISIBLE,
+  INDEX `fk_Citoyen_has_Publication_Publication1_idx` (`idPublication` ASC) VISIBLE,
+  INDEX `fk_Citoyen_has_Publication_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
   PRIMARY KEY (`idCommentaire`),
   CONSTRAINT `fk_Citoyen_has_Publication_Citoyen1`
-    FOREIGN KEY (`Citoyen_idCitoyen`)
+    FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Citoyen_has_Publication_Publication1`
-    FOREIGN KEY (`Publication_idPublication`)
+    FOREIGN KEY (`idPublication`)
     REFERENCES `ressources_relationnelles`.`Publication` (`idPublication`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -150,24 +150,24 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ressources_relationnelles`.`demande_ami`
+-- Table `ressources_relationnelles`.`DemandeAmi`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ressources_relationnelles`.`demande_ami` ;
+DROP TABLE IF EXISTS `ressources_relationnelles`.`DemandeAmi` ;
 
-CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`demande_ami` (
-  `Citoyen_idCitoyen` INT NOT NULL,
-  `Citoyen_idCitoyen1` INT NOT NULL,
-  `demande_validee` TINYINT(1) NULL DEFAULT 0,
-  PRIMARY KEY (`Citoyen_idCitoyen`, `Citoyen_idCitoyen1`),
-  INDEX `fk_Citoyen_has_Citoyen1_Citoyen2_idx` (`Citoyen_idCitoyen1` ASC) VISIBLE,
-  INDEX `fk_Citoyen_has_Citoyen1_Citoyen1_idx` (`Citoyen_idCitoyen` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`DemandeAmi` (
+  `idCitoyen` INT NOT NULL,
+  `idCitoyen1` INT NOT NULL,
+  `demandeValidee` TINYINT(1) NULL DEFAULT 0,
+  PRIMARY KEY (`idCitoyen`, `idCitoyen1`),
+  INDEX `fk_Citoyen_has_Citoyen1_Citoyen2_idx` (`idCitoyen1` ASC) VISIBLE,
+  INDEX `fk_Citoyen_has_Citoyen1_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
   CONSTRAINT `fk_Citoyen_has_Citoyen1_Citoyen1`
-    FOREIGN KEY (`Citoyen_idCitoyen`)
+    FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Citoyen_has_Citoyen1_Citoyen2`
-    FOREIGN KEY (`Citoyen_idCitoyen1`)
+    FOREIGN KEY (`idCitoyen1`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -175,47 +175,47 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ressources_relationnelles`.`pub_cat`
+-- Table `ressources_relationnelles`.`PubliCat`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ressources_relationnelles`.`pub_cat` ;
+DROP TABLE IF EXISTS `ressources_relationnelles`.`PubliCat` ;
 
-CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`pub_cat` (
-  `Publication_idPublication` INT NOT NULL,
-  `Catégorie_idCatégorie` INT NOT NULL,
-  PRIMARY KEY (`Publication_idPublication`, `Catégorie_idCatégorie`),
-  INDEX `fk_Publication_has_Catégorie_Catégorie1_idx` (`Catégorie_idCatégorie` ASC) VISIBLE,
-  INDEX `fk_Publication_has_Catégorie_Publication1_idx` (`Publication_idPublication` ASC) VISIBLE,
-  CONSTRAINT `fk_Publication_has_Catégorie_Publication1`
-    FOREIGN KEY (`Publication_idPublication`)
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`PubliCat` (
+  `idPublication` INT NOT NULL,
+  `idCategorie` INT NOT NULL,
+  PRIMARY KEY (`idPublication`, `idCategorie`),
+  INDEX `fk_Publication_has_Categorie_Categorie1_idx` (`idCategorie` ASC) VISIBLE,
+  INDEX `fk_Publication_has_Categorie_Publication1_idx` (`idPublication` ASC) VISIBLE,
+  CONSTRAINT `fk_Publication_has_Categorie_Publication1`
+    FOREIGN KEY (`idPublication`)
     REFERENCES `ressources_relationnelles`.`Publication` (`idPublication`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Publication_has_Catégorie_Catégorie1`
-    FOREIGN KEY (`Catégorie_idCatégorie`)
-    REFERENCES `ressources_relationnelles`.`Catégorie` (`idCatégorie`)
+  CONSTRAINT `fk_Publication_has_Categorie_Categorie1`
+    FOREIGN KEY (`idCategorie`)
+    REFERENCES `ressources_relationnelles`.`Categorie` (`idCategorie`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ressources_relationnelles`.`Choix_sondage_citoyen`
+-- Table `ressources_relationnelles`.`ChoixSondageCitoyen`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ressources_relationnelles`.`Choix_sondage_citoyen` ;
+DROP TABLE IF EXISTS `ressources_relationnelles`.`ChoixSondageCitoyen` ;
 
-CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Choix_sondage_citoyen` (
-  `Citoyen_idCitoyen` INT NOT NULL,
-  `Ressource_idRessource` INT NOT NULL,
-  `choix_sondage_citoyen` VARCHAR(45) NULL,
-  INDEX `fk_table1_Citoyen1_idx` (`Citoyen_idCitoyen` ASC) VISIBLE,
-  INDEX `fk_table1_Ressource1_idx` (`Ressource_idRessource` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`ChoixSondageCitoyen` (
+  `idCitoyen` INT NOT NULL,
+  `idRessource` INT NOT NULL,
+  `choixSondageCitoyen` VARCHAR(45) NULL,
+  INDEX `fk_table1_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
+  INDEX `fk_table1_Ressource1_idx` (`idRessource` ASC) VISIBLE,
   CONSTRAINT `fk_table1_Citoyen1`
-    FOREIGN KEY (`Citoyen_idCitoyen`)
+    FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_table1_Ressource1`
-    FOREIGN KEY (`Ressource_idRessource`)
+    FOREIGN KEY (`idRessource`)
     REFERENCES `ressources_relationnelles`.`Ressource` (`idRessource`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
