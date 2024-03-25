@@ -1,5 +1,10 @@
 package com.example.exemple;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,10 +13,9 @@ public class ExempleApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExempleApplication.class, args);
-		/*// Informations de connexion à la base de données MySQL
-        String url = "jdbc:mysql://localhost:3306/your_database_name";
-        String username = "your_username";
-        String password = "your_password";*/
+		// Informations de connexion à la base de données MySQL
+        String url = "jdbc:mysql://localhost:3306/ressources_relationnelles?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC";
+        String username = "root";
 
         // Requête SQL pour créer les tables
         String sql = "CREATE TABLE IF NOT EXISTS Citoyen (" +
@@ -41,17 +45,17 @@ public class ExempleApplication {
                 "nbrVues INT NULL," +
                 "idCitoyen INT NOT NULL," +
                 "PRIMARY KEY (idPublication)," +
-                "FOREIGN KEY (idCitoyen) REFERENCES
-Citoyen(idCitoyen) ON DELETE NO ACTION ON UPDATE NO ACTION" +
+                "FOREIGN KEY (idCitoyen) REFERENCES" +
+				"Citoyen(idCitoyen) ON DELETE NO ACTION ON UPDATE NO ACTION" +
                 ");" +
                 // Créez les autres tables ici...
                 // Assurez-vous de respecter les contraintes de clé étrangère entre les tables
                 // N'oubliez pas de gérer les autres tables du schéma
                 "";
 
-    /*     try {
+         try {
             // Établissement de la connexion
-            Connection conn = DriverManager.getConnection(url, username, password);
+            Connection conn = DriverManager.getConnection(url, username, "");
             Statement stmt = conn.createStatement();
 
             // Exécution de la requête SQL
@@ -64,7 +68,7 @@ Citoyen(idCitoyen) ON DELETE NO ACTION ON UPDATE NO ACTION" +
             System.out.println("Tables créées avec succès !");
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
 		
 	}
 
