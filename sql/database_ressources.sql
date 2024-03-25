@@ -54,13 +54,12 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Publication` (
   `nbrVues` INT NULL,
   `idCitoyen` INT NOT NULL,
   PRIMARY KEY (`idPublication`),
-  INDEX `fk_Publication_Citoyen_idx` (`idCitoyen` ASC) VISIBLE,
-  CONSTRAINT `fk_Publication_Citoyen`
-    FOREIGN KEY (`idCitoyen`)
-    REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `fk_Publication_Citoyen_idx` (`idCitoyen` ASC) ,
+  CONSTRAINT `fk_Publication_Citoyen` FOREIGN KEY (`idCitoyen`)
+    REFERENCES `Citoyen` (`idCitoyen`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)
 ENGINE = InnoDB;
+
 
 
 -- -----------------------------------------------------
@@ -88,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Ressource` (
   `extension` VARCHAR(45) NULL,
   `idPublication` INT NOT NULL,
   PRIMARY KEY (`idRessource`),
-  INDEX `fk_Ressource_Publication1_idx` (`idPublication` ASC) VISIBLE,
+  INDEX `fk_Ressource_Publication1_idx` (`idPublication` ASC) ,
   CONSTRAINT `fk_Ressource_Publication1`
     FOREIGN KEY (`idPublication`)
     REFERENCES `ressources_relationnelles`.`Publication` (`idPublication`)
@@ -112,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Ticket` (
   `mailCreateur` VARCHAR(45) NULL,
   `idCitoyen` INT NOT NULL,
   PRIMARY KEY (`idticket`),
-  INDEX `fk_ticket_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
+  INDEX `fk_ticket_Citoyen1_idx` (`idCitoyen` ASC) ,
   CONSTRAINT `fk_ticket_Citoyen1`
     FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
@@ -133,8 +132,8 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Commentaire` (
   `textCommentaire` LONGTEXT NULL,
   `commentaireSignale` TINYINT(1) NULL DEFAULT 0,
   `type` TINYINT(1) NULL,
-  INDEX `fk_Citoyen_has_Publication_Publication1_idx` (`idPublication` ASC) VISIBLE,
-  INDEX `fk_Citoyen_has_Publication_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
+  INDEX `fk_Citoyen_has_Publication_Publication1_idx` (`idPublication` ASC) ,
+  INDEX `fk_Citoyen_has_Publication_Citoyen1_idx` (`idCitoyen` ASC) ,
   PRIMARY KEY (`idCommentaire`),
   CONSTRAINT `fk_Citoyen_has_Publication_Citoyen1`
     FOREIGN KEY (`idCitoyen`)
@@ -159,8 +158,8 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`DemandeAmi` (
   `idCitoyen1` INT NOT NULL,
   `demandeValidee` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`idCitoyen`, `idCitoyen1`),
-  INDEX `fk_Citoyen_has_Citoyen1_Citoyen2_idx` (`idCitoyen1` ASC) VISIBLE,
-  INDEX `fk_Citoyen_has_Citoyen1_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
+  INDEX `fk_Citoyen_has_Citoyen1_Citoyen2_idx` (`idCitoyen1` ASC) ,
+  INDEX `fk_Citoyen_has_Citoyen1_Citoyen1_idx` (`idCitoyen` ASC) ,
   CONSTRAINT `fk_Citoyen_has_Citoyen1_Citoyen1`
     FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
@@ -183,8 +182,8 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`PubliCat` (
   `idPublication` INT NOT NULL,
   `idCategorie` INT NOT NULL,
   PRIMARY KEY (`idPublication`, `idCategorie`),
-  INDEX `fk_Publication_has_Categorie_Categorie1_idx` (`idCategorie` ASC) VISIBLE,
-  INDEX `fk_Publication_has_Categorie_Publication1_idx` (`idPublication` ASC) VISIBLE,
+  INDEX `fk_Publication_has_Categorie_Categorie1_idx` (`idCategorie` ASC) ,
+  INDEX `fk_Publication_has_Categorie_Publication1_idx` (`idPublication` ASC) ,
   CONSTRAINT `fk_Publication_has_Categorie_Publication1`
     FOREIGN KEY (`idPublication`)
     REFERENCES `ressources_relationnelles`.`Publication` (`idPublication`)
@@ -207,8 +206,8 @@ CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`ChoixSondageCitoyen` (
   `idCitoyen` INT NOT NULL,
   `idRessource` INT NOT NULL,
   `choixSondageCitoyen` VARCHAR(45) NULL,
-  INDEX `fk_table1_Citoyen1_idx` (`idCitoyen` ASC) VISIBLE,
-  INDEX `fk_table1_Ressource1_idx` (`idRessource` ASC) VISIBLE,
+  INDEX `fk_table1_Citoyen1_idx` (`idCitoyen` ASC) ,
+  INDEX `fk_table1_Ressource1_idx` (`idRessource` ASC) ,
   CONSTRAINT `fk_table1_Citoyen1`
     FOREIGN KEY (`idCitoyen`)
     REFERENCES `ressources_relationnelles`.`Citoyen` (`idCitoyen`)
