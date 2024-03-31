@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Remplacez les informations de connexion par vos vrais identifiants d'admin
+  
   const adminCredentials = {
     email: 'admin@admin.com',
     password: 'admin'

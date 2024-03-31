@@ -1,7 +1,7 @@
-
 import React, { useContext } from 'react';
 import { AuthContext } from './utils/authContext';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AdminLayout from './pages/admin/AdminLayout';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
 import UserPage from './pages/admin/users/UserPage';
@@ -21,7 +21,7 @@ const App = () => {
     const AdminRoute = ({ children }) => {
       return isLoggedIn && isAdmin ? children : <Navigate to="/login" />;
     };
-        
+
     return (
         <div className="App">
             <Header />
@@ -30,8 +30,11 @@ const App = () => {
                 <Route path="/fil-d-actualite" element={<FilActualite />} />
                 <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                 <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
-                <Route path="/admin/users" element={<AdminRoute><UserPage /></AdminRoute>} />
-        <Route path="/admin/roles" element={<AdminRoute><RolePage /></AdminRoute>} />
+                <Route path="/admin/*" element={<AdminLayout />}>
+                    <Route index element={<Navigate to="users" />} /> {/* Redirection par défaut à /admin/users */}
+                    <Route path="users" element={<AdminRoute><UserPage /></AdminRoute>} />
+                    <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>

@@ -49,7 +49,7 @@ const AdminContextProvider = ({ children }) => {
     <AdminContext.Provider value={{
       users, addUser, updateUser, deleteUser,
       roles, addRole, updateRole, deleteRole,
-      notification, setMessageNotification, // Ajouter notification et setMessageNotification ici
+      notification, setMessageNotification, 
     }}>
       {children}
     </AdminContext.Provider>
