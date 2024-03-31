@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { AuthContext } from '../../utils/authContext';
 
 const LoginForm = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    login(values.email, values.password);
+    setSubmitting(false);
+    // Rediriger vers l'URL précédente après la connexion
+    navigate(location.state?.from ? location.state.from : '/');
+  };
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -15,12 +27,7 @@ const LoginForm = () => {
               email: Yup.string().email('Adresse e-mail invalide').required('Champ obligatoire'),
               password: Yup.string().required('Le mot de passe est requis'),
             })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
-            }}
+            onSubmit={handleSubmit}
           >
             <Form>
               <div className="form-group">

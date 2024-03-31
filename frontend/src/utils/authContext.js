@@ -1,49 +1,38 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
-
-
+import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Fonction pour connecter l'utilisateur
-  const login = (token) => {
-    const decoded = jwtDecode(token);
-    setUser(decoded.user);
-    localStorage.setItem('token', token);
+  // Remplacez les informations de connexion par vos vrais identifiants d'admin
+  const adminCredentials = {
+    email: 'admin@admin.com',
+    password: 'admin'
   };
 
-  // Fonction pour déconnecter l'utilisateur
+  const login = (email, password) => {
+    if (email === adminCredentials.email && password === adminCredentials.password) {
+      setUser({ email, role: 'admin' }); // Définir le rôle comme admin
+      setIsLoggedIn(true);
+      setIsAdmin(true);
+    } else {
+      setUser({ email, role: 'user' });
+      setIsLoggedIn(true);
+      setIsAdmin(false);
+    }
+  };
+
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
-  };
-
-  // Vérifier si le token est dans le local storage et le valider
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      if (decoded.exp < currentTime) {
-        logout();
-      } else {
-        setUser(decoded.user);
-      }
-    }
-  }, []);
-
-  // Valeurs et fonctions exposées par le contexte
-  const contextValue = {
-    user,
-    login,
-    logout,
+    setIsLoggedIn(false);
+    setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
+    <AuthContext.Provider value={{ user, isAdmin, isLoggedIn, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

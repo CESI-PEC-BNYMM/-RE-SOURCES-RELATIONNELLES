@@ -1,10 +1,9 @@
 import React from 'react';
+import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { register } from '../../services/authService'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -30,19 +29,17 @@ const RegisterForm = () => {
 
   // Gère la soumission du formulaire
   const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      const response = await register(values);
-      if (response.success) {
-        toast.success('Inscription réussie. Veuillez-vous connecter !');
-        navigate('/login'); // Redirection vers la page de connexion
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      console.error('Erreur lors de l\'inscription :', error);
-      toast.error('Une erreur s\'est produite. Veuillez réessayer.');
-    }
-    setSubmitting(false); // Fin de la soumission
+    // Simuler un délai de réponse
+    setTimeout(() => {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const newUser = { ...values, id: users.length + 1, role: 'user' };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      toast.success('Inscription réussie. Veuillez-vous connecter !');
+      navigate('/login');
+      setSubmitting(false);
+    }, 400);
   };
 
   return (
