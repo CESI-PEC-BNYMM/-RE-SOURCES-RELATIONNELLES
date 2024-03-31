@@ -21,7 +21,7 @@ const UserPage = () => {
 
 
     useEffect(() => {
-        console.log("Users:", users); // Ajoutez cette ligne pour voir les données des utilisateurs dans la console
+        console.log("Users:", users); 
         setData(users);
     }, [users]);
 
