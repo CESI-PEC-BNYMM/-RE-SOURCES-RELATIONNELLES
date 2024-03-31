@@ -15,7 +15,7 @@ const RolePage = () => {
     const [editRoleData, setEditRoleData] = useState(null);
 
     useEffect(() => {
-        console.log("Roles:", roles); // Ajoutez cette ligne pour voir les données des rôles dans la console
+        console.log("Roles:", roles); 
     }, [roles]);
 
     const handleModalAddRoleOpen = () => setShowModalAddRole(true);
@@ -32,10 +32,10 @@ const RolePage = () => {
     const handleModalDeleteRoleClose = () => setShowModalDeleteRole(false);
 
     const handleConfirmDeleteRole = (roleId) => {
-        // Vous devez implémenter cette fonction dans vos services
+        
         deleteRole(roleId).then(() => {
             setMessageNotification('Rôle supprimé avec succès');
-            // Mettre à jour la liste des rôles après la suppression
+            
         }).catch(error => {
             setMessageNotification('Erreur lors de la suppression du rôle');
         });
