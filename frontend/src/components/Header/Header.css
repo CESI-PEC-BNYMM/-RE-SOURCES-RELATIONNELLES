@@ -79,6 +79,22 @@ svg {
     background-color: rgba(255, 0, 0, 0.7);
 }
 
+.topNav .dropdownContent .personalInfos:hover {
+    background-color: rgba(0, 50, 218, 0.1);
+}
+
+.topNav .dropdownContent .personalInfos:active {
+    background: rgba(0, 50, 218, 0.2);
+}
+
+.topNav .dropdownContent .profileSettings:hover {
+    background-color: rgba(0, 50, 218, 0.1);
+}
+
+.topNav .dropdownContent .profileSettings:active {
+    background: rgba(0, 50, 218, 0.2);
+}
+
 .leftNav {
     background-color: white;
     box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
