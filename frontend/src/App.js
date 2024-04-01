@@ -1,46 +1,41 @@
-// src/App.js
-
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { AuthContext } from './utils/authContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AdminLayout from './pages/admin/AdminLayout';
+import LoginForm from './pages/auth/LoginForm';
+import RegisterForm from './pages/auth/RegisterForm';
+import UserPage from './pages/admin/users/UserPage';
+import RolePage from './pages/admin/roles/RolePage';
+import NotFound from './pages/NotFound/NotFound';
 import Header from './components/Header/Header';
 import FilActualite from './pages/FilActualite/FilActualite';
-// import Login from './pages/Login/Login';
-import NotFound from './pages/NotFound/NotFound';
+import { AdminContextProvider } from './utils/adminContext';
+import ProtectedRoute from './routes/protectedRoute';
+
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { isExpired, decodeToken } from "react-jwt";
 
 const App = () => {
-    // si il y a un token dans le localStorage, on considère que l'utilisateur est connecté
-    // const token = localStorage.getItem('token');
-    // let isLoggedIn = false;
-    // if (token) {
-    //     const myDecodedToken = decodeToken(token);
-    //     const isMyTokenExpired = isExpired(token);
-    //     isLoggedIn = myDecodedToken && !isMyTokenExpired;
-    // }
+    const { isLoggedIn, isAdmin } = useContext(AuthContext); 
+  
+    const AdminRoute = ({ children }) => {
+      return isLoggedIn && isAdmin ? children : <Navigate to="/login" />;
+    };
 
     return (
         <div className="App">
-            {/* {isLoggedIn && <Header />} */}
             <Header />
             <Routes>
-                {/* {!isLoggedIn && <Route path="*" element={<Login />} />} */}
-                {/* {isLoggedIn && <Route path="/login" element={<Navigate to="/fil-d-actualite" />} />} */}
-                {/* {isLoggedIn && <Route path="/fil-d-actualite" element={<FilActualite />} />} */}
-                {/* {isLoggedIn && <Route path="/administration/utilisateurs" element={<Utilisateurs />} />} */}
-                {/* {isLoggedIn && <Route path="/administration/roles" element={<Roles />} />} */}
-                {/* {isLoggedIn && <Route path="/" element={<FilActualite />} />} */}
-                {/* {isLoggedIn && <Route path="*" element={<NotFound />} />} */}
-                <Route path="/fil-d-actualite" element={<FilActualite />} />
-                {/* <Route path="/espace-personnel/mes-publications" element={<MesPublications />} /> */}
-                {/* <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} /> */}
-                {/* <Route path="/support/contact" element={<Contact />} /> */}
-                {/* <Route path="/support/faq" element={<FAQ />} /> */}
-
                 <Route path="/" element={<FilActualite />} />
+                <Route path="/fil-d-actualite" element={<FilActualite />} />
+                <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
+                <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
+                <Route path="/admin/*" element={<AdminLayout />}>
+                    <Route index element={<Navigate to="users" />} /> {/* Redirection par défaut à /admin/users */}
+                    <Route path="users" element={<AdminRoute><UserPage /></AdminRoute>} />
+                    <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
-                {/* <Route path="/login" element={<Login />} /> */}
-
             </Routes>
         </div>
     );
