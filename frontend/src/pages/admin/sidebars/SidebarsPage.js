@@ -7,8 +7,8 @@ const SidebarsPage = () => {
   return (
     <aside className="sidebars-container">
       <nav className="sidebars-nav">
-        <NavLink to="/admin/users" activeClassName="active">Utilisateurs</NavLink>
-        <NavLink to="/admin/roles" activeClassName="active">Rôles</NavLink>
+        <NavLink to="/administration/utilisateurs" activeclassname="active">Utilisateurs</NavLink>
+        <NavLink to="/administration/roles" activeclassname="active">Rôles</NavLink>
       </nav>
     </aside>
   );
