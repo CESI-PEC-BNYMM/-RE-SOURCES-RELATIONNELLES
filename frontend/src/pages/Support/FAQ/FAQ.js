@@ -1,7 +1,46 @@
+import React, { useState } from 'react';
+
 const FAQ = () => {
+    const [questions, setQuestions] = useState([
+        { question: "Exemple question 1", answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt." },
+        { question: "Exemple question 2", answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies tincidunt." },
+        { question: "Exemple question 3", answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt." },
+    ]);
+    const [openedIndex, setOpenedIndex] = useState(false);
+    
+    const toggle = (index) => {
+        if (openedIndex === index) {
+            setOpenedIndex(false);
+        } else {
+            setOpenedIndex(index);
+        }
+    }
+
+    const isOpened = (index) => {
+        return openedIndex === index;
+    }
+
     return (
         <div className="Content">
-            <h4>Foire aux questions</h4>
+            <h4 className='mb-5'>Foire aux questions</h4>
+            {
+                questions.map((question, index) => {
+                    return (
+                        <div key={index} className="whiteBox d-flex flex-column align-items-start pb-0" onClick={() => toggle(index)}>
+                            <div className="title d-flex justify-content-between align-items-center user-select-none mb-3">
+                                {/* svg arrow to right */}
+                                <div className="fs-4 fw-bold">&#62;&nbsp;</div>
+                                <h5 className='mb-0'>{question.question}</h5>
+                            </div>
+                            {isOpened(index) &&
+                                <div className="content">
+                                    <p>{question.answer}</p>
+                                </div>
+                            }
+                        </div>
+                    );
+                })
+            }
         </div>
     );
 }
