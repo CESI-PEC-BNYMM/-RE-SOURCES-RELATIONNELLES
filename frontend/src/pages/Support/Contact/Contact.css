@@ -18,7 +18,9 @@
     height: 100%;
 }
 
-input, select, textarea {
+.contactForm input,
+.contactForm select,
+.contactForm textarea {
     border: none !important;
     background-color: #f5f5f5 !important;
     border-end-end-radius: 0 !important;
