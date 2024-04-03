@@ -17,3 +17,11 @@
     text-align: center;
     height: 100%;
 }
+
+input, select, textarea {
+    border: none !important;
+    background-color: #f5f5f5 !important;
+    border-end-end-radius: 0 !important;
+    border-end-start-radius: 0 !important;
+    border-bottom: 3px solid #8ba2e3 !important;
+}
