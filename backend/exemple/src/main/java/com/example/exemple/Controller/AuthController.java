@@ -20,7 +20,7 @@ public class AuthController {
     public String login(@RequestParam String identifiant, @RequestParam String motDePasse) {
         return authService.login(identifiant, motDePasse);
     }
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public String signup(@RequestParam String identifiant, @RequestParam String motDePasse) {
         return authService.signup(identifiant, motDePasse);
     }
