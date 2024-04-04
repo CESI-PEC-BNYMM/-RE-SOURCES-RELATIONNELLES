@@ -1,10 +1,10 @@
-.content {
+.QuestionAnswer {
     max-height: 0;
     overflow: auto;
     transition: max-height 0.3s ease;
     color: black !important;
 }
 
-.content.active {
+.QuestionAnswer.active {
     max-height: 200px;
 }

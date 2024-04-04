@@ -34,7 +34,7 @@ const FAQ = () => {
                                 <div className="fs-4 fw-bold">&#62;&nbsp;</div>
                                 <h5 className='mb-0'>{question.question}</h5>
                             </div>
-                            <div className={`content ${openedIndex === index ? 'active' : ''}`}>
+                            <div className={`QuestionAnswer ${openedIndex === index ? 'active' : ''}`}>
                                 <p>{question.answer}</p>
                             </div>
                         </div>
