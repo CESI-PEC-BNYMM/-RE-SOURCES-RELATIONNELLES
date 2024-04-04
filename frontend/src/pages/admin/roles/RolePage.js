@@ -1,44 +1,38 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import ModalAddRole from './ModalAddRole';
 import ModalUpdateRole from './ModalUpdateRole';
 import ModalConfirmation from '../users/ModalConfirmation';
 import { AdminContext } from '../../../utils/adminContext';
-import { addRole, updateRole, deleteRole } from '../../../services/admin/rolesService';
+ 
 
 const RolePage = () => {
-    const { roles, setMessageNotification } = useContext(AdminContext);
+    const { roles, setMessageNotification, addRole, updateRole, deleteRole } = useContext(AdminContext);
     const [showModalAddRole, setShowModalAddRole] = useState(false);
     const [showModalUpdateRole, setShowModalUpdateRole] = useState(false);
     const [showModalDeleteRole, setShowModalDeleteRole] = useState(false);
-    const [idRoleToDelete, setIdRoleToDelete] = useState(null);
     const [editRoleData, setEditRoleData] = useState(null);
-
-    useEffect(() => {
-        console.log("Roles:", roles); 
-    }, [roles]);
+    const [idRoleToDelete, setIdRoleToDelete] = useState(null);
 
     const handleModalAddRoleOpen = () => setShowModalAddRole(true);
     const handleModalAddRoleClose = () => setShowModalAddRole(false);
-    const ModalUpdateRoleOpen = (role) => {
+    
+    const handleModalUpdateRoleOpen = (role) => {
         setEditRoleData(role);
         setShowModalUpdateRole(true);
     };
     const handleModalUpdateRoleClose = () => setShowModalUpdateRole(false);
+
     const handleModalDeleteRoleOpen = (roleId) => {
         setIdRoleToDelete(roleId);
         setShowModalDeleteRole(true);
     };
     const handleModalDeleteRoleClose = () => setShowModalDeleteRole(false);
 
-    const handleConfirmDeleteRole = (roleId) => {
-        
-        deleteRole(roleId).then(() => {
-            setMessageNotification('Rôle supprimé avec succès');
-            
-        }).catch(error => {
-            setMessageNotification('Erreur lors de la suppression du rôle');
-        });
+    const handleConfirmDeleteRole = () => {
+        deleteRole(idRoleToDelete); // Supposons que cette fonction appelle le backend
+        setMessageNotification('Rôle supprimé avec succès');
+        setShowModalDeleteRole(false);
     };
 
     return (
@@ -60,16 +54,16 @@ const RolePage = () => {
                                     <td>{role.id}</td>
                                     <td>{role.name}</td>
                                     <td>
-                                        <button onClick={() => ModalUpdateRoleOpen(role)} className="btn btn-secondary btn-sm mr-2">Éditer</button>
-                                        <button onClick={() => handleModalDeleteRoleOpen(role.id)} className="btn btn-danger btn-sm">Supprimer</button>
+                                        <FaEdit onClick={() => handleModalUpdateRoleOpen(role)} className="action-icon mr-2 text-primary" />
+                                        <FaTrash onClick={() => handleModalDeleteRoleOpen(role.id)} className="action-icon text-danger" />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    {showModalAddRole && <ModalAddRole showModal={showModalAddRole} handleModalClose={handleModalAddRoleClose} />}
-                    {showModalUpdateRole && <ModalUpdateRole roleData={editRoleData} showModal={showModalUpdateRole} handleModalClose={handleModalUpdateRoleClose} />}
-                    {showModalDeleteRole && <ModalConfirmation handleConfirm={handleConfirmDeleteRole} id={idRoleToDelete} show={showModalDeleteRole} handleModalClose={handleModalDeleteRoleClose} />}
+                    {showModalAddRole && <ModalAddRole showModal={showModalAddRole} handleModalClose={handleModalAddRoleClose} addRole={addRole} />}
+                    {showModalUpdateRole && <ModalUpdateRole roleData={editRoleData} showModal={showModalUpdateRole} handleModalClose={handleModalUpdateRoleClose} updateRole={updateRole} />}
+                    {showModalDeleteRole && <ModalConfirmation handleConfirm={handleConfirmDeleteRole} show={showModalDeleteRole} handleModalClose={handleModalDeleteRoleClose} />}
                 </div>
             </div>
         </div>

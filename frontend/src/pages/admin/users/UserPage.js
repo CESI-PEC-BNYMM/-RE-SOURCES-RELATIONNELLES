@@ -1,107 +1,84 @@
-import React, { useState, useEffect, useContext } from 'react'
-//import Search from '../../../component/Search'
+import React, { useContext, useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import ModalAddUser from './ModalAddUser';
-import ModalEditUser from './ModalEditUser';
-import ModalConfirmation from './ModalConfirmation';
 import { AdminContext } from '../../../utils/adminContext';
-import { deleteUser } from '../../../services/admin/userService';
-//import "../../../styles/dashbord/userPage.css";
-
+import ModalAddUser from './ModalAddUser'; 
+import ModalEditUser from './ModalEditUser'; 
+import ModalConfirmation from './ModalConfirmation'; 
 
 const UserPage = () => {
-    const { users, setMessageNotification } = useContext(AdminContext)
-    const [data, setData] = useState([])
-    //console.log('users:', userData)
+    const { users, deleteUser, setMessageNotification } = useContext(AdminContext);
     const [showModalAddUser, setShowModalAddUser] = useState(false);
     const [showModalEditUser, setShowModalEditUser] = useState(false);
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
     const [idUserToDelete, setIdUserToDelete] = useState(null);
     const [editUserData, setEditUserData] = useState(null);
 
-
     useEffect(() => {
-        console.log("Users:", users); 
-        setData(users);
+        // Cette partie pourrait être utilisée pour charger les données depuis un backend
+        console.log("Users:", users);
     }, [users]);
 
-    const handleModalAddUserOpen = () => {
-        setShowModalAddUser(true);
-    };
+    const handleModalAddUserOpen = () => setShowModalAddUser(true);
+    const handleModalAddUserClose = () => setShowModalAddUser(false);
 
-    const handleModalAddUserClose = () => {
-        setShowModalAddUser(false);
-    };
     const handleModalEditUserOpen = (userData) => {
         setEditUserData(userData);
         setShowModalEditUser(true);
     };
-    const handleModalEditUserClose = () => {
-        setShowModalEditUser(false);
-    };
+    const handleModalEditUserClose = () => setShowModalEditUser(false);
 
     const handleModalDeleteUserOpen = (userId) => {
         setIdUserToDelete(userId);
         setShowModalDeleteUser(true);
     };
-    const handleModalDeleteUserClose = () => {
+    const handleModalDeleteUserClose = () => setShowModalDeleteUser(false);
+
+    const handleConfirmDeleteUser = (userId) => {
+        deleteUser(userId); 
+        setMessageNotification('Utilisateur supprimé avec succès');
         setShowModalDeleteUser(false);
     };
 
-
-    const handleConfirmDeleteUser = (userId) => {
-        deleteUser(userId, setMessageNotification)
-    };
-
-
-
     return (
-        <div className="d-flex flex-column gap-3 ">
-            <div
-                className=" bg-dark user-page-header "
-                 >
-                <div className="d-flex  gap-3" >
-                    
-                    <button className="btn btn-primary form-control" onClick={() => handleModalAddUserOpen()} >
+        <div className="container mt-5"> 
+            <div className="row">
+                <div className="col-12 text-center"> 
+                    <h2>Gestion des Utilisateurs</h2>
+                </div>
+                <div className="col-12 d-flex justify-content-center mb-3"> 
+                    <button className="btn btn-primary" onClick={handleModalAddUserOpen}>
                         Ajouter un utilisateur
                     </button>
                 </div>
             </div>
-            <div className='px-3 table-responsive'>
+            <div className="row justify-content-center">
+                <div className='col-12 col-md-10'> 
+                    <div className="table-responsive">
+                        <table className="table table-dark">
+                        <tbody>
+    {users.map((user, index) => (
+        <tr key={index}>
+            <td>{user.id}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+            <td className="text-center">
+                <FaEdit onClick={() => handleModalEditUserOpen(user)} className="action-icon mr-2 text-primary" />
+                <FaTrash onClick={() => handleModalDeleteUserOpen(user.id)} className="action-icon text-danger" />
+            </td>
+        </tr>
+    ))}
+</tbody>
 
-                <table className="table table-dark">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th className='text-left' scope="col">Nom</th>
-                            <th className='text-left' scope="col">Email</th>
-                            <th className='text-left' scope="col">Roles</th>
-                            <th className='text-center' scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data?.map((user, index) => (
-                            <tr key={index}>
-                                <th scope="row">{user.id}</th>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td className="align-middle text-center">
-                                    <FaEdit onClick={() => handleModalEditUserOpen(user)} className="action-icon mr-2 text-primary" size={22} />
-                                    <FaTrash onClick={() => handleModalDeleteUserOpen(user.id)} className="action-icon mx-2 text-danger" size={22} />
-                                    {/* <FaEye className="action-icon ml-2 text-secondary cursor-pointer" size={22}/> */}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-                <ModalEditUser userData={editUserData} showModal={showModalEditUser} handleModalClose={handleModalEditUserClose} />
-                <ModalConfirmation handleConfirm={handleConfirmDeleteUser} id={idUserToDelete} show={showModalDeleteUser} handleModalClose={handleModalDeleteUserClose} />
-                <ModalAddUser showModal={showModalAddUser} handleModalClose={handleModalAddUserClose} />
+                        </table>
+                    </div>
+                    {showModalAddUser && <ModalAddUser showModal={showModalAddUser} handleModalClose={handleModalAddUserClose} />}
+                    {showModalEditUser && <ModalEditUser userData={editUserData} showModal={showModalEditUser} handleModalClose={handleModalEditUserClose} />}
+                    {showModalDeleteUser && <ModalConfirmation handleConfirm={() => handleConfirmDeleteUser(idUserToDelete)} show={showModalDeleteUser} handleModalClose={handleModalDeleteUserClose} />}
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default UserPage
+export default UserPage;
