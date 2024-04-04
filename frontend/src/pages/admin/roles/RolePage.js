@@ -4,7 +4,7 @@ import ModalAddRole from './ModalAddRole';
 import ModalUpdateRole from './ModalUpdateRole';
 import ModalConfirmation from '../users/ModalConfirmation';
 import { AdminContext } from '../../../utils/adminContext';
- 
+
 
 const RolePage = () => {
     const { roles, setMessageNotification, addRole, updateRole, deleteRole } = useContext(AdminContext);
@@ -16,7 +16,7 @@ const RolePage = () => {
 
     const handleModalAddRoleOpen = () => setShowModalAddRole(true);
     const handleModalAddRoleClose = () => setShowModalAddRole(false);
-    
+
     const handleModalUpdateRoleOpen = (role) => {
         setEditRoleData(role);
         setShowModalUpdateRole(true);
@@ -36,7 +36,7 @@ const RolePage = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container Content">
             <div className="row justify-content-center">
                 <div className="col-md-8">
                     <button onClick={handleModalAddRoleOpen} className="btn btn-primary mb-3">Ajouter un rôle</button>

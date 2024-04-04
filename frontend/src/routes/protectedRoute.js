@@ -1,7 +1,7 @@
 // ProtectedRoute.js
 import React, { useContext } from 'react';
 import { Route, Navigate } from 'react-router-dom';
-import { AuthContext } from '../utils/authContext'; 
+import { AuthContext } from '../utils/authContext';
 
 const ProtectedRoute = ({ element: Component, path }) => {
   const { isAdmin, isLoggedIn } = useContext(AuthContext);

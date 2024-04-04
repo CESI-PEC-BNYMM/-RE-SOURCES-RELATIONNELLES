@@ -35,7 +35,7 @@ const RegisterForm = () => {
       const newUser = { ...values, id: users.length + 1, role: 'user' };
       users.push(newUser);
       localStorage.setItem('users', JSON.stringify(users));
-      
+
       toast.success('Inscription réussie. Veuillez-vous connecter !');
       navigate('/login');
       setSubmitting(false);

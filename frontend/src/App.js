@@ -33,27 +33,27 @@ const App = () => {
     };
 
     return (
-        
-            <div className="App">
-                <Header />
-                <AdminContextProvider> 
-                    <Routes>
-                        <Route path="/" element={<FilActualite />} />
-                        <Route path="/fil-d-actualite" element={<FilActualite />} />
-                        <Route path="/support/contact" element={<Contact />} />
-                        <Route path="/support/faq" element={<FAQ />} />
-                        <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
-                        <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
-                        <Route path="/administration/*" element={<AdminLayout />}>
-                            <Route index element={<Navigate to="utilisateurs" />} />
-                            <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
-                            <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
-                        </Route>
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </AdminContextProvider>
-            </div>
-        
+
+        <div className="App">
+            <Header />
+            <AdminContextProvider>
+                <Routes>
+                    <Route path="/" element={<FilActualite />} />
+                    <Route path="/fil-d-actualite" element={<FilActualite />} />
+                    <Route path="/support/contact" element={<Contact />} />
+                    <Route path="/support/faq" element={<FAQ />} />
+                    <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
+                    <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
+                    <Route path="/administration/*" element={<AdminLayout />}>
+                        <Route index element={<Navigate to="utilisateurs" />} />
+                        <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
+                        <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
+                    </Route>
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </AdminContextProvider>
+        </div>
+
     );
 };
 

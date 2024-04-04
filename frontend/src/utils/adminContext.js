@@ -8,7 +8,7 @@ export const AdminContextProvider = ({ children }) => {
     const [users, setUsers] = useState([
         { id: 1, name: 'Alice', email: 'alice@example.com' },
         { id: 2, name: 'Bob', email: 'bob@example.com' },
-        
+
     ]);
     const [roles, setRoles] = useState([
         { id: 1, name: 'Administrateur' },

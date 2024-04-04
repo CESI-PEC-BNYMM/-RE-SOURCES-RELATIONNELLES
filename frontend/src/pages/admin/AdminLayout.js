@@ -15,7 +15,7 @@ const AdminLayout = () => {
         <Routes>
           <Route path="utilisateurs" element={<UserPage />} />
           <Route path="roles" element={<RolePage />} />
-          
+
         </Routes>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-function ModalConfirmation({ show, handleModalClose ,id,handleConfirm}) {
+function ModalConfirmation({ show, handleModalClose, id, handleConfirm }) {
 
   const handleConfirme = async (userId) => {
     handleConfirm(userId)
@@ -20,7 +20,7 @@ function ModalConfirmation({ show, handleModalClose ,id,handleConfirm}) {
         <Button variant="secondary" onClick={handleModalClose}>
           Annuler
         </Button>
-        <Button variant="danger" onClick={()=>handleConfirme(id)}>
+        <Button variant="danger" onClick={() => handleConfirme(id)}>
           Confirmer
         </Button>
       </Modal.Footer>

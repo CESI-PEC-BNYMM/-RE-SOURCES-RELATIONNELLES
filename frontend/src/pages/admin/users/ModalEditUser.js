@@ -6,14 +6,14 @@ import { AdminContext } from '../../../utils/adminContext';
 import { updateUser } from '../../../services/admin/userService';
 
 const ModalEditUser = ({ showModal, userData, handleModalClose }) => {
-    const { roles ,setMessageNotification} = useContext(AdminContext)
+    const { roles, setMessageNotification } = useContext(AdminContext)
     const [messageErreur, setMessageErreur] = useState(null);
-    
+
     // Reinitialiser les variable des messages 3 secondes apres l'envoie du formulaire
     useEffect(() => {
         if (messageErreur) {
             const timeout = setTimeout(() => {
-                
+
                 setMessageErreur('');
             }, 3000);
 
@@ -30,7 +30,7 @@ const ModalEditUser = ({ showModal, userData, handleModalClose }) => {
 
 
     const handleSubmit = async (values, { resetForm }) => {
-        await updateUser(userData.id,values, resetForm, handleModalClose,setMessageErreur,setMessageNotification);
+        await updateUser(userData.id, values, resetForm, handleModalClose, setMessageErreur, setMessageNotification);
     };
 
 

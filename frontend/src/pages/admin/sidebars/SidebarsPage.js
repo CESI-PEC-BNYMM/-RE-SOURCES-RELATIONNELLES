@@ -1,7 +1,7 @@
 // Dans SidebarsPage.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './sidebars.css'; 
+import './sidebars.css';
 
 const SidebarsPage = () => {
   return (

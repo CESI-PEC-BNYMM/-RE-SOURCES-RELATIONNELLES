@@ -1,41 +1,45 @@
-.sidebare-container{
+.sidebare-container {
     background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 240px !important;
     position: fixed !important;
-    min-height:100vh !important
+    min-height: 100vh !important
 }
-.sidebar-content{
+
+.sidebar-content {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.link{
+.link {
     list-style: none;
     text-decoration: none;
     color: white;
     font-size: 20px;
-    display: flex; 
+    display: flex;
     gap: 10px;
     align-items: flex-start;
     justify-content: start;
 
 }
+
 .link:hover .icon-nav {
     color: gray !important;
 }
+
 .link:hover {
     color: gray !important;
 }
-.logo{
+
+.logo {
     font-size: 25px;
     margin: 15px 0;
     color: yellow;
 }
 
-.active{
+.active {
     color: white;
 }

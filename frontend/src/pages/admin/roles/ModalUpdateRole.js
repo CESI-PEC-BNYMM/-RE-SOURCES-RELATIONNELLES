@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Modal, Button, Form, Toast } from 'react-bootstrap'; 
+import { Modal, Button, Form, Toast } from 'react-bootstrap';
 import { Formik, Field, ErrorMessage } from 'formik'; // La gestion de formulaire avec Formik
 import * as Yup from 'yup'; // La validation de formulaire avec Yup
-import { AdminContext } from '../../../utils/adminContext'; 
+import { AdminContext } from '../../../utils/adminContext';
 import { addRole, updateRole } from '../../../services/admin/rolesService'; // Les fonctions pour ajouter et mettre à jour les rôles
 import { toast } from 'react-toastify'; // Les notifications avec toast
 
 const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
-    const {setMessageNotification,messageNotification} = useContext(AdminContext) // Utilisation du contexte Admin
+    const { setMessageNotification, messageNotification } = useContext(AdminContext) // Utilisation du contexte Admin
     const [messageErreur, setMessageErreur] = useState(null); // Le state pour stocker les messages d'erreur
 
     // Un effet pour réinitialiser le message d'erreur après 3 secondes
@@ -28,7 +28,7 @@ const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
 
     // La fonction pour gérer la soumission du formulaire
     const handleSubmit = async (values, { resetForm }) => {
-        const response = await updateRole(roleData.id,values); // Mise à jour du rôle
+        const response = await updateRole(roleData.id, values); // Mise à jour du rôle
         if (response.success == true) {
             toast.success(response.message) // Notification de succès
             resetForm() // Réinitialisation du formulaire
@@ -41,7 +41,7 @@ const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
 
     // Le rendu du composant
     return (
-        <Modal show={showModal} onHide={handleModalClose} > 
+        <Modal show={showModal} onHide={handleModalClose} >
             <Modal.Header closeButton className='p-1'>
                 <Modal.Title>Modifier un Rôle</Modal.Title>
             </Modal.Header>

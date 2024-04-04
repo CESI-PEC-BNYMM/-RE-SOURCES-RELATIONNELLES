@@ -1,4 +1,4 @@
-import React, {  useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -6,21 +6,21 @@ import { saveNewUser, updateUser } from '../../../services/admin/userService';
 import { AdminContext } from '../../../utils/adminContext';
 
 const ModalAddUser = ({ showModal, handleModalClose }) => {
-    const { setMessageNotification} = useContext(AdminContext)
+    const { setMessageNotification } = useContext(AdminContext)
 
     const [messageErreur, setMessageErreur] = useState(null);
 
     // Reinitialiser les variable des messages 3 secondes apres l'envoie du formulaire
     useEffect(() => {
         if (messageErreur) {
-          const timeout = setTimeout(() => {
-            setMessageErreur('');
-          }, 3000);
-      
-          return () => clearTimeout(timeout);
+            const timeout = setTimeout(() => {
+                setMessageErreur('');
+            }, 3000);
+
+            return () => clearTimeout(timeout);
         }
-      }, [messageErreur]);
-      
+    }, [messageErreur]);
+
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Le nom est requis'),
@@ -34,8 +34,8 @@ const ModalAddUser = ({ showModal, handleModalClose }) => {
     });
 
     const handleSubmit = async (values, { resetForm }) => {
-        await saveNewUser(values, resetForm, handleModalClose,setMessageErreur,setMessageNotification);
-      };
+        await saveNewUser(values, resetForm, handleModalClose, setMessageErreur, setMessageNotification);
+    };
 
     return (
         <Modal show={showModal} onHide={handleModalClose} >

@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { AdminContext } from '../../../utils/adminContext';
-import ModalAddUser from './ModalAddUser'; 
-import ModalEditUser from './ModalEditUser'; 
-import ModalConfirmation from './ModalConfirmation'; 
+import ModalAddUser from './ModalAddUser';
+import ModalEditUser from './ModalEditUser';
+import ModalConfirmation from './ModalConfirmation';
 
 const UserPage = () => {
     const { users, deleteUser, setMessageNotification } = useContext(AdminContext);
@@ -34,41 +34,41 @@ const UserPage = () => {
     const handleModalDeleteUserClose = () => setShowModalDeleteUser(false);
 
     const handleConfirmDeleteUser = (userId) => {
-        deleteUser(userId); 
+        deleteUser(userId);
         setMessageNotification('Utilisateur supprimé avec succès');
         setShowModalDeleteUser(false);
     };
 
     return (
-        <div className="container mt-5"> 
+        <div className="container mt-5">
             <div className="row">
-                <div className="col-12 text-center"> 
+                <div className="col-12 text-center">
                     <h2>Gestion des Utilisateurs</h2>
                 </div>
-                <div className="col-12 d-flex justify-content-center mb-3"> 
+                <div className="col-12 d-flex justify-content-center mb-3">
                     <button className="btn btn-primary" onClick={handleModalAddUserOpen}>
                         Ajouter un utilisateur
                     </button>
                 </div>
             </div>
             <div className="row justify-content-center">
-                <div className='col-12 col-md-10'> 
+                <div className='col-12 col-md-10'>
                     <div className="table-responsive">
                         <table className="table table-dark">
-                        <tbody>
-    {users.map((user, index) => (
-        <tr key={index}>
-            <td>{user.id}</td>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.role}</td>
-            <td className="text-center">
-                <FaEdit onClick={() => handleModalEditUserOpen(user)} className="action-icon mr-2 text-primary" />
-                <FaTrash onClick={() => handleModalDeleteUserOpen(user.id)} className="action-icon text-danger" />
-            </td>
-        </tr>
-    ))}
-</tbody>
+                            <tbody>
+                                {users.map((user, index) => (
+                                    <tr key={index}>
+                                        <td>{user.id}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.role}</td>
+                                        <td className="text-center">
+                                            <FaEdit onClick={() => handleModalEditUserOpen(user)} className="action-icon mr-2 text-primary" />
+                                            <FaTrash onClick={() => handleModalDeleteUserOpen(user.id)} className="action-icon text-danger" />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
 
                         </table>
                     </div>
