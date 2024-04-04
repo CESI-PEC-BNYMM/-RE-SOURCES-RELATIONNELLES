@@ -51,6 +51,8 @@ const Header = () => {
                             {/* <p>Connecté en tant que <b>{user.username}</b></p> */}
                             <p>Connecté en tant que *TODO*</p>
                             {/* <button onClick={handleLogout} className="logout">Déconnexion</button> */}
+                            <button className='personalInfos'>Informations personnelles</button>
+                            <button className='profileSettings'>Paramètres du compte</button>
                             <button className="logout">Déconnexion</button>
                         </div>
                     )}
