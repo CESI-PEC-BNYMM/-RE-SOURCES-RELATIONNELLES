@@ -2,12 +2,13 @@ import React, {  useContext, useEffect, useState } from 'react';
 import { Modal, Button, Form, Toast } from 'react-bootstrap'; 
 import { Formik, Field, ErrorMessage } from 'formik'; 
 import * as Yup from 'yup'; // Importation de Yup pour la validation du formulaire
-import { AdminContext } from '../../../utils/adminContext'; 
-import { addRole } from '../../../services/admin/rolesService'; 
+import { AdminContext } from '../../../utils/adminContext';
+
+//import { addRole } from '../../../services/admin/rolesService'; 
 import { toast } from 'react-toastify'; // Importation de react-toastify pour les notifications
 
 const ModalAddRole = ({ showModal, handleModalClose }) => {
-    const { setMessageNotification} = useContext(AdminContext) // Utiliser le contexte Admin pour définir les notifications
+    const { addRole, setMessageNotification } = useContext(AdminContext);// Utiliser le contexte Admin pour définir les notifications
 
     const [messageErreur, setMessageErreur] = useState(null); 
 
