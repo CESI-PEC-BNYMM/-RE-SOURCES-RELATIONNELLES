@@ -193,8 +193,8 @@ svg {
     background-color: rgba(71, 101, 118, 0.5);
 }
 
-.dropdown-content p {
-    padding-inline-start: 80px;
+.dropdown-content span {
+    padding-inline-start: 30px;
 }
 
 .leftNav .menu .menuItem.dropdown-selected {
