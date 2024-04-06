@@ -112,7 +112,7 @@ const GestionAmis = () => {
 
     return (
         <div className="Content">
-            <h4>Gestion d'amis</h4>
+            <h4 className="mb-4">Gestion d'amis</h4>
             <div className="Container d-flex justify-content-between flex-row flex-wrap">
                 <div className="Amis whiteBox d-flex flex-column align-items-start mb-3" style={{ width: '49%' }}>
                     <div className="d-flex gap-3 align-items-center mb-4">
