@@ -63,6 +63,7 @@ const GestionAmis = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [options, setOptions] = useState([]);
     const filterBy = () => true;
+    const [selection, setSelection] = useState([]);
 
     const handleSearch = (query) => {
         setIsLoading(true);
@@ -119,13 +120,15 @@ const GestionAmis = () => {
                         <h5>Amis ({amis.length})</h5>
                         <AsyncTypeahead
                             filterBy={filterBy}
-                            id="async-example"
+                            id="RechercheUtilisateur"
                             isLoading={isLoading}
                             labelKey="login"
                             minLength={3}
                             onSearch={handleSearch}
                             options={options}
                             placeholder="Rechercher un utilisateur..."
+                            onChange={setSelection}
+                            selected={selection}
                             renderMenuItemChildren={(option) => (
                                 <>
                                     <img
@@ -141,6 +144,20 @@ const GestionAmis = () => {
                                 </>
                             )}
                         />
+                        {
+                            selection.length > 0 && (
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                        alert(selection[0].login + ' est maintenant votre ami !');
+                                        setAmis([...amis, { nom: selection[0].login, date: formatDate(new Date().toISOString()) }]);
+                                        setSelection([]);
+                                    }}
+                                >
+                                    Ajouter
+                                </button>
+                            )
+                        }
                     </div>
                     <div className="d-flex flex-column justify-content-between flex-wrap w-100">
                         {amisShown.map((ami, index) => (
