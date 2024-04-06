@@ -6,14 +6,12 @@ import { AuthProvider } from './utils/authContext';
 import AdminContextProvider from './utils/adminContext';
 
 ReactDOM.render(
-  <React.StrictMode>
     <Router>
       <AuthProvider>
         <AdminContextProvider>
           <App />
         </AdminContextProvider>
       </AuthProvider>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
   document.getElementById('root')
 );
