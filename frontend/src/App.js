@@ -16,6 +16,8 @@ import NotFound from './pages/NotFound/NotFound';
 import FilActualite from './pages/FilActualite/FilActualite';
 import Contact from './pages/Support/Contact/Contact';
 import FAQ from './pages/Support/FAQ/FAQ';
+import MesPublications from './pages/EspacePersonnel/MesPublications/MesPublications';
+import GestionAmis from './pages/EspacePersonnel/GestionAmis/GestionAmis';
 
 // Route protégée
 import ProtectedRoute from './routes/protectedRoute';
@@ -42,6 +44,8 @@ const App = () => {
                     <Route path="/fil-d-actualite" element={<FilActualite />} />
                     <Route path="/support/contact" element={<Contact />} />
                     <Route path="/support/faq" element={<FAQ />} />
+                    <Route path="/espace-personnel/mes-publications" element={<MesPublications />} />
+                    <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
                     <Route path="/administration/*" element={<AdminLayout />}>
