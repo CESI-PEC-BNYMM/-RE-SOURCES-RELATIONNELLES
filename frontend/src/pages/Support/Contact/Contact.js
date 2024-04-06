@@ -81,7 +81,7 @@ const Contact = () => {
                                 </div>
                             </div>
                             <div className="form-group col-md-10 d-flex justify-content-center mt-5">
-                                <button type="submit" className="btn btn-primary">Envoyer</button>
+                                <button type="submit" className="btn btn-primary" onClick={(event) => [event.preventDefault(), alert("Message envoyé !")]}>Envoyer</button>
                             </div>
                         </form>
                     </div>
