@@ -163,7 +163,7 @@ const GestionAmis = () => {
                         {amisShown.map((ami, index) => (
                             <div className='Ami d-flex justify-content-between align-items-start flex-wrap' key={index}>
                                 <div className='Profile d-flex align-items-start flex-wrap'>
-                                    <img src='https://picsum.photos/200' alt='Profile' />
+                                    <img src={"https://picsum.photos/200/200?random=1" + index} alt='Profile' />
                                     <div className='ProfileInfos d-flex flex-column align-items-start'>
                                         <h6>{ami.nom}</h6>
                                         <p>Depuis le {ami.date}</p>
@@ -185,7 +185,7 @@ const GestionAmis = () => {
                         {demandesShown.map((demande, index) => (
                             <div className='Demande d-flex justify-content-between align-items-start flex-wrap' key={index}>
                                 <div className='Profile d-flex align-items-start'>
-                                    <img src='https://picsum.photos/200' alt='Profile' />
+                                    <img src={"https://picsum.photos/200/200?random=" + index} alt='Profile' />
                                     <div className='ProfileInfos d-flex flex-column align-items-start'>
                                         <h6>{demande.nom}</h6>
                                         <p>Depuis le {demande.date}</p>
