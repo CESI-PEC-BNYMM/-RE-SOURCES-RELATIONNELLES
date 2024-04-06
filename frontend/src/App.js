@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from 'react';
 
 // Contextes
 import { AuthContext } from './utils/authContext';
@@ -18,6 +19,7 @@ import Contact from './pages/Support/Contact/Contact';
 import FAQ from './pages/Support/FAQ/FAQ';
 import MesPublications from './pages/EspacePersonnel/MesPublications/MesPublications';
 import GestionAmis from './pages/EspacePersonnel/GestionAmis/GestionAmis';
+import CookiesBanner from './components/CookiesBanner/CookiesBanner';
 
 // Route protégée
 import ProtectedRoute from './routes/protectedRoute';
@@ -28,16 +30,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
     const { isLoggedIn, isAdmin } = useContext(AuthContext);
+    const [cookies, setCookies] = useState([]);
 
     // Route protégée pour les administrateurs
     const AdminRoute = ({ children }) => {
         return isLoggedIn && isAdmin ? children : <Navigate to="/login" />;
     };
 
-    return (
+    useEffect(() => {
+        if (localStorage.getItem('cookies') && localStorage.getItem('cookies').length > 0) {
+            setCookies(JSON.parse(localStorage.getItem('cookies')));
+        }
+    }, []);
 
+    useEffect(() => {
+        if (cookies && cookies.length > 0) {
+            localStorage.setItem('cookies', JSON.stringify(cookies));
+        }
+    }, [cookies]);
+
+    return (
         <div className="App">
             <Header />
+            {cookies === undefined || cookies.length === 0 ? <CookiesBanner setCookies={setCookies} /> : null}
             <AdminContextProvider>
                 <Routes>
                     <Route path="/" element={<FilActualite />} />
