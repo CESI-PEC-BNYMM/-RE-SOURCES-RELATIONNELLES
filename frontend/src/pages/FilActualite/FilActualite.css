@@ -1,327 +1,89 @@
-#Container {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-direction: row;
-    margin-top: 25px;
-    width: 100%;
-    height: 100%;
-}
-
-#Catégories {
+.Categories {
+    color: black;
     position: sticky;
-    top: 55px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 20%;
-    height: 100%;
-    margin-right: 25px;
+    top: 70px;
 }
 
-#Catégories h5 {
-    padding: 15px;
-}
-
-#CatégorieNavlinks {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
+.Categories ul {
+    align-self: start;
     width: 100%;
-    height: 100%;
+    list-style: none;
+    padding: 0;
 }
 
-#CatégorieNavlinks a {
+.Categories li {
+    padding-inline: 0;
+    border-bottom: 1px solid #bcbcbc;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.Categories li:hover {
+    background-color: #f1f1f1;
+}
+
+.Categories a {
+    color: black;
+    text-decoration: none;
+}
+
+.ArticleLink {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: start;
+    border-radius: 5px;
     width: 100%;
     padding: 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-    text-decoration: none;
+    min-height: 150px;
     color: black;
-}
-
-#CatégorieNavlinks a:hover {
-    background-color: rgba(0, 0, 0, 0.25);
-}
-
-#CatégorieNavlinks a.active {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-}
-
-#Articles {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    height: 100%;
-}
-
-.Article {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 25px;
-    padding-inline: 10px;
-    background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    flex-wrap: wrap;
 }
 
-.HeaderArticle {
+.ArticleLink:hover {
+    background-color: #f1f1f1;
+}
+
+.ArticleLink img {
+    height: 100%;
+    object-fit: cover;
+    padding-inline: 100px;
+}
+
+.commentContent {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
-    width: 100%;
-    padding: 10px;
-}
-
-.Profile {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.ProfileInfos {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: auto;
-}
-
-.Profile img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.RightHeaderArticle {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.RightHeaderArticle div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.ContentArticle {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
-}
-
-.FichierArticle {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    height: 250px;
-    padding: 10px;
-    padding-inline-start: 0px;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.FichierArticle a {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-}
-
-.FichierArticle a .FichierInfos {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: start;
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-}
-
-.FichierArticle a .FichierInfos .title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: black;
-}
-
-.FichierArticle a .FichierInfos .description {
-    font-size: 1em;
-    color: black;
-}
-
-.PosterArticle {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.PosterArticle input {
-    width: 90%;
+    background-color: #ececec;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-    border: none;
+    width: fit-content;
 }
 
-.PosterArticle input:focus {
-    outline: none;
-}
-
-.FooterArticle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
-}
-
-.GestionCommentaires {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px;
-}
-
-.Commentaires {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
-}
-
-.Commentaire {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: start;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-}
-
-.CommentaireInfos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    padding: 10px;
-}
-
-.CommentaireInfos .CommentaireBox {
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 10px;
-    width: 100%;
-}
-
-.CommentaireInfos .CommentaireBox div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.ActionCommentaire {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px;
-}
-
-.Reponses {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
-}
-
-.Reponse {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: start;
-    width: 100%;
-    padding-left: 100px;
-    margin-bottom: 10px;
-}
-
-.AjouterCommentaire {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    padding: 10px;
-}
-
-.AjouterCommentaire .Profile img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+.commentContent p {
+    margin-bottom: 0;
     margin-right: 10px;
 }
 
-.AjouterCommentaire .CommentaireBox {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.1);
+.commentUser {
+    font-size: small;
 }
 
-.AjouterCommentaire .CommentaireBox input {
-    width: 90%;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-    border: none;
-    margin-right: 10px;
+.commentUser img {
+    height: 5px;
+    width: 5px;
 }
 
-.AjouterCommentaire .CommentaireBox input:focus {
-    outline: none;
+.profile {
+    width: fit-content;
+}
+
+.Comment .profile img {
+    height: 20px;
+    width: 20px;
 }
