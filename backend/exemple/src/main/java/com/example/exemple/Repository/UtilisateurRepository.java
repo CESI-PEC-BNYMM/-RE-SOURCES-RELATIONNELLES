@@ -6,5 +6,6 @@ import com.example.exemple.utilisateur;
 
 public interface UtilisateurRepository extends JpaRepository<utilisateur, Long> {
     utilisateur findByIdentifiant(String identifiant);
+    utilisateur findByEmail(String email);
 
 }
