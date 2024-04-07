@@ -11,8 +11,6 @@ import Header from './components/Header/Header';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
 import UserProfile from './pages/UserProfile';
-import MesPublications from './components/MesPublications';
-import GestionDAmis from './components/GestionDAmis';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import UserPage from './pages/admin/users/UserPage';
