@@ -15,13 +15,13 @@ const AdminRoutes = () => {
   return (
     <Routes>
       <Route path="/administration" element={<AdminLayout />}>
-        {/* Utilisez AdminRoute comme wrapper pour vérifier l'accès administrateur */}
+  
         <Route index element={<AdminRoute><UserPage /></AdminRoute>} />
         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
         <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
-        {/* Ajoutez d'autres routes administratives protégées ici si nécessaire */}
+       
       </Route>
-      {/* Redirection pour les utilisateurs non connectés ou non administrateurs */}
+      
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Schéma de validation Yup
+// Définition du schéma de validation pour le formulaire d'inscription avec Yup
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Le nom est requis'),
   prenom: Yup.string().required('Le prénom est requis'),
@@ -27,21 +27,22 @@ const validationSchema = Yup.object().shape({
 const RegisterForm = () => {
   const navigate = useNavigate();
 
-  // Gère la soumission du formulaire
+  // Fonction pour gérer la soumission du formulaire
   const handleSubmit = async (values, { setSubmitting }) => {
-    // Simuler un délai de réponse
+    // Simulation d'un délai de réponse pour imiter une interaction serveur
     setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const newUser = { ...values, id: users.length + 1, role: 'user' };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
+      const users = JSON.parse(localStorage.getItem('users') || '[]'); // Récupération des utilisateurs existants depuis le stockage local
+      const newUser = { ...values, id: users.length + 1, role: 'user' }; // Création d'un nouvel utilisateur avec un ID unique
+      users.push(newUser); // Ajout du nouvel utilisateur à l'array des utilisateurs
+      localStorage.setItem('users', JSON.stringify(users)); // Sauvegarde de l'array mis à jour dans le stockage local
 
-      toast.success('Inscription réussie. Veuillez-vous connecter !');
-      navigate('/login');
-      setSubmitting(false);
+      toast.success('Inscription réussie. Veuillez-vous connecter !'); // Affichage d'une notification de succès
+      navigate('/login'); // Redirection vers la page de connexion
+      setSubmitting(false); // Arrêt de l'état de soumission
     }, 400);
   };
 
+  // Structure du formulaire utilisant Formik pour la gestion et la validation
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">

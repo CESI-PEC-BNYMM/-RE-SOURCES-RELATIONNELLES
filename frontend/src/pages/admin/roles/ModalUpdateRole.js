@@ -1,57 +1,62 @@
+// Importation des hooks et composants nécessaires de React et Bootstrap
 import React, { useContext, useEffect, useState } from 'react';
-import { Modal, Button, Form, Toast } from 'react-bootstrap';
-import { Formik, Field, ErrorMessage } from 'formik'; // La gestion de formulaire avec Formik
-import * as Yup from 'yup'; // La validation de formulaire avec Yup
+import { Modal, Button, Form } from 'react-bootstrap';
+// Importation de Formik pour la gestion des formulaires et Yup pour la validation
+import { Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+// Importation du contexte d'administration et des services de gestion des rôles
 import { AdminContext } from '../../../utils/adminContext';
-import { addRole, updateRole } from '../../../services/admin/rolesService'; // Les fonctions pour ajouter et mettre à jour les rôles
-import { toast } from 'react-toastify'; // Les notifications avec toast
+import { addRole, updateRole } from '../../../services/admin/rolesService';
+// Importation de react-toastify pour les notifications
+import { toast } from 'react-toastify';
 
+// Déclaration du composant fonctionnel ModalEditRole avec ses props
 const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
-    const { setMessageNotification, messageNotification } = useContext(AdminContext) // Utilisation du contexte Admin
-    const [messageErreur, setMessageErreur] = useState(null); // Le state pour stocker les messages d'erreur
+    // Utilisation du contexte Admin pour accéder aux fonctions et au message de notification
+    const { setMessageNotification, messageNotification } = useContext(AdminContext);
+    // State local pour gérer les messages d'erreur
+    const [messageErreur, setMessageErreur] = useState(null);
 
-    // Un effet pour réinitialiser le message d'erreur après 3 secondes
+    // useEffect pour réinitialiser le message d'erreur après 3 secondes
     useEffect(() => {
         if (messageErreur) {
             const timeout = setTimeout(() => {
                 setMessageErreur('');
             }, 3000);
-
             return () => clearTimeout(timeout);
         }
     }, [messageErreur]);
 
-    // Le schéma de validation pour le formulaire
+    // Schéma de validation Yup pour le formulaire, vérifiant que le champ 'name' est rempli
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Le nom du rôle est requis'),
     });
 
-    // La fonction pour gérer la soumission du formulaire
+    // Fonction de soumission du formulaire qui appelle updateRole pour mettre à jour un rôle
     const handleSubmit = async (values, { resetForm }) => {
-        const response = await updateRole(roleData.id, values); // Mise à jour du rôle
-        if (response.success == true) {
-            toast.success(response.message) // Notification de succès
-            resetForm() // Réinitialisation du formulaire
-            handleModalClose() // Fermeture du modal
-            setMessageNotification(response.message) // Mise à jour du message de notification
+        const response = await updateRole(roleData.id, values);
+        if (response.success) {
+            toast.success(response.message); // Affichage d'une notification de succès
+            resetForm(); // Réinitialisation du formulaire
+            handleModalClose(); // Fermeture du modal
+            setMessageNotification(response.message); // Mise à jour du message de notification
         } else {
-            toast.error(response.message) // Notification d'erreur
+            toast.error(response.message); // Affichage d'une notification d'erreur
         }
     };
 
-    // Le rendu du composant
+    // Rendu du composant Modal avec Formik pour le formulaire
     return (
-        <Modal show={showModal} onHide={handleModalClose} >
+        <Modal show={showModal} onHide={handleModalClose}>
             <Modal.Header closeButton className='p-1'>
                 <Modal.Title>Modifier un Rôle</Modal.Title>
             </Modal.Header>
             <Modal.Body className='p-1'>
-                {messageErreur && <p className="text-danger">{messageErreur}</p> // Affichage du message d'erreur si existant
-                }
+                {messageErreur && <p className="text-danger">{messageErreur}</p>} // Affichage conditionnel des messages d'erreur
                 <Formik
-                    initialValues={{ name: roleData ? roleData.name : '' }} // Initialisation du formulaire
-                    validationSchema={validationSchema} // Validation du formulaire
-                    onSubmit={handleSubmit} // Soumission du formulaire
+                    initialValues={{ name: roleData ? roleData.name : '' }} // Initialisation des valeurs du formulaire avec les données du rôle
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
                 >
                     {({ handleSubmit }) => (
                         <Form onSubmit={handleSubmit}>
@@ -60,20 +65,17 @@ const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
                                 <Field type="text" name="name" as={Form.Control} />
                                 <ErrorMessage name="name" component="div" className="text-danger" />
                             </Form.Group>
-
                             <div className='d-flex justify-content-between align-items-center mt-3'>
                                 <Button variant="secondary" onClick={handleModalClose}>Annuler</Button>
-                                <Button variant="primary" type="submit">Enrégistrer</Button>
+                                <Button variant="primary" type="submit">Enregistrer</Button>
                             </div>
                         </Form>
                     )}
                 </Formik>
-
             </Modal.Body>
-
         </Modal>
-
-    )
+    );
 }
 
-export default ModalEditRole
+// Exportation du composant pour être utilisé ailleurs dans l'application
+export default ModalEditRole;

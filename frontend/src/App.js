@@ -8,9 +8,13 @@ import { AdminContextProvider } from './utils/adminContext';
 
 // Composants de mise en page et pages
 import Header from './components/Header/Header';
-import AdminLayout from './pages/admin/AdminLayout';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
+import UserProfile from './pages/UserProfile';
+import MesPublications from './components/MesPublications';
+import GestionDAmis from './components/GestionDAmis';
+
+import AdminLayout from './pages/admin/AdminLayout';
 import UserPage from './pages/admin/users/UserPage';
 import RolePage from './pages/admin/roles/RolePage';
 import NotFound from './pages/NotFound/NotFound';
@@ -20,6 +24,7 @@ import FAQ from './pages/Support/FAQ/FAQ';
 import MesPublications from './pages/EspacePersonnel/MesPublications/MesPublications';
 import GestionAmis from './pages/EspacePersonnel/GestionAmis/GestionAmis';
 import CookiesBanner from './components/CookiesBanner/CookiesBanner';
+
 
 // Route protégée
 import ProtectedRoute from './routes/protectedRoute';
@@ -63,6 +68,7 @@ const App = () => {
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
+                    <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                     <Route path="/administration/*" element={<AdminLayout />}>
                         <Route index element={<Navigate to="utilisateurs" />} />
                         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
@@ -72,7 +78,6 @@ const App = () => {
                 </Routes>
             </AdminContextProvider>
         </div>
-
     );
 };
 

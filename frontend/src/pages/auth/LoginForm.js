@@ -1,35 +1,43 @@
+// Importation des hooks nécessaires de React et des librairies externes
 import React, { useContext } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../utils/authContext';
+import * as Yup from 'yup'; // Pour la validation de formulaire
+import { useNavigate, useLocation } from 'react-router-dom'; // Hooks de React Router pour la navigation
+import { AuthContext } from '../../utils/authContext'; // Contexte d'authentification
 
+// Définition du composant LoginForm
 const LoginForm = () => {
+  // Accès à la fonction login à partir du contexte d'authentification
   const { login } = useContext(AuthContext);
+  // Hooks pour la navigation et accès à l'état de la route actuelle
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Fonction de soumission du formulaire
   const handleSubmit = (values, { setSubmitting }) => {
+    // Appel à la fonction login avec les valeurs du formulaire
     login(values.email, values.password);
+    // Fin de l'indication de soumission
     setSubmitting(false);
-    // Rediriger vers l'URL précédente après la connexion
-    navigate(location.state?.from ? location.state.from : '/');
+    // Redirection vers la page de profil après connexion
+    navigate('/profile');
   };
 
+  // Rendu du composant, structure du formulaire avec Formik
   return (
     <div className="container mt-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h2 className="text-center">Connexion</h2>
           <Formik
-            initialValues={{ email: '', password: '' }}
-            validationSchema={Yup.object({
+            initialValues={{ email: '', password: '' }} // Valeurs initiales du formulaire
+            validationSchema={Yup.object({ // Schéma de validation avec Yup
               email: Yup.string().email('Adresse e-mail invalide').required('Champ obligatoire'),
               password: Yup.string().required('Le mot de passe est requis'),
             })}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit} // Fonction de soumission liée à Formik
           >
-            <Form>
+            <Form> // Formik gère le formulaire
               <div className="form-group">
                 <label htmlFor="email">Adresse e-mail</label>
                 <Field name="email" type="email" className="form-control" />
@@ -51,4 +59,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginForm; // Exportation du composant pour une utilisation dans d'autres parties de l'application

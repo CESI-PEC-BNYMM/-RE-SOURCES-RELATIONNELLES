@@ -72,7 +72,10 @@ const Header = () => {
                         <FaHouse />
                         <p>Fil d'actualité</p>
                     </NavLink>
-
+                    <NavLink to={`/profile`} data-path="/profile" className={({ isActive }) => isActive ? "active menuItem" : "menuItem"}>
+                        <FaUser />
+                        <p>Profil</p>
+                    </NavLink>
                     <button className="menuItem" to={`/espace-personnel`} onClick={() => handleLeftNavDropdown('dropdown-espace-personnel', "/espace-personnel")} data-path="/espace-personnel">
                         <FaPerson />
                         <p>Espace personnel</p>
@@ -89,7 +92,6 @@ const Header = () => {
                             <p>Gestion d'amis</p>
                         </NavLink>
                     </div>
-
                     <button className="menuItem" to={`/support`} onClick={() => handleLeftNavDropdown('dropdown-support', "/support")} data-path="/support">
                         <FaLifeRing />
                         <p>Support</p>

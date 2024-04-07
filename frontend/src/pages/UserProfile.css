@@ -1,0 +1,61 @@
+/* UserProfile.css */
+.userProfileContainer {
+    padding: 20px;
+    margin-top: 70px; /* Ajustez selon le besoin pour ne pas être caché par le topNav */
+    background-color: #f9f9f9; /* Couleur de fond légère */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    border-radius: 5px; /* Bordures arrondies */
+    max-width: 600px; /* Largeur maximale */
+    margin-left: auto; /* Centrage horizontal */
+    margin-right: auto;
+  }
+  
+  .userProfileHeader {
+    font-size: 24px; /* Taille de la police pour le titre */
+    color: #333; /* Couleur du texte */
+    margin-bottom: 20px; /* Espace sous le titre */
+  }
+  
+  .userProfileInfo {
+    font-size: 18px; /* Taille de la police pour les infos */
+    margin-bottom: 10px; /* Espace entre les infos */
+  }
+  
+  .editProfileButton {
+    padding: 10px 20px; /* Padding intérieur */
+    background-color: #0056b3; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Bordures arrondies */
+    cursor: pointer; /* Curseur pointeur */
+  }
+  
+  .editProfileButton:hover {
+    background-color: #004494; /* Couleur de fond au survol */
+  }
+  
+
+  .userProfileDropdown {
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    border-radius: 4px; 
+    padding: 10px; 
+    position: absolute; 
+    z-index: 100; 
+    display: none; 
+}
+
+.userProfileDropdown.show {
+    display: block; 
+}
+
+.userProfileItem {
+    padding: 10px 20px; 
+    text-decoration: none; 
+    color: #333; 
+    display: block; 
+}
+
+.userProfileItem:hover {
+    background-color: #eee; 
+}

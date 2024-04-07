@@ -1,46 +1,52 @@
 import React, { createContext, useState } from 'react';
 
-// Création du contexte avec une valeur initiale nulle pour couvrir l'utilisateur, s'il est connecté, et s'il est administrateur.
-export const AuthContext = createContext(null);
+// Création du contexte AuthContext avec une valeur initiale pour définir les propriétés par défaut.
+export const AuthContext = createContext({
+  user: null, // Utilisateur actuellement connecté, null par défaut
+  isLoggedIn: false, // État de connexion, false par défaut
+  isAdmin: false, // Indique si l'utilisateur connecté est un administrateur
+  login: () => {}, // Fonction pour se connecter (sera définie plus tard)
+  logout: () => {}, // Fonction pour se déconnecter
+});
 
+// Composant fournisseur AuthProvider qui encapsule toute la logique d'authentification.
 export const AuthProvider = ({ children }) => {
-    // Initialisation de l'état de l'utilisateur, de la vérification de connexion et du rôle d'administrateur.
-    const [user, setUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [user, setUser] = useState(null); // État pour garder les informations de l'utilisateur connecté
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // État pour vérifier si l'utilisateur est connecté
+    const [isAdmin, setIsAdmin] = useState(false); // État pour vérifier si l'utilisateur est un administrateur
 
-    // Définition des identifiants pour l'administrateur, utilisés pour la simulation d'une authentification.
+    // Informations d'identification de l'administrateur pour la simulation de l'authentification
     const adminCredentials = {
         email: 'admin@admin.com',
         password: 'admin'
     };
 
-    // Fonction de connexion qui vérifie les identifiants et met à jour l'état en conséquence.
+    // Fonction de connexion qui vérifie les identifiants et met à jour l'état en conséquence
     const login = (email, password) => {
         if (email === adminCredentials.email && password === adminCredentials.password) {
-            // Configuration pour un utilisateur administrateur.
-            setUser({ email, role: 'admin' });
+            // Si les identifiants correspondent à ceux de l'administrateur, définir l'utilisateur comme admin
+            setUser({ id: 1, email, role: 'admin' });
             setIsLoggedIn(true);
             setIsAdmin(true);
         } else {
-            // Configuration pour un utilisateur standard.
-            setUser({ email, role: 'user' });
+            // Si les identifiants ne correspondent pas, définir l'utilisateur comme un utilisateur normal
+            setUser({ id: 2, email, role: 'user' });
             setIsLoggedIn(true);
             setIsAdmin(false);
         }
     };
 
-    // Fonction de déconnexion qui réinitialise l'état.
+    // Fonction de déconnexion qui réinitialise tous les états liés à l'utilisateur
     const logout = () => {
-        setUser(null);
-        setIsLoggedIn(false);
-        setIsAdmin(false);
+        setUser(null); // Réinitialise les informations de l'utilisateur
+        setIsLoggedIn(false); // Réinitialise l'état de connexion
+        setIsAdmin(false); // Réinitialise l'état d'administrateur
     };
 
-    // Le fournisseur du contexte rend disponible l'état et les fonctions à travers l'arbre des composants.
+    // Rendu du contexte avec les valeurs et fonctions disponibles pour les composants enfants
     return (
         <AuthContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout }}>
-            {children}
+            {children} // Rend les composants enfants en passant le contexte
         </AuthContext.Provider>
     );
 };
