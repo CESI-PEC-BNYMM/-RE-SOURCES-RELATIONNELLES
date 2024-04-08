@@ -24,7 +24,7 @@ const FAQ = () => {
 
     return (
         <div className="Content">
-            <h4 className='mb-5'>Foire aux questions</h4>
+            <h4>Foire aux questions</h4>
             {
                 questions.map((question, index) => {
                     return (

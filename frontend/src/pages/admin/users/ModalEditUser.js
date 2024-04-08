@@ -39,11 +39,11 @@ const ModalEditUser = ({ showModal, userData, handleModalClose }) => {
 
     // Rendu du composant modale
     return (
-        <Modal show={showModal} onHide={handleModalClose}>
-            <Modal.Header closeButton className='p-1'>
+        <Modal show={showModal} onHide={handleModalClose} centered>
+            <Modal.Header closeButton className='p-3'>
                 <Modal.Title>Modifier un utilisateur</Modal.Title>
             </Modal.Header>
-            <Modal.Body className='p-1'>
+            <Modal.Body className='p-3'>
                 {/* Affichage conditionnel du message d'erreur */}
                 {messageErreur && <p className="text-danger">{messageErreur}</p>}
                 {/* Formulaire pour l'édition d'un utilisateur avec Formik */}

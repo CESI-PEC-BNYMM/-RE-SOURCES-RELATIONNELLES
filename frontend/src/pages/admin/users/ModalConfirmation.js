@@ -14,14 +14,14 @@ function ModalConfirmation({ show, handleModalClose, id, handleConfirm }) {
 
   // Rendu du composant modale avec structure conditionnelle basée sur `show`
   return (
-    <Modal show={show} onHide={handleModalClose} className='p-1'>
-      <Modal.Header closeButton className='p-1'>
+    <Modal show={show} onHide={handleModalClose} className='p-3' centered>
+      <Modal.Header closeButton className='p-3'>
         <Modal.Title>Confirmation</Modal.Title> {/* Titre de la modale */}
       </Modal.Header>
-      <Modal.Body className='p-0'>
+      <Modal.Body className='p-3'>
         <p>Êtes-vous sûr de vouloir effectuer cette action ?</p> {/* Message de confirmation */}
       </Modal.Body>
-      <Modal.Footer className='d-flex justify-content-between p-0'>
+      <Modal.Footer className='d-flex justify-content-between p-3'>
         {/* Bouton pour annuler l'action et fermer la modale */}
         <Button variant="secondary" onClick={handleModalClose}>
           Annuler

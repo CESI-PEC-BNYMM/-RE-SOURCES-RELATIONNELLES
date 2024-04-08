@@ -41,11 +41,11 @@ const ModalAddUser = ({ showModal, handleModalClose }) => {
 
     // Rendu du composant modal avec Formik pour la gestion du formulaire
     return (
-        <Modal show={showModal} onHide={handleModalClose}>
-            <Modal.Header closeButton className='p-1'>
+        <Modal show={showModal} onHide={handleModalClose} centered>
+            <Modal.Header closeButton className='p-3'>
                 <Modal.Title>Ajouter un utilisateur</Modal.Title>
             </Modal.Header>
-            <Modal.Body className='p-1'>
+            <Modal.Body className='p-3'>
                 {messageErreur && <p className="text-danger">{messageErreur}</p>}
                 <Formik
                     initialValues={{ name: '', email: '', password: '' }}
