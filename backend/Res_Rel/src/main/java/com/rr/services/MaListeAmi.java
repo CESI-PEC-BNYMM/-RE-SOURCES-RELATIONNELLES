@@ -16,13 +16,13 @@ public class MaListeAmi {
     @Autowired
     private UtilisateurRepository UtilisateurRepository;
 
-    public DemandeAmi ajouterAmi(Integer citoyenId, Integer amiId) {
+  /*  public DemandeAmi ajouterAmi(String citoyenMail, String amiMail) {
         DemandeAmi demande = new DemandeAmi();
-        demande.setCitoyen(UtilisateurRepository.findById(citoyenId));
-        demande.setAmi(UtilisateurRepository.findById(amiId));
+        demande.setCitoyen(UtilisateurRepository.findByEmail(citoyenMail));
+        demande.setAmi(UtilisateurRepository.findByEmail(amiMail));
         demande.setDemandeValidee(false); // Initially not confirmed
         return demandeAmiRepository.save(demande);
-    }
+    }*/
 
     public void supprimerAmi(Integer demandeId) {
         demandeAmiRepository.deleteById(demandeId);

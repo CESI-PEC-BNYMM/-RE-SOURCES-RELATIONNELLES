@@ -10,19 +10,19 @@ import com.rr.services.AuthService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
     private AuthService authService;
 
     @PostMapping("/login")
-    public String login(@RequestParam String identifiant, @RequestParam String motDePasse) {
-        return authService.login(identifiant, motDePasse);
+    public String login(@RequestParam String email, @RequestParam String motDePasse) {
+        return authService.login(email, motDePasse);
     }
-    @PostMapping("/register")
-    public String signup(@RequestParam String identifiant, @RequestParam String motDePasse) {
-        return authService.signup(identifiant, motDePasse);
+    @PostMapping("/signup")
+    public String signup(@RequestParam String email, @RequestParam String motDePasse) {
+        return authService.signup(email, motDePasse);
     }
     
     }

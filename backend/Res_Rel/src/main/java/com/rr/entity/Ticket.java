@@ -1,0 +1,68 @@
+package com.rr.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Ticket {
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
+    private int idticket;
+    private String objet;
+    private boolean etat;
+    private String nomCreateur;
+    private String prenomCreateur;
+    private String mail_createur;
+
+
+    @OneToMany(mappedBy = "Ticket")
+
+    public int getIdticket() {
+        return idticket;
+    }
+
+    public void setIdticket(int idticket) {
+        this.idticket = idticket;
+    }
+
+    public String getObjet() {
+        return objet;
+    }
+
+    public void setObjet(String objet) {
+        this.objet = objet;
+    }
+
+    public boolean isEtat() {
+        return etat;
+    }
+
+    public void setEtat(boolean etat) {
+        this.etat = etat;
+    }
+
+    public String getNomCreateur() {
+        return nomCreateur;
+    }
+
+    public void setNomCreateur(String nomCreateur) {
+        this.nomCreateur = nomCreateur;
+    }
+
+    public String getPrenomCreateur() {
+        return prenomCreateur;
+    }
+
+    public void setPrenomCreateur(String prenomCreateur) {
+        this.prenomCreateur = prenomCreateur;
+    }
+
+    public String getMail_createur() {
+        return mail_createur;
+    }
+
+    public void setMail_createur(String mail_createur) {
+        this.mail_createur = mail_createur;
+    }
+}

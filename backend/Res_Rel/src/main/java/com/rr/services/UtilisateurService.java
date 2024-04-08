@@ -10,9 +10,9 @@ public class UtilisateurService {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
-    public Citoyen findbyUsername(String username) {
-        return utilisateurRepository.findByIdentifiant(username);
-    }
+  /*  public Citoyen findbyUsername(String username) {
+        return utilisateurRepository.findById(username);
+    }*/
 
     public Citoyen save(Citoyen citoyen) {
         return utilisateurRepository.save(citoyen);

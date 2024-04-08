@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UtilisateurRepository extends JpaRepository<Citoyen, Long> {
+public interface UtilisateurRepository extends JpaRepository<Citoyen, String> {
 
-    Optional<Citoyen> findByEmail(String email);
+    Optional<Citoyen> findByEmail(String mail);
 
 }

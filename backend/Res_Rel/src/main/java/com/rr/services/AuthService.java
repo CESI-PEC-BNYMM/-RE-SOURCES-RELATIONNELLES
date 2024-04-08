@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.rr.entity.Citoyen;
 import com.rr.repository.UtilisateurRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -16,25 +19,27 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public String login(String identifiant, String motdePasse) {
-    Citoyen citoyen = utilisateurRepository.findByIdentifiant(identifiant);
-    if (citoyen != null && passwordEncoder.matches(motdePasse, citoyen.getMdp())) {
-        return "Connexion reussie";
-    } else {
-        return "Identifiant ou mot de passe incorrect";
+    @Transactional(readOnly = true) // pour spécifier que la requete ne sert qu'à lire les informations
+    public String login(String email, String motdePasse) {
+        Optional<Citoyen> citoyen = utilisateurRepository.findByEmail(email);
+        if (citoyen.isPresent() && passwordEncoder.matches(motdePasse, citoyen.get().getMdp())) {
+            return "Connexion reussie";
+        } else {
+            return "Identifiant ou mot de passe incorrect";
+        }
     }
-}
 
-public String signup(Long identifiant, String motdePasse) {
-    var resu = utilisateurRepository.findById(identifiant);
-    if (resu.isPresent()) {
-        return "Echec lors de l'inscription. Cet identifiant est déjà utilisé";
+    @Transactional(rollbackFor = Exception.class) // pour dire que si jamais ça marche mal,
+    public String signup(String email, String motdePasse) {
+        var resu = utilisateurRepository.findByEmail(email);
+        if (resu.isPresent()) {
+            return "Echec lors de l'inscription. Cet identifiant est déjà utilisé";
+        }
+        Citoyen nouveauCitoyen = new Citoyen();
+        nouveauCitoyen.setMail(email);
+        nouveauCitoyen.setMdp(passwordEncoder.encode(motdePasse));
+        utilisateurRepository.save(nouveauCitoyen);
+
+        return "Inscription réussi";
     }
-    Citoyen nouveauCitoyen = new Citoyen();
-    nouveauCitoyen.setIdCitoyen(identifiant);
-    nouveauCitoyen.setMdp(passwordEncoder.encode(motdePasse));
-    utilisateurRepository.save(nouveauCitoyen);
-
-    return "Inscription réussi";
-}
 }

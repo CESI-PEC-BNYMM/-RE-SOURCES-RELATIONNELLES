@@ -10,14 +10,14 @@ import jakarta.persistence.*;
 public class Citoyen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idCitoyen;
+    private int idCitoyen;
     private String mdp;
     private String nom;
     private String prenom;
     private String mail;
-    private String num_tel;
+    private String NumTel;
     private String role;
-    private String num_sec;
+    private String NumSec;
     private Date dateNaissance;
     private char sexe;
     private boolean actif;
@@ -29,11 +29,11 @@ public class Citoyen {
     @OneToMany(mappedBy = "Citoyen")
     private Set<DemandeAmi> demandes;
 
-    public long getIdCitoyen() {
+    public int getIdCitoyen() {
         return idCitoyen;
     }
 
-    public void setIdCitoyen(long idCitoyen) {
+    public void setIdCitoyen(int idCitoyen) {
         this.idCitoyen = idCitoyen;
     }
 
@@ -70,11 +70,11 @@ public class Citoyen {
     }
 
     public String getNum_tel() {
-        return num_tel;
+        return NumTel;
     }
 
     public void setNum_tel(String num_tel) {
-        this.num_tel = num_tel;
+        this.NumTel = num_tel;
     }
 
     public String getRole() {
@@ -86,11 +86,11 @@ public class Citoyen {
     }
 
     public String getNum_sec() {
-        return num_sec;
+        return NumSec;
     }
 
     public void setNum_sec(String num_sec) {
-        this.num_sec = num_sec;
+        this.NumSec = num_sec;
     }
 
     public Date getDateNaissance() {
