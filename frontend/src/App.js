@@ -65,9 +65,9 @@ const App = () => {
                     <Route path="/support/faq" element={<FAQ />} />
                     <Route path="/espace-personnel/mes-publications" element={<MesPublications />} />
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
+                    <Route path="/espace-personnel/profil" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
-                    <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                     <Route path="/administration/*" element={<AdminLayout />}>
                         <Route index element={<Navigate to="utilisateurs" />} />
                         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />

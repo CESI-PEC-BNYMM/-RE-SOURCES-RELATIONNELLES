@@ -72,15 +72,16 @@ const Header = () => {
                         <FaHouse />
                         <p>Fil d'actualité</p>
                     </NavLink>
-                    <NavLink to={`/profile`} data-path="/profile" className={({ isActive }) => isActive ? "active menuItem" : "menuItem"}>
-                        <FaUser />
-                        <p>Profil</p>
-                    </NavLink>
                     <button className="menuItem" to={`/espace-personnel`} onClick={() => handleLeftNavDropdown('dropdown-espace-personnel', "/espace-personnel")} data-path="/espace-personnel">
                         <FaPerson />
                         <p>Espace personnel</p>
                     </button>
                     <div id="dropdown-espace-personnel" className="dropdown" dropdown-parent="/espace-personnel">
+                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/profil`} data-path="/espace-personnel/profil">
+                            <span></span>
+                            <FaUser />
+                            <p>Profil</p>
+                        </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/mes-publications`} data-path="/espace-personnel/mes-publications">
                             <span></span>
                             <FaBorderAll />
