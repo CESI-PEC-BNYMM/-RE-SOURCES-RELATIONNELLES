@@ -47,7 +47,7 @@ const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
 
     // Rendu du composant Modal avec Formik pour le formulaire
     return (
-        <Modal show={showModal} onHide={handleModalClose}>
+        <Modal show={showModal} onHide={handleModalClose} centered>
             <Modal.Header closeButton className='p-3'>
                 <Modal.Title>Modifier un Rôle</Modal.Title>
             </Modal.Header>
