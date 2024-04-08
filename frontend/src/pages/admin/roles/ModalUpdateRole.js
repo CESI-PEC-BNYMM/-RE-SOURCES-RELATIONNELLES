@@ -48,11 +48,11 @@ const ModalEditRole = ({ showModal, roleData, handleModalClose }) => {
     // Rendu du composant Modal avec Formik pour le formulaire
     return (
         <Modal show={showModal} onHide={handleModalClose}>
-            <Modal.Header closeButton className='p-1'>
+            <Modal.Header closeButton className='p-3'>
                 <Modal.Title>Modifier un Rôle</Modal.Title>
             </Modal.Header>
-            <Modal.Body className='p-1'>
-                {messageErreur && <p className="text-danger">{messageErreur}</p>} // Affichage conditionnel des messages d'erreur
+            <Modal.Body className='p-3'>
+                {messageErreur && <p className="text-danger">{messageErreur}</p>}
                 <Formik
                     initialValues={{ name: roleData ? roleData.name : '' }} // Initialisation des valeurs du formulaire avec les données du rôle
                     validationSchema={validationSchema}

@@ -7,6 +7,7 @@ import ModalUpdateRole from './ModalUpdateRole';
 import ModalConfirmation from '../users/ModalConfirmation';
 // Importation du contexte d'administration
 import { AdminContext } from '../../../utils/adminContext';
+import TableTemplate from '../../../components/TableTemplate/TableTemplate';
 
 // Définition du composant RolePage
 const RolePage = () => {
@@ -19,6 +20,32 @@ const RolePage = () => {
     const [showModalDeleteRole, setShowModalDeleteRole] = useState(false);
     const [editRoleData, setEditRoleData] = useState(null);
     const [idRoleToDelete, setIdRoleToDelete] = useState(null);
+
+    const header = [
+        {
+            "key": "id",
+            "label": "ID",
+            "edit": false,
+        },
+        {
+            "key": "name",
+            "label": "Nom rôle",
+            "edit": true,
+            "required": true
+        },
+        {
+            "key": "action",
+            "label": "Action",
+            "edit": false,
+            "render": (value, row, index) => (
+                <div className="d-flex gap-2 align-items-center justify-content-center">
+                    <button onClick={() => handleModalUpdateRoleOpen(row)}  className="btn d-flex align-items-center justify-content-center"><FaEdit className="action-icon mr-2 text-primary" /></button>
+                    <button onClick={() => handleModalDeleteRoleOpen(row.id)} className="btn d-flex align-items-center justify-content-center"><FaTrash className="action-icon text-danger" /></button>
+                </div>
+            )
+        }
+    ];
+    const [isLoading, setIsLoading] = useState(false);
 
     // Fonctions pour ouvrir et fermer le modal d'ajout de rôle
     const handleModalAddRoleOpen = () => setShowModalAddRole(true);
@@ -45,37 +72,30 @@ const RolePage = () => {
         setShowModalDeleteRole(false); // Ferme le modal de confirmation
     };
 
+    console.log("roles", roles); // Affiche les rôles dans la console
+
     // Rendu du composant
     return (
-        <div className="container Content">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <button onClick={handleModalAddRoleOpen} className="btn btn-primary mb-3">Ajouter un rôle</button>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nom</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {roles.map(role => (
-                                <tr key={role.id}>
-                                    <td>{role.id}</td>
-                                    <td>{role.name}</td>
-                                    <td>
-                                        <FaEdit onClick={() => handleModalUpdateRoleOpen(role)} className="action-icon mr-2 text-primary" />
-                                        <FaTrash onClick={() => handleModalDeleteRoleOpen(role.id)} className="action-icon text-danger" />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {showModalAddRole && <ModalAddRole showModal={showModalAddRole} handleModalClose={handleModalAddRoleClose} addRole={addRole} />}
-                    {showModalUpdateRole && <ModalUpdateRole roleData={editRoleData} showModal={showModalUpdateRole} handleModalClose={handleModalUpdateRoleClose} updateRole={updateRole} />}
-                    {showModalDeleteRole && <ModalConfirmation handleConfirm={handleConfirmDeleteRole} show={showModalDeleteRole} handleModalClose={handleModalDeleteRoleClose} />}
+        <div className="Content">
+            <h4>Administration : Gestion des rôles</h4>
+            <div className='whiteBox gap-4'>
+                <div className="d-flex justify-content-between align-items-center w-100">
+                    <h5>Liste des rôles</h5>
+                    <button className="btn btn-outline-primary" onClick={handleModalAddRoleOpen}>
+                        Ajouter un rôle
+                    </button>
                 </div>
+                <div className="d-flex justify-content-end w-100">
+                    <small>{roles.length} rôles trouvés</small>
+                </div>
+                <TableTemplate
+                    theadData={header}
+                    tbodyData={roles}
+                    isLoading={isLoading}
+                />
+                {showModalAddRole && <ModalAddRole showModal={showModalAddRole} handleModalClose={handleModalAddRoleClose} addRole={addRole} />}
+                {showModalUpdateRole && <ModalUpdateRole roleData={editRoleData} showModal={showModalUpdateRole} handleModalClose={handleModalUpdateRoleClose} updateRole={updateRole} />}
+                {showModalDeleteRole && <ModalConfirmation handleConfirm={handleConfirmDeleteRole} show={showModalDeleteRole} handleModalClose={handleModalDeleteRoleClose} />}
             </div>
         </div>
     );

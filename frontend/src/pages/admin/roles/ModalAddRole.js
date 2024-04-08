@@ -46,10 +46,10 @@ const ModalAddRole = ({ showModal, handleModalClose }) => {
     // Rendu du composant
     return (
         <Modal show={showModal} onHide={handleModalClose} centered>
-            <Modal.Header closeButton className='p-1'>
+            <Modal.Header closeButton className='p-3'>
                 <Modal.Title>Ajouter un Rôle</Modal.Title>
             </Modal.Header>
-            <Modal.Body className='p-1'>
+            <Modal.Body className='p-3'>
                 {messageErreur && <p className="text-danger">{messageErreur}</p>}
                 <Formik
                     initialValues={{ name: '' }}
