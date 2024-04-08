@@ -1,4 +1,4 @@
-package com.example.exemple.Controller;
+package com.rr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.exemple.Services.AuthService;
+import com.rr.services.AuthService;
 
 
 @RestController

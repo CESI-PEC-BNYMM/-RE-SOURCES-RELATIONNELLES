@@ -76,51 +76,52 @@ VALUES
 ('Publi
 ication intéressante', '2022-03-01 09:45:00', 3);
 
+
 -- Table ressources_relationnelles.Categorie
+DROP TABLE IF EXISTS `ressources_relationnelles`.`Categorie` ;
 
-DROP TABLE IF EXISTS ressources_relationnelles.Categorie ;
-
-CREATE TABLE IF NOT EXISTS ressources_relationnelles.Categorie (
-idCategorie INT NOT NULL AUTO_INCREMENT,
-libelle VARCHAR(45) NULL,
-actif TINYINT(1) NULL DEFAULT 1,
-PRIMARY KEY (idCategorie))
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Categorie` (
+  `idCategorie` INT NOT NULL AUTO_INCREMENT,
+  `libelle` VARCHAR(45) NULL,
+  `actif` TINYINT(1) NULL DEFAULT 1,
+  PRIMARY KEY (`idCategorie`))
 ENGINE = InnoDB;
 
--- Insérer des données dans la table Categorie
-INSERT INTO ressources_relationnelles.Categorie
-(libelle)
+
+-- Insert data into Categorie
+INSERT INTO `ressources_relationnelles`.`Categorie`
+(`libelle`)
 VALUES
 ('Sport'),
 ('Culture'),
 ('Environnement');
 
 -- Table ressources_relationnelles.Ressource
+DROP TABLE IF EXISTS `ressources_relationnelles`.`Ressource`;
 
-DROP TABLE IF EXISTS ressources_relationnelles.Ressource ;
+CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`Ressource` (
+  `idRessource` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(45) NULL,
+  `lien` VARCHAR(255) NULL,
+  `extension` VARCHAR(45) NULL,
+  `idPublication` INT NOT NULL,
+  PRIMARY KEY (`idRessource`),
+  INDEX `fk_Ressource_Publication1_idx` (`idPublication` ASC),
+  CONSTRAINT `fk_Ressource_Publication1`
+    FOREIGN KEY (`idPublication`)
+    REFERENCES `ressources_relationnelles`.`Publication` (`idPublication`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS ressources_relationnelles.Ressource (
-idRessource INT NOT NULL AUTO_INCREMENT,
-type VARCHAR(45) NULL,
-lien VARCHAR(255) NULL,
-extension VARCHAR(45) NULL,
-idPublication INT NOT NULL,
-PRIMARY KEY (idRessource),
-INDEX fk_Ressource_Publication1_idx (idPublication ASC) ,
-CONSTRAINT fk_Ressource_Publication1
-FOREIGN KEY (idPublication)
-REFERENCES ressources_relationnelles.Publication (idPublication)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
--- Insérer des données dans la table Ressource
-INSERT INTO ressources_relationnelles.Ressource
-(type, lien, extension, idPublication)
+-- Insert data into Ressource
+INSERT INTO `ressources_relationnelles`.`Ressource`
+(`type`, `lien`, `extension`, `idPublication`)
 VALUES
 ('image', 'https://example.com/image.jpg', 'jpg', 1),
 ('video', 'https://example.com/video.mp4', 'mp4', 2),
 ('document', 'https://example.com/document.pdf', 'pdf', 3);
+
 
 -- Table ressources_relationnelles.Ticket
 

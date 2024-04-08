@@ -1,6 +1,7 @@
-package com.example.exemple;
+package com.rr;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -62,22 +63,28 @@ public class ExempleApplication {
 				 */
 				try {
 					Connection search = DriverManager.getConnection(url, username, "");
-					String requette2 = "SELECT * FROM Categorie";
+					String requette2 = "SELECT * FROM `Categorie`";
 					try (Statement statement = search.createStatement();
 							ResultSet resultSet = statement.executeQuery(requette2)) {
 						while (resultSet.next()) {
 							// Récupération des données
 							int idCategorie = resultSet.getInt("idCategorie");
 							String libelle = resultSet.getString("libelle");
-							int actif = resultSet.getInt("actif");
+							//int actif = resultSet.getInt("actif");
 							// Affichage des données récupérées
 							System.out.println(
-									"idCategorie: " + idCategorie + ", libelle: " + libelle + ", actif: " + actif);
+									"idCategorie: " + idCategorie + ", libelle: " + libelle);
 						}
 					}
 				} catch (Exception e) {
 					// Gestion des erreurs
-					System.out.println("Erreur");
+					System.out.println(e);
+				}
+				try {
+					System.out.println("Press Enter to exit...");
+					System.in.read(); // attend que l'utilisateur clique sur entrer pour arrêter le processus
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		});
