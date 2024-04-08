@@ -181,7 +181,7 @@ svg {
 }
 
 .dropdown.show {
-    max-height: 100px;
+    max-height: 150px;
 }
 
 .leftNav .menu .dropdown .menuItem {
