@@ -11,7 +11,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ressources_relationnelles
       MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_PASSWORD: 3Pingouinsd@nsledesert
+    ports:
+      -3306:3306
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
