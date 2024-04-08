@@ -44,7 +44,7 @@ const RegisterForm = () => {
 
   // Structure du formulaire utilisant Formik pour la gestion et la validation
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 Content">
       <Row className="justify-content-center">
         <Col md={8}>
           <Card>

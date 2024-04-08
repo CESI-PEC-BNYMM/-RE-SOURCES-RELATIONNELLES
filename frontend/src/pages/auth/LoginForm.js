@@ -25,7 +25,7 @@ const LoginForm = () => {
 
   // Rendu du composant, structure du formulaire avec Formik
   return (
-    <div className="container mt-5">
+    <div className="Content mt-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h2 className="text-center">Connexion</h2>
@@ -37,7 +37,7 @@ const LoginForm = () => {
             })}
             onSubmit={handleSubmit} // Fonction de soumission liée à Formik
           >
-            <Form> // Formik gère le formulaire
+            <Form>
               <div className="form-group">
                 <label htmlFor="email">Adresse e-mail</label>
                 <Field name="email" type="email" className="form-control" />
