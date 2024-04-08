@@ -87,10 +87,12 @@ const FilActualite = () => {
         return $user.name.first + ' ' + $user.name.last;
     };
 
-    const getRandomLink = async () => {
+    const getRandomLink = async ($index = 0) => {
         try {
-            const response = await axios.get('https://api.publicapis.org/random');
-            return response.data.entries[0];
+            // const response = await axios.get('https://api.publicapis.org/random');
+            const response = await axios.get('https://newsapi.org/v2/top-headlines?country=fr&apiKey=d0e60c7b2f674ee29b6cbb4b1820b595');
+            // return response.data.entries[$index];
+            return response.data.articles[$index];
         } catch (error) {
             console.error(error);
             return null;
@@ -98,7 +100,8 @@ const FilActualite = () => {
     };
 
     const getArticleLink = ($link) => {
-        return $link.Link;
+        // return $link.Link;
+        return $link.url;
     };
 
     const getImageFromLink = ($link) => {
@@ -106,11 +109,13 @@ const FilActualite = () => {
     };
 
     const getTitleFromLink = ($link) => {
-        return $link.API;
+        // return $link.API;
+        return $link.author;
     };
 
     const getDescriptionFromLink = ($link) => {
-        return $link.Description;
+        // return $link.Description;
+        return $link.title;
     };
 
     const getRandomArticleContent = ($count) => {
@@ -165,8 +170,9 @@ const FilActualite = () => {
     const setRandomArticles = async () => {
         let $articles = [];
         for (let i = 0; i < users.length; i++) {
-            let $category = categories[Math.floor(Math.random() * categories.length)];
-            let $randomLink = await getRandomLink();
+            let $category = categories[Math.floor(Math.random() * (categories.length - 2)) + 2]; // Exclude 'Tous' and 'Favoris'
+            // let $randomLink = await getRandomLink(); // for the API PublicAPI
+            let $randomLink = await getRandomLink(i); // for the API NewAPI
             let $articleLink = getArticleLink($randomLink);
             $articles.push({
                 id: i,
