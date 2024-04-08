@@ -87,7 +87,7 @@ const UserPage = () => {
 
     return (
         <div className="Content">
-            <h4>Administration : Gestion des Utilisateurs</h4>
+            <h4>Administration : Gestion des utilisateurs</h4>
             <form className="row g-3 whiteBox searchBox">
                 <div className="col-md-2">
                     <label htmlFor="idUser" className="form-label">ID</label>
