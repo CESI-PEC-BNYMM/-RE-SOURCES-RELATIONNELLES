@@ -64,7 +64,7 @@ export const AdminContextProvider = ({ children }) => {
             roles, addRole, updateRole, deleteRole,
             notification, setMessageNotification
         }}>
-            {children} // Rend les composants enfants qui consommeront ce contexte
+            {children}
         </AdminContext.Provider>
     );
 };

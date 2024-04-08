@@ -46,7 +46,8 @@ export const AuthProvider = ({ children }) => {
     // Rendu du contexte avec les valeurs et fonctions disponibles pour les composants enfants
     return (
         <AuthContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout }}>
-            {children} // Rend les composants enfants en passant le contexte
+            {children}
+            {/* Rend les composants enfants en passant le contexte */}
         </AuthContext.Provider>
     );
 };
