@@ -23,6 +23,7 @@ public class Commentaire {
     @JoinColumn(name = "publication_idpublication")
     private Publication publication;
 
+
     public int getIdCommentaire() {
         return idCommentaire;
     }

@@ -7,8 +7,6 @@ import jakarta.persistence.*;
 public class ChoixSondageCitoyen {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private String choixSondageCitoyen;
 
 

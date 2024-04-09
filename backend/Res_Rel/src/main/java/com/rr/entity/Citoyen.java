@@ -129,12 +129,12 @@ public class Citoyen {
         this.actif = actif;
     }
 
-    public int getValidation() {
+    public int getValidaton() {
         return validaton;
     }
 
-    public void setValidation(int validation) {
-        this.validaton = validation;
+    public void setValidaton(int validaton) {
+        this.validaton = validaton;
     }
 
     public String getCodePostal() {
