@@ -13,7 +13,15 @@ public class Commentaire {
     private boolean commentaireSignale;
     private boolean type;
 
-    @OneToMany(mappedBy = "Commentaire")
+    // relation 1,n avec citoyen
+    @ManyToOne
+    @JoinColumn(name = "citoyen_mail")
+    private Citoyen citoyen; // Référence au citoyen ayant posté le commentaire
+
+    // relation 1,n avec Publication
+    @ManyToOne
+    @JoinColumn(name = "publication_idpublication")
+    private Publication publication;
 
     public int getIdCommentaire() {
         return idCommentaire;

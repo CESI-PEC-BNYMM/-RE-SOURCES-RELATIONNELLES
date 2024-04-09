@@ -2,18 +2,57 @@ package com.rr;
 
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.List;
 
+import com.rr.entity.Categorie;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+}
+)
+
 public class ExempleApplication {
 
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder (){
+
+		return new BCryptPasswordEncoder();
+	}
+
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+
+		SpringApplication.run(ExempleApplication.class,args);
+
+	/*	ConfigurableApplicationContext context = SpringApplication.run(ExempleApplication.class, args);
+
+		JdbcTemplate jdbcTemplate = context.getBean(JdbcTemplate.class);
+
+		String sql = "SELECT * FROM Categorie";
+
+		List<Categorie> categories = jdbcTemplate.query(sql, new RowMapper<Categorie>() {
+			@Override
+			public Categorie mapRow(ResultSet resultSet, int i) throws SQLException {
+				Categorie categorie = new Categorie();
+				categorie.setIdCategorie(resultSet.getInt("idCategorie"));
+				categorie.setLibelle(resultSet.getString("libelle"));
+				//categorie.setActif(resultSet.getInt("actif"));
+				return categorie;
+			}
+		});
+
+		for (Categorie categorie : categories) {
+			System.out.println("idCategorie: " + categorie.getIdCategorie() + ", libelle: " + categorie.getLibelle());
+		}*/
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				// Informations de connexion à la base de données MySQL
 
@@ -26,7 +65,7 @@ public class ExempleApplication {
 				}
 				String bdd = "ressources_relationnelles";
 				String url = "jdbc:mysql://localhost:3306/" + bdd;
-				String username = "root";
+
 				/*
 				 * try {
 				 * // Établissement de la connexion
@@ -61,8 +100,8 @@ public class ExempleApplication {
 				 * System.out.println("Erreur : " + e.getMessage());
 				 * }
 				 */
-				try {
-					Connection search = DriverManager.getConnection(url, username, "");
+			/*	try {
+					Connection search = DriverManager.getConnection(url);
 					String requette2 = "SELECT * FROM `Categorie`";
 					try (Statement statement = search.createStatement();
 							ResultSet resultSet = statement.executeQuery(requette2)) {
@@ -87,6 +126,6 @@ public class ExempleApplication {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 	}
 }

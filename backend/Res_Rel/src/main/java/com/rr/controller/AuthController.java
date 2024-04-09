@@ -17,12 +17,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String motDePasse) {
-        return authService.login(email, motDePasse);
+    public String login(@RequestParam String mail, @RequestParam String motDePasse) {
+        return authService.login(mail, motDePasse);
     }
     @PostMapping("/signup")
-    public String signup(@RequestParam String email, @RequestParam String motDePasse) {
-        return authService.signup(email, motDePasse);
+    public String signup(@RequestParam String mail, @RequestParam String motDePasse) {
+        return authService.signup(mail, motDePasse);
     }
     
     }

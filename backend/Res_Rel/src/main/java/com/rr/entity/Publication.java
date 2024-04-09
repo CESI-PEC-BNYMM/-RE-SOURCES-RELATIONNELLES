@@ -5,6 +5,8 @@ import org.hibernate.dialect.function.TruncFunction;
 import org.hibernate.type.descriptor.jdbc.TinyIntAsSmallIntJdbcType;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 
@@ -18,7 +20,21 @@ public class Publication {
     private  boolean PubSignalee;
     private int NbrVues;
 
-    @OneToMany(mappedBy = "Publication")
+    //relation avec la table catégorie de type N,M (une pub peyt avoir plusieurs catégorie et une catégorie peut avoir plueireus publication
+    @ManyToMany
+    @JoinTable(name = "categorie_publication",
+            joinColumns = @JoinColumn(name = "publication_id"),
+            inverseJoinColumns = @JoinColumn(name = "categorie_id"))
+    private Set<Categorie> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "publication")
+    private Set<Commentaire> commentaires; // Liste des commentaires associés à la publication
+
+
+    // relation avec la table citoyen où publication contient la clé étrangère de citoyen
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "citoyen_id") // This column in DemandeAmi table will store the foreign key
+    private Citoyen citoyen;
 
     public int getIdPublication() {
         return idPublication;

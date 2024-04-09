@@ -1,11 +1,6 @@
 package com.rr.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class DemandeAmi {
@@ -13,35 +8,32 @@ public class DemandeAmi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Integer idDemande;
+    private int idDemandeAmi;
     private Boolean demandeValidee;
 
-    @ManyToOne
-    @JoinColumn(name = "idCitoyen", referencedColumnName = "idCitoyen")
+    //relation avec citoyen de type 1,N
+    @ManyToOne(fetch = FetchType.LAZY) //FetchType = LAZY est efficace dans les scenarios où j'ai pas besoiin de load citoyen à chaque fois que j'appelle DemandeAmi
+    @JoinColumn(name = "citoyen_mail") // This column in DemandeAmi table will store the foreign key
     private Citoyen citoyen;
-
+    // relation avec le destinataire de la demande d'ami
     @ManyToOne
-    @JoinColumn(name = "idCitoyen1", referencedColumnName = "idCitoyen")
-    private Citoyen ami;
+    @JoinColumn(name = "citoyen_mail1", referencedColumnName = "mail")
+    private Citoyen citoyenreceveur;
 
-    public Citoyen getAmi() {
-        return ami;
+
+    public int getIdDemandeAmi() {
+        return idDemandeAmi;
     }
-    public void setAmi(Citoyen ami) {
-        this.ami = ami;
+
+    public void setIdDemandeAmi(int idDemandeAmi) {
+        this.idDemandeAmi = idDemandeAmi;
     }
-    public Citoyen getCitoyen() {
-        return citoyen;
-    }
-    public void setCitoyen(Citoyen citoyen) {
-        this.citoyen = citoyen;
-    }
+
     public Boolean getDemandeValidee() {
         return demandeValidee;
     }
+
     public void setDemandeValidee(Boolean demandeValidee) {
         this.demandeValidee = demandeValidee;
     }
-   
-
 }

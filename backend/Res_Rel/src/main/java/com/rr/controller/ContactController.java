@@ -22,8 +22,8 @@ public class ContactController {
     @GetMapping("/api/contact")
     public String contact(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        Optional<Citoyen> citoyen = UtilisateurRepository.findByEmail(email);
+        String mail = authentication.getName();
+        Optional<Citoyen> citoyen = UtilisateurRepository.findByMail(mail);
         model.addAttribute("nom", citoyen);
         return "contact";
     }

@@ -1,6 +1,7 @@
 package com.rr.entity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -8,34 +9,45 @@ import jakarta.persistence.*;
 @Entity
 
 public class Citoyen {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCitoyen;
+
+
     private String mdp;
     private String nom;
     private String prenom;
-    private String mail;
-    private String NumTel;
+    @Id private String mail;
+    //@Column(name = "numTel") // ca sert
+    private String numTel;
     private String role;
-    private String NumSec;
+    private String numSec;
     private Date dateNaissance;
     private char sexe;
     private boolean actif;
-    private int validation;
+    private int validaton;
     private String codePostal;
     private String ville;
-    private Date dateDerniereModif;
+    private Date dateDerniereConnexion;
 
-    @OneToMany(mappedBy = "Citoyen")
-    private Set<DemandeAmi> demandes;
 
-    public int getIdCitoyen() {
-        return idCitoyen;
-    }
 
-    public void setIdCitoyen(int idCitoyen) {
-        this.idCitoyen = idCitoyen;
-    }
+    // relation 1,N avec DemandeAmi
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
+    private List<DemandeAmi> demandeenvoyee;
+
+    @OneToMany(mappedBy = "citoyenreceveur")
+    private List<DemandeAmi> demandesAmiRecues; // Liste des demandes d'ami reçues par le citoyen
+
+    // relation 1,N avec Publication
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
+    private List<Publication> pub;
+
+    // relation 1,N avec Publication
+    @OneToMany(mappedBy = "citoyen")
+    private List<Commentaire> commentaires;
+
+    // relation 1,N avec ticket
+    @OneToMany(mappedBy = "citoyen")
+    private List<Ticket> tickets;
+
 
     public String getMdp() {
         return mdp;
@@ -70,11 +82,11 @@ public class Citoyen {
     }
 
     public String getNum_tel() {
-        return NumTel;
+        return numTel;
     }
 
     public void setNum_tel(String num_tel) {
-        this.NumTel = num_tel;
+        this.numTel = num_tel;
     }
 
     public String getRole() {
@@ -86,11 +98,11 @@ public class Citoyen {
     }
 
     public String getNum_sec() {
-        return NumSec;
+        return numSec;
     }
 
     public void setNum_sec(String num_sec) {
-        this.NumSec = num_sec;
+        this.numSec = num_sec;
     }
 
     public Date getDateNaissance() {
@@ -118,11 +130,11 @@ public class Citoyen {
     }
 
     public int getValidation() {
-        return validation;
+        return validaton;
     }
 
     public void setValidation(int validation) {
-        this.validation = validation;
+        this.validaton = validation;
     }
 
     public String getCodePostal() {
@@ -141,20 +153,20 @@ public class Citoyen {
         this.ville = ville;
     }
 
-    public Date getDateDerniereModif() {
-        return dateDerniereModif;
+    public Date getDateDerniereConnexion() {
+        return dateDerniereConnexion;
     }
 
-    public void setDateDerniereModif(Date dateDerniereModif) {
-        this.dateDerniereModif = dateDerniereModif;
+    public void setDateDerniereConnexion(Date dateDerniereConnexion) {
+        this.dateDerniereConnexion = dateDerniereConnexion;
     }
 
-    public Set<DemandeAmi> getDemandes() {
-        return demandes;
+    public Set<DemandeAmi> getDemandeenvoyee() {
+        return (Set<DemandeAmi>) demandeenvoyee;
     }
 
-    public void setDemandes(Set<DemandeAmi> demandes) {
-        this.demandes = demandes;
+    public void setDemandeenvoyee(Set<DemandeAmi> demandeenvoyee) {
+        this.demandeenvoyee = (List<DemandeAmi>) demandeenvoyee;
     }
 
     //Getter et setters

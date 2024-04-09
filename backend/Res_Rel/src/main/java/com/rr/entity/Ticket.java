@@ -15,8 +15,10 @@ public class Ticket {
     private String prenomCreateur;
     private String mail_createur;
 
-
-    @OneToMany(mappedBy = "Ticket")
+    // Relation 1,n avec citoyen
+    @ManyToOne
+    @JoinColumn(name = "citoyen_mail")
+    private Citoyen citoyen;
 
     public int getIdticket() {
         return idticket;

@@ -11,7 +11,10 @@ public class Ressource {
     public String lien;
     public String extension;
 
-    @OneToMany(mappedBy = "Ressource")
+    // relation 1,n avec Publication
+    @ManyToOne
+    @JoinColumn(name = "publication_idpublication")
+    private Publication publication;
 
     public int getIdRessource() {
         return idRessource;

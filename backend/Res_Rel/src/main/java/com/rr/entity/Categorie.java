@@ -2,6 +2,10 @@ package com.rr.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 public class Categorie {
     @Id
@@ -10,7 +14,9 @@ public class Categorie {
     public  String libelle;
     public boolean actif;
 
-    @OneToMany(mappedBy = "Categorie")
+    // relation n,m avec Publication, set est meilleure que list dans le cas
+    @ManyToMany(mappedBy = "categories")
+    private Set<Publication> publications = new HashSet<>();
 
     public int getIdCategorie() {
         return idCategorie;
