@@ -285,7 +285,7 @@ const FilActualite = () => {
                                     : null
                         }
                         {articlesToShow.map((article) => (
-                            <div className="Article p-3" key={article.id}>
+                            <div className="Article whiteBox p-3" key={article.id}>
                                 <div className="d-flex w-100 align-items-start justify-content-between mb-4">
                                     <div className="d-flex align-items-center gap-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + article.user.username, '_blank'); }}>
                                         {formatImage(article.user.image, '50px')}

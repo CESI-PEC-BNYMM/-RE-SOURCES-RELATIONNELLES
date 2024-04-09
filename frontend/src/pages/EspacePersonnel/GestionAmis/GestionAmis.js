@@ -111,6 +111,12 @@ const GestionAmis = () => {
         }
     }
 
+    const formatImage = ($image, $size) => {
+        return (
+            <img src={$image} alt='user' style={{ width: $size, height: $size, borderRadius: '50%' }} />
+        );
+    };
+
     return (
         <div className="Content">
             <h4 className="mb-4">Gestion d'amis</h4>
@@ -163,8 +169,8 @@ const GestionAmis = () => {
                         {amisShown.map((ami, index) => (
                             <div className='Ami d-flex justify-content-between align-items-start flex-wrap' key={index}>
                                 <div className='Profile d-flex align-items-start flex-wrap'>
-                                    <img src={"https://picsum.photos/200/200?random=1" + index} alt='Profile' />
-                                    <div className='ProfileInfos d-flex flex-column align-items-start'>
+                                    {formatImage(("https://picsum.photos/200/200?random=1" + index), 50)}
+                                    <div className='ProfileInfos d-flex flex-column align-items-start ms-3'>
                                         <h6>{ami.nom}</h6>
                                         <p>Depuis le {ami.date}</p>
                                     </div>
@@ -185,8 +191,8 @@ const GestionAmis = () => {
                         {demandesShown.map((demande, index) => (
                             <div className='Demande d-flex justify-content-between align-items-start flex-wrap' key={index}>
                                 <div className='Profile d-flex align-items-start'>
-                                    <img src={"https://picsum.photos/200/200?random=" + index} alt='Profile' />
-                                    <div className='ProfileInfos d-flex flex-column align-items-start'>
+                                    {formatImage(("https://picsum.photos/200/200?random=" + index), 50)}
+                                    <div className='ProfileInfos d-flex flex-column align-items-start ms-3'>
                                         <h6>{demande.nom}</h6>
                                         <p>Depuis le {demande.date}</p>
                                     </div>
