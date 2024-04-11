@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rr.entity.DemandeAmi;
+import com.rr.repository.
 import com.rr.repository.DemandeAmiRepository;
-import com.rr.repository.UtilisateurRepository;
 
 @Service
 
@@ -14,15 +14,15 @@ public class MaListeAmi {
     private DemandeAmiRepository demandeAmiRepository;
 
     @Autowired
-    private UtilisateurRepository UtilisateurRepository;
+    private CitoyenRepository UtilisateurRepository;
 
-  /*  public DemandeAmi ajouterAmi(String citoyenMail, String amiMail) {
+    public DemandeAmi ajouterAmi(String citoyenMail, String amiMail) {
         DemandeAmi demande = new DemandeAmi();
-        demande.setCitoyen(UtilisateurRepository.findByEmail(citoyenMail));
-        demande.setAmi(UtilisateurRepository.findByEmail(amiMail));
+        demande.(CitoyenRepository.findByMail(citoyenMail));
+        demande.(CitoyenRepository.findByMail(amiMail));
         demande.setDemandeValidee(false); // Initially not confirmed
         return demandeAmiRepository.save(demande);
-    }*/
+    }
 
     public void supprimerAmi(Integer demandeId) {
         demandeAmiRepository.deleteById(demandeId);

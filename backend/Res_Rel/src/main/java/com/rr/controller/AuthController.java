@@ -24,5 +24,6 @@ public class AuthController {
     public String signup(@RequestParam String mail, @RequestParam String motDePasse) {
         return authService.signup(mail, motDePasse);
     }
-    
+
+
     }

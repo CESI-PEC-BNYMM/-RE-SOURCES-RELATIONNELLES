@@ -3,12 +3,12 @@ package com.rr.services;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rr.entity.Citoyen;
-import com.rr.repository.UtilisateurRepository;
+import com.rr.repository.CitoyenRepository;
 
-public class UtilisateurService {
+public class CitoyenService {
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private CitoyenRepository utilisateurRepository;
 
   /*  public Citoyen findbyUsername(String username) {
         return utilisateurRepository.findById(username);

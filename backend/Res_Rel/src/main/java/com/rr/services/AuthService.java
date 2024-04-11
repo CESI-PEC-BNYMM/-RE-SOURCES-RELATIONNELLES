@@ -1,20 +1,20 @@
 package com.rr.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.rr.entity.Citoyen;
-import com.rr.repository.UtilisateurRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import com.rr.entity.Citoyen;
+import com.rr.repository.CitoyenRepository;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private CitoyenRepository utilisateurRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;

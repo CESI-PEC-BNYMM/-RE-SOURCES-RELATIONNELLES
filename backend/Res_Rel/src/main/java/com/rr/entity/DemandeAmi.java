@@ -7,7 +7,6 @@ public class DemandeAmi {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int idDemandeAmi;
     private Boolean demandeValidee;
 
