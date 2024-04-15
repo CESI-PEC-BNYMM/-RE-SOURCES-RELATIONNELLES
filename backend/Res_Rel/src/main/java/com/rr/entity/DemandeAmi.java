@@ -35,4 +35,20 @@ public class DemandeAmi {
     public void setDemandeValidee(Boolean demandeValidee) {
         this.demandeValidee = demandeValidee;
     }
+
+    public Citoyen getCitoyen() {
+        return citoyen;
+    }
+
+    public void setCitoyen(Citoyen citoyen) {
+        this.citoyen = citoyen;
+    }
+
+    public Citoyen getCitoyenreceveur() {
+        return citoyenreceveur;
+    }
+
+    public void setCitoyenreceveur(Citoyen citoyenreceveur) {
+        this.citoyenreceveur = citoyenreceveur;
+    }
 }

@@ -29,6 +29,7 @@ public class AuthService {
         }
     }
 
+
     @Transactional(rollbackFor = Exception.class) // pour dire que si jamais ça marche mal,
     public String signup(String mail, String motdePasse) {
         var resu = utilisateurRepository.findByMail(mail);

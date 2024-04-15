@@ -169,7 +169,58 @@ public class Citoyen {
         this.demandeenvoyee = (List<DemandeAmi>) demandeenvoyee;
     }
 
-    //Getter et setters
+    public String getNumTel() {
+        return numTel;
+    }
+
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
+    }
+
+    public String getNumSec() {
+        return numSec;
+    }
+
+    public void setNumSec(String numSec) {
+        this.numSec = numSec;
+    }
+
+    public void setDemandeenvoyee(List<DemandeAmi> demandeenvoyee) {
+        this.demandeenvoyee = demandeenvoyee;
+    }
+
+    public List<DemandeAmi> getDemandesAmiRecues() {
+        return demandesAmiRecues;
+    }
+
+    public void setDemandesAmiRecues(List<DemandeAmi> demandesAmiRecues) {
+        this.demandesAmiRecues = demandesAmiRecues;
+    }
+
+    public List<Publication> getPub() {
+        return pub;
+    }
+
+    public void setPub(List<Publication> pub) {
+        this.pub = pub;
+    }
+
+    public List<Commentaire> getCommentaires() {
+        return commentaires;
+    }
+
+    public void setCommentaires(List<Commentaire> commentaires) {
+        this.commentaires = commentaires;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+//Getter et setters
 
 
 }

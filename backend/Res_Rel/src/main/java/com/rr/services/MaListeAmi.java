@@ -1,10 +1,11 @@
 package com.rr.services;
 
+import com.rr.entity.Citoyen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rr.entity.DemandeAmi;
-import com.rr.repository.
+import com.rr.repository.CitoyenRepository;
 import com.rr.repository.DemandeAmiRepository;
 
 @Service
@@ -16,10 +17,12 @@ public class MaListeAmi {
     @Autowired
     private CitoyenRepository UtilisateurRepository;
 
-    public DemandeAmi ajouterAmi(String citoyenMail, String amiMail) {
+    public DemandeAmi ajouterAmi(Citoyen citoyen, Citoyen ami) {
         DemandeAmi demande = new DemandeAmi();
-        demande.(CitoyenRepository.findByMail(citoyenMail));
-        demande.(CitoyenRepository.findByMail(amiMail));
+        demande.setCitoyen(citoyen);
+        demande.setCitoyenreceveur(ami);
+       /* demande.(CitoyenRepository.findByMail(citoyenMail));
+        demande.(CitoyenRepository.findByMail(amiMail)); */
         demande.setDemandeValidee(false); // Initially not confirmed
         return demandeAmiRepository.save(demande);
     }
