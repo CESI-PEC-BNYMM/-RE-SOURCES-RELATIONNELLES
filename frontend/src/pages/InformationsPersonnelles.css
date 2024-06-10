@@ -1,17 +1,17 @@
 /* Style du container */
-.header {
+.infoPersoHeader {
   margin-bottom: 2rem;
   text-align: center;
   color: #333;
 }
 
-.header p {
+.infoPersoHeader p {
   font-size: 2rem;
   font-weight: bold;
   color: #555;
 }
 
-.container {
+.infoPersoContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,23 +27,23 @@
 }
 
 /* Style des champs du formulaire */
-.contactForm {
+.infosPersoForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1.5rem;
   width: 100%;
 }
 
-.contactForm label {
+.infosPersoForm label {
   font-weight: bold;
   color: #444;
   margin-bottom: 0.5rem;
   text-align: left;
 }
 
-.contactForm input,
-.contactForm select,
-.contactForm textarea {
+.infosPersoForm input,
+.infosPersoForm select,
+.infosPersoForm textarea {
   border: 1px solid #ddd;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -54,21 +54,21 @@
   font-size: 1rem;
 }
 
-.contactForm input:focus,
-.contactForm select:focus,
-.contactForm textarea:focus {
+.infosPersoForm input:focus,
+.infosPersoForm select:focus,
+.infosPersoForm textarea:focus {
   border-color: #476576;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
   outline: none;
 }
 
-.contactForm textarea {
+.infosPersoForm textarea {
   resize: vertical;
   grid-column: span 2;
 }
 
 /* Style spécifique pour le bouton */
-.contactForm button {
+.infosPersoForm button {
   border: none;
   background-color: #476576;
   color: white;
@@ -82,11 +82,11 @@
   margin-top: 1rem;
 }
 
-.contactForm button:hover {
+.infosPersoForm button:hover {
   background-color: #476576;
 }
 
-.contactForm button:focus {
+.infosPersoForm button:focus {
   outline: none;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
 }

@@ -9,7 +9,7 @@ import { AdminContextProvider } from './utils/adminContext';
 import Header from './components/Header/Header';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
-import Informationspersonnelles from './pages/Informationspersonnelles';
+import Informationspersonnelles from './pages/InformationsPersonnelles';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import UserPage from './pages/admin/users/UserPage';

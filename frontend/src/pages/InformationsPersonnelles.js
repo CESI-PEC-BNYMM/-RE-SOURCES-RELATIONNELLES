@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './UserProfile.css';
+import './InformationsPersonnelles.css';
 
-function UserProfile() {
+function InformationsPersonnelles() {
   const [userInfo, setUserInfo] = useState({
     nom: '',
     prenom: '',
@@ -30,11 +30,11 @@ function UserProfile() {
   };
 
   return (
-    <div className='container'>
-      <div className="header">
+    <div className='infoPersoContainer'>
+      <div className="infoPersoHeader">
         <p>Modifier vos informations personnelles</p>
       </div>
-      <form onSubmit={handleSubmit} className="contactForm">
+      <form onSubmit={handleSubmit} className="infosPersoForm">
         <div>
           <label htmlFor='nom'>Nom:</label>
           <input type="text" name="nom" value={userInfo.nom} onChange={handleChange} />
@@ -81,4 +81,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default InformationsPersonnelles;
