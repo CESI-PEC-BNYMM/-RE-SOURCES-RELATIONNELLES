@@ -339,9 +339,11 @@ const FilActualite = () => {
                                                     </div>
                                                     <div className="commentContent">
                                                         <p>{comment.content}</p>
-                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
-                                                            <FaCircleExclamation fill='red' />
-                                                        </div>
+                                                        {comment.user.username !== myUser.username ?
+                                                            <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
+                                                                <FaCircleExclamation fill='red' />
+                                                            </div>
+                                                        : null}
                                                     </div>
                                                     <div className="d-flex align-items-center justify-content-center mb-3" style={{ width: 'fit-content' }}>
                                                         {comment.answers.length > 0 ?
@@ -371,9 +373,11 @@ const FilActualite = () => {
                                                                     </div>
                                                                     <div className="commentContent">
                                                                         <p>{answer.content}</p>
-                                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Réponse de ' + answer.user.name + ' signalée !') }}>
-                                                                            <FaCircleExclamation fill='red' />
-                                                                        </div>
+                                                                        {answer.user.username !== myUser.username ?
+                                                                            <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Réponse de ' + answer.user.name + ' signalée !') }}>
+                                                                                <FaCircleExclamation fill='red' />
+                                                                            </div>
+                                                                        : null}
                                                                     </div>
                                                                 </div>
                                                             ))}
