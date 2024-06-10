@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
 
 // Contextes
 import { AuthContext } from './utils/authContext';
@@ -10,7 +9,7 @@ import { AdminContextProvider } from './utils/adminContext';
 import Header from './components/Header/Header';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
-import UserProfile from './pages/UserProfile';
+import Informationspersonnelles from './pages/Informationspersonnelles';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import UserPage from './pages/admin/users/UserPage';
@@ -22,6 +21,7 @@ import FAQ from './pages/Support/FAQ/FAQ';
 import MesPublications from './pages/EspacePersonnel/MesPublications/MesPublications';
 import GestionAmis from './pages/EspacePersonnel/GestionAmis/GestionAmis';
 import CookiesBanner from './components/CookiesBanner/CookiesBanner';
+
 
 
 // Route protégée
@@ -67,7 +67,7 @@ const App = () => {
                     <Route path="/espace-personnel/mes-publications" element={<MesPublications />} />
                     <Route path="/espace-personnel/mes-publications/*" element={<MesPublications />} />
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
-                    <Route path="/espace-personnel/profil" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                    <Route path="/espace-personnel/profil" element={<ProtectedRoute><Informationspersonnelles /></ProtectedRoute>} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
                     <Route path="/administration/*" element={<AdminLayout />}>
