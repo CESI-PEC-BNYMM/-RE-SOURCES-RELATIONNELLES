@@ -54,9 +54,13 @@ const Header = () => {
                         <div className="dropdownContent">
                             {/* <p>Connecté en tant que <b>{user.username}</b></p> */}
                             <p>Connecté en tant que *TODO*</p>
+                            <NavLink to={`/informations-personnelles`} data-path="/informations-personnelles" className="personalInfos">
+                                <p>Informations personnelles</p>
+                            </NavLink>
+                            <NavLink to={`/parametres-du-compte`} data-path="/parametres-du-compte" className="profileSettings">
+                                <p>Paramètres du compte</p>
+                            </NavLink>
                             {/* <button onClick={handleLogout} className="logout">Déconnexion</button> */}
-                            <button className='personalInfos'>Informations personnelles</button>
-                            <button className='profileSettings'>Paramètres du compte</button>
                             <button className="logout">Déconnexion</button>
                         </div>
                     )}
@@ -78,11 +82,6 @@ const Header = () => {
                         <p>Espace personnel</p>
                     </button>
                     <div id="dropdown-espace-personnel" className="dropdown" dropdown-parent="/espace-personnel">
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/profil`} data-path="/espace-personnel/profil">
-                            <span></span>
-                            <FaUser />
-                            <p>Profil</p>
-                        </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/mes-publications`} data-path="/espace-personnel/mes-publications">
                             <span></span>
                             <FaBorderAll />

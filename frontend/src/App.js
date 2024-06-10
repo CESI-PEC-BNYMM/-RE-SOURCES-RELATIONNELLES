@@ -9,7 +9,7 @@ import { AdminContextProvider } from './utils/adminContext';
 import Header from './components/Header/Header';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
-import Informationspersonnelles from './pages/InformationsPersonnelles';
+import InformationsPersonnelles from './pages/InformationsPersonnelles';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import UserPage from './pages/admin/users/UserPage';
@@ -67,7 +67,7 @@ const App = () => {
                     <Route path="/espace-personnel/mes-publications" element={<MesPublications />} />
                     <Route path="/espace-personnel/mes-publications/*" element={<MesPublications />} />
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
-                    <Route path="/espace-personnel/profil" element={<ProtectedRoute><Informationspersonnelles /></ProtectedRoute>} />
+                    <Route path="/informations-personnelles" element={<ProtectedRoute><InformationsPersonnelles /></ProtectedRoute>} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
                     <Route path="/administration/*" element={<AdminLayout />}>

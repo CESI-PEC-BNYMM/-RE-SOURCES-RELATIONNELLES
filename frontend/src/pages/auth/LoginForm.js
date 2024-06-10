@@ -20,7 +20,7 @@ const LoginForm = () => {
     // Fin de l'indication de soumission
     setSubmitting(false);
     // Redirection vers la page de profil après connexion
-    navigate('/profile');
+    navigate('/fil-d-actualite');
   };
 
   // Rendu du composant, structure du formulaire avec Formik
