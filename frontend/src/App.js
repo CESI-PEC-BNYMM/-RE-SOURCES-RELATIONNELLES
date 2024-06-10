@@ -30,6 +30,7 @@ import ProtectedRoute from './routes/protectedRoute';
 // Styles
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RGPD from './pages/RGPD/RGPD';
 
 const App = () => {
     const { isLoggedIn, isAdmin } = useContext(AuthContext);
@@ -74,6 +75,7 @@ const App = () => {
                         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
                         <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
                     </Route>
+                    <Route path="/rgpd" element={<RGPD />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </AdminContextProvider>

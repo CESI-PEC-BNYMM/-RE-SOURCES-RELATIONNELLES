@@ -9,6 +9,7 @@ import { FaBorderAll, FaUser, FaEnvelope } from 'react-icons/fa';
 import { FaHouse, FaPerson, FaUserGroup, FaLifeRing, FaUsersGear, FaWrench, FaQuestion } from "react-icons/fa6";
 import { PiUserCircleGearFill } from "react-icons/pi";
 import { VscBell, VscBellDot } from "react-icons/vsc";
+import { GoLaw } from "react-icons/go";
 
 const Header = () => {
     // const token = localStorage.getItem('token');
@@ -126,6 +127,10 @@ const Header = () => {
                             <p>Rôles</p>
                         </NavLink>
                     </div>
+                    <NavLink to={`/rgpd`} data-path="/rgpd" className={({ isActive }) => isActive ? "active menuItem" : "menuItem"}>
+                        <GoLaw />
+                        <p>RGPD</p>
+                    </NavLink>
                 </div>
             </div>
         </div>
