@@ -1,26 +1,41 @@
-import React from 'react';
+// Importation des hooks nécessaires de React et des librairies externes
+import React, { useContext } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import * as Yup from 'yup'; // Pour la validation de formulaire
+import { useNavigate, useLocation } from 'react-router-dom'; // Hooks de React Router pour la navigation
+import { AuthContext } from '../../utils/authContext'; // Contexte d'authentification
 
+// Définition du composant LoginForm
 const LoginForm = () => {
+  // Accès à la fonction login à partir du contexte d'authentification
+  const { login } = useContext(AuthContext);
+  // Hooks pour la navigation et accès à l'état de la route actuelle
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Fonction de soumission du formulaire
+  const handleSubmit = (values, { setSubmitting }) => {
+    // Appel à la fonction login avec les valeurs du formulaire
+    login(values.email, values.password);
+    // Fin de l'indication de soumission
+    setSubmitting(false);
+    // Redirection vers la page de profil après connexion
+    navigate('/fil-d-actualite');
+  };
+
+  // Rendu du composant, structure du formulaire avec Formik
   return (
-    <div className="container mt-5">
+    <div className="Content mt-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h2 className="text-center">Connexion</h2>
           <Formik
-            initialValues={{ email: '', password: '' }}
-            validationSchema={Yup.object({
+            initialValues={{ email: '', password: '' }} // Valeurs initiales du formulaire
+            validationSchema={Yup.object({ // Schéma de validation avec Yup
               email: Yup.string().email('Adresse e-mail invalide').required('Champ obligatoire'),
               password: Yup.string().required('Le mot de passe est requis'),
             })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
-            }}
+            onSubmit={handleSubmit} // Fonction de soumission liée à Formik
           >
             <Form>
               <div className="form-group">
@@ -44,4 +59,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginForm; // Exportation du composant pour une utilisation dans d'autres parties de l'application
