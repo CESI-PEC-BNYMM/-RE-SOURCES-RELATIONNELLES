@@ -1,0 +1,23 @@
+.whiteBox-grid {
+    background-color: white;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 20px;
+    margin-inline: auto;
+    margin-bottom: 30px;
+    width: 100%;
+    min-width: 300px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    grid-template-rows: auto auto auto;
+}
+
+.box {
+    background-color: white;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+}
