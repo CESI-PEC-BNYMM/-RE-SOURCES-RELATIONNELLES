@@ -31,6 +31,7 @@ import ProtectedRoute from './routes/protectedRoute';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RGPD from './pages/RGPD/RGPD';
+import ParametresCompte from './pages/ParametresCompte/ParametresCompte';
 
 const App = () => {
     const { isLoggedIn, isAdmin } = useContext(AuthContext);
@@ -68,6 +69,8 @@ const App = () => {
                     <Route path="/espace-personnel/mes-publications/*" element={<MesPublications />} />
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
                     <Route path="/informations-personnelles" element={<ProtectedRoute><InformationsPersonnelles /></ProtectedRoute>} />
+                    {/* <Route path="/parametres-du-compte" element={<ProtectedRoute><ParametresCompte /></ProtectedRoute>} /> */}
+                    <Route path="/parametres-du-compte" element={<ParametresCompte />} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
                     <Route path="/administration/*" element={<AdminLayout />}>
