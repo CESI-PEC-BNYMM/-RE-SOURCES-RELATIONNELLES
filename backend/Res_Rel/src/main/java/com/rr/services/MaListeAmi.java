@@ -8,6 +8,8 @@ import com.rr.entity.DemandeAmi;
 import com.rr.repository.CitoyenRepository;
 import com.rr.repository.DemandeAmiRepository;
 
+import javax.swing.*;
+
 @Service
 
 public class MaListeAmi {
@@ -42,5 +44,10 @@ public class MaListeAmi {
         demandeAmiRepository.delete(demande);
         return demande;
     }
+
+   /* public ListedAmi(Citoyen citoyen){
+
+        =
+    }*/
 
 }
