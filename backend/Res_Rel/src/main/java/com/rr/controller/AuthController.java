@@ -21,8 +21,8 @@ public class AuthController {
         return authService.login(mail, motDePasse);
     }
     @PostMapping("/signup")
-    public String signup(@RequestParam String mail, @RequestParam String motDePasse) {
-        return authService.signup(mail, motDePasse);
+    public String signup(@RequestParam String mail, @RequestParam String motDePasse, @RequestParam String nom,  @RequestParam String prenom) {
+        return authService.signup(mail, motDePasse, nom, prenom );
     }
 
 

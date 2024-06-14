@@ -31,7 +31,7 @@ public class AuthService {
 
 
     @Transactional(rollbackFor = Exception.class) // pour dire que si jamais ça marche mal,
-    public String signup(String mail, String motdePasse) {
+    public String signup(String mail, String motdePasse, String nom, String prenom) {
         var resu = utilisateurRepository.findByMail(mail);
         if (resu.isPresent()) {
             return "Echec lors de l'inscription. Cet identifiant est déjà utilisé";
@@ -39,6 +39,8 @@ public class AuthService {
         Citoyen nouveauCitoyen = new Citoyen();
         nouveauCitoyen.setMail(mail);
         nouveauCitoyen.setMdp(passwordEncoder.encode(motdePasse));
+        nouveauCitoyen.setPrenom(prenom);
+        nouveauCitoyen.setNom(nom);
         utilisateurRepository.save(nouveauCitoyen);
 
         return "Inscription réussi";
