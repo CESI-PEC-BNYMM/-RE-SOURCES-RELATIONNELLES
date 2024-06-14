@@ -21,23 +21,23 @@
     `nom` VARCHAR(45) NULL,
     `prenom` VARCHAR(45) NULL,
     `mail` VARCHAR(45) NOT NULL,
-    `numTel` VARCHAR(10) NULL,
-    `numSec` VARCHAR(13) NULL,
+    `num_tel` VARCHAR(10) NULL,
+    `num_sec` VARCHAR(13) NULL,
     `role` VARCHAR(45) NULL,
-    `dateNaissance` DATE NULL,
+    `date_naissance` DATE NULL,
     `sexe` CHAR(1) NULL,
     `actif` TINYINT(1) NULL DEFAULT 1,
     `validaton` TINYINT(1) NULL DEFAULT 1,
     `codePostal` VARCHAR(5) NULL,
     `ville` VARCHAR(45) NULL,
     `mdp` VARCHAR(512) NULL,
-    `dateDerniereConnexion` DATETIME NULL,
+    `date_derniere_connexion` DATETIME NULL,
     PRIMARY KEY (`mail`))
   ENGINE = InnoDB;
 
   -- Insérer des données dans la table citoyen
   INSERT INTO `ressources_relationnelles`.`citoyen`
-  (`nom`, `prenom`, `mail`, `numTel`, `numSec`, `role`, `dateNaissance`, `sexe`, `codePostal`, `ville`, `mdp`, `dateDerniereConnexion`)
+  (`nom`, `prenom`, `mail`, `num_tel`, `num_sec`, `role`, `date_naissance`, `sexe`, `codePostal`, `ville`, `mdp`, `date_derniere_connexion`)
   VALUES
   ('Dupont', 'Jean', 'jean.dupont@example.com', '0612345678', '1234567890123', 'citoyen', '1990-01-01', 'M', '75000', 'Paris', '$2a$10$dGq2TzQ9rB.RQzZo4FZKeOwYzG6bCXzT2/qrJ5.jc5sMp/TjL7CGC', '2022-01-01 12:00:00'),
   ('Martin', 'Pierre', 'pierre.martin@example.com', '0698765432', '9876543210987', 'citoyen', '1985-05-15', 'M', '69000', 'Lyon', '$2a$10$Z.bMnHrXzGi8DpZgRqLJme3kjN/4YcUdMZpN5yL.jJDqv7Qi2gJq6', '2022-02-01 10:30:00'),
@@ -50,10 +50,10 @@
   CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`publication` (
     `idpublication` INT NOT NULL AUTO_INCREMENT,
     `description` LONGTEXT NULL,
-    `datePub` DATETIME NULL,
-    `pubValidee` TINYINT(1) NULL DEFAULT 0,
-    `pubSignalee` TINYINT(1) NULL DEFAULT 0,
-    `nbrVues` INT NULL,
+    `date_pub` DATETIME NULL,
+    `pub_validee` TINYINT(1) NULL DEFAULT 0,
+    `pub_signalee` TINYINT(1) NULL DEFAULT 0,
+    `nbr_vues` INT NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`idpublication`, `citoyen_mail`),
     INDEX `fk_publication_citoyen1_idx` (`citoyen_mail` ASC) ,
@@ -66,7 +66,7 @@
 
   -- Insérer des données dans la table publication
   INSERT INTO `ressources_relationnelles`.`publication`
-  (`description`, `datePub`, `citoyen_mail`)
+  (`description`, `date_pub`, `citoyen_mail`)
   VALUES
   ('Ma première publication', '2022-01-01 12:00:00', 'jean.dupont@example.com'),
   ('Une nouvelle publication', '2022-02-01 10:30:00', 'pierre.martin@example.com'),
@@ -126,8 +126,8 @@
     `objet` VARCHAR(45) NULL,
     `description` LONGTEXT NULL,
     `etat` TINYINT(1) NULL DEFAULT 0,
-    `nomCreateur` VARCHAR(45) NULL,
-    `prenomCreateur` VARCHAR(45) NULL,
+    `nom_createur` VARCHAR(45) NULL,
+    `prenom_createur` VARCHAR(45) NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`idticket`, `citoyen_mail`),
     INDEX `fk_ticket_citoyen1_idx` (`citoyen_mail` ASC) ,
@@ -140,7 +140,7 @@
 
   -- Insérer des données dans la table ticket
   INSERT INTO `ressources_relationnelles`.`ticket`
-  (`objet`, `description`, `nomCreateur`, `prenomCreateur`, `citoyen_mail`)
+  (`objet`, `description`, `nom_createur`, `prenom_createur`, `citoyen_mail`)
   VALUES
   ('Problème de connexion', 'Je n''arrive pas à me connecter à mon compte.', 'Dupont', 'Jean', 'jean.dupont@example.com'),
   ('Erreur 404', 'Je rencontre une erreur 404 sur certaines pages.', 'Martin', 'Pierre', 'pierre.martin@example.com'),
@@ -152,8 +152,8 @@
   CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`commentaire` (
     `idcommentaire` INT NOT NULL,
     `publication_idpublication` INT NOT NULL,
-    `textCommentaire` LONGTEXT NULL,
-    `commentaireSignale` TINYINT(1) NULL DEFAULT 0,
+    `text_commentaire` LONGTEXT NULL,
+    `commentaire_signale` TINYINT(1) NULL DEFAULT 0,
     `type` TINYINT(1) NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     INDEX `fk_citoyen_has_publication_publication1_idx` (`publication_idpublication` ASC) ,
@@ -173,7 +173,7 @@
 
   -- Insérer des données dans la table commentaire
   INSERT INTO `ressources_relationnelles`.`commentaire`
-  (`idcommentaire`, `citoyen_mail`, `publication_idpublication`, `textcommentaire`, `type`)
+  (`idcommentaire`, `citoyen_mail`, `publication_idpublication`, `text_commentaire`, `type`)
   VALUES
   ('1', 'jean.dupont@example.com', 1, 'Super publication !', 0),
   ('2', 'pierre.martin@example.com', 2, 'Très intéressant !', 0),
@@ -184,11 +184,11 @@
   -- Table `ressources_relationnelles`.`demande_ami`
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`demande_ami` (
-    `demandeValidee` TINYINT(1) NULL DEFAULT 0,
+    `demande_validee` TINYINT(1) NULL DEFAULT 0,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     `citoyen_mail1` VARCHAR(45) NOT NULL,
-    `idDemandeAmi` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`citoyen_mail`, `citoyen_mail1`, `idDemandeAmi`),
+    `id_demande_ami` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`citoyen_mail`, `citoyen_mail1`, `id_demande_ami`),
     INDEX `fk_demande_ami_citoyen2_idx` (`citoyen_mail1` ASC) ,
     CONSTRAINT `fk_demande_ami_citoyen1`
       FOREIGN KEY (`citoyen_mail`)
@@ -204,7 +204,7 @@
 
   -- Insérer des données dans la table DemandeAmi
   INSERT INTO `ressources_relationnelles`.`demande_ami`
-  (`idDemandeAmi`,`citoyen_mail`, `citoyen_mail1`, `demandeValidee`)
+  (`id_demande_ami`,`citoyen_mail`, `citoyen_mail1`, `demande_validee`)
   VALUES
   (1,'jean.dupont@example.com', 'pierre.martin@example.com', 0),
   (2,'jean.dupont@example.com', 'marie.durand@example.com', 0),
@@ -241,11 +241,11 @@
 
 
   -- -----------------------------------------------------
-  -- Table `ressources_relationnelles`.`choixSondageCitoyen`
+  -- Table `ressources_relationnelles`.`choix_sondage_citoyen`
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`choixSondageCitoyen` (
     `ressource_idressource` INT NOT NULL,
-    `choixSondageCitoyen` VARCHAR(45) NULL,
+    `choix_sondage_citoyen` VARCHAR(45) NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     INDEX `fk_table1_ressource1_idx` (`ressource_idressource` ASC) ,
     PRIMARY KEY (`citoyen_mail`),
@@ -262,9 +262,9 @@
   ENGINE = InnoDB;
 
 
-  -- Insérer des données dans la table choixsondagecitoyen
-  INSERT INTO `ressources_relationnelles`.`choixSondageCitoyen`
-  (`citoyen_mail`, `ressource_idressource`, `choixSondageCitoyen`)
+  -- Insérer des données dans la table choix_sondage_citoyen
+  INSERT INTO `ressources_relationnelles`.`choix_sondage_citoyen`
+  (`citoyen_mail`, `ressource_idressource`, `choix_sondage_citoyen`)
   VALUES
   ('jean.dupont@example.com', 1, 'Oui'),
   ('pierre.martin@example.com', 2, 'Non'),
