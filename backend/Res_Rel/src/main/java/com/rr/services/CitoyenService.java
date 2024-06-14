@@ -8,13 +8,13 @@ import com.rr.repository.CitoyenRepository;
 public class CitoyenService {
 
     @Autowired
-    private CitoyenRepository utilisateurRepository;
+    private CitoyenRepository citoyenRepository;
 
   /*  public Citoyen findbyUsername(String username) {
-        return utilisateurRepository.findById(username);
+        return citoyenRepository.findById(username);
     }*/
 
     public Citoyen save(Citoyen citoyen) {
-        return utilisateurRepository.save(citoyen);
+        return citoyenRepository.save(citoyen);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rr.entity.Citoyen;
-import com.rr.repository.UtilisateurRepository;
+import com.rr.repository.CitoyenRepository;
 
 @RestController
 @RequestMapping
@@ -16,10 +16,10 @@ import com.rr.repository.UtilisateurRepository;
 public class pour_bdd {
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private CitoyenRepository citoyenRepository;
 
     @GetMapping
     public List<Citoyen> getAllCitoyens() {
-        return utilisateurRepository.findAll();
+        return citoyenRepository.findAll();
     }
 }

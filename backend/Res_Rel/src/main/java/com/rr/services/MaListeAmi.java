@@ -17,7 +17,7 @@ public class MaListeAmi {
     private DemandeAmiRepository demandeAmiRepository;
 
     @Autowired
-    private CitoyenRepository UtilisateurRepository;
+    private CitoyenRepository CitoyenRepository;
 
     public DemandeAmi ajouterAmi(Citoyen citoyen, Citoyen ami) {
         DemandeAmi demande = new DemandeAmi();

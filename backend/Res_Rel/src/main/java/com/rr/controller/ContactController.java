@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.rr.entity.Citoyen;
-import com.rr.repository.UtilisateurRepository;
+import com.rr.repository.CitoyenRepository;
 
 import java.util.Optional;
 
@@ -17,13 +17,13 @@ import java.util.Optional;
 public class ContactController {
 
     @Autowired
-    private UtilisateurRepository UtilisateurRepository;
+    private CitoyenRepository CitoyenRepository;
 
     @GetMapping("/api/contact")
     public String contact(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String mail = authentication.getName();
-        Optional<Citoyen> citoyen = UtilisateurRepository.findByMail(mail);
+        Optional<Citoyen> citoyen = CitoyenRepository.findByMail(mail);
         model.addAttribute("nom", citoyen);
         return "contact";
     }

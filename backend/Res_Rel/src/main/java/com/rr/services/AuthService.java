@@ -14,14 +14,14 @@ import com.rr.repository.CitoyenRepository;
 public class AuthService {
 
     @Autowired
-    private CitoyenRepository utilisateurRepository;
+    private CitoyenRepository citoyenRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true) // pour spécifier que la requete ne sert qu'à lire les informations
     public String login(String mail, String motdePasse) {
-        Optional<Citoyen> citoyen = utilisateurRepository.findByMail(mail);
+        Optional<Citoyen> citoyen = citoyenRepository.findByMail(mail);
         if (citoyen.isPresent() && passwordEncoder.matches(motdePasse, citoyen.get().getMdp())) {
             return "Connexion reussie";
         } else {
@@ -32,14 +32,14 @@ public class AuthService {
 
     @Transactional(rollbackFor = Exception.class) // pour dire que si jamais ça marche mal,
     public String signup(String mail, String motdePasse) {
-        var resu = utilisateurRepository.findByMail(mail);
+        var resu = citoyenRepository.findByMail(mail);
         if (resu.isPresent()) {
             return "Echec lors de l'inscription. Cet identifiant est déjà utilisé";
         }
         Citoyen nouveauCitoyen = new Citoyen();
         nouveauCitoyen.setMail(mail);
         nouveauCitoyen.setMdp(passwordEncoder.encode(motdePasse));
-        utilisateurRepository.save(nouveauCitoyen);
+        citoyenRepository.save(nouveauCitoyen);
 
         return "Inscription réussi";
     }
