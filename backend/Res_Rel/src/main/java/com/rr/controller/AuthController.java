@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rr.services.AuthService;
 
+import java.util.Date;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -21,8 +23,9 @@ public class AuthController {
         return authService.login(mail, motDePasse);
     }
     @PostMapping("/signup")
-    public String signup(@RequestParam String mail, @RequestParam String motDePasse, @RequestParam String nom,  @RequestParam String prenom) {
-        return authService.signup(mail, motDePasse, nom, prenom );
+    public String signup(@RequestParam String mail, @RequestParam String motDePasse, @RequestParam String nom, @RequestParam String prenom, @RequestParam String numTel, @RequestParam String numSec,
+                         @RequestParam Date dateNaissance, @RequestParam char sexe, @RequestParam String codePostal, @RequestParam String ville ) {
+        return authService.signup(mail, motDePasse, nom, prenom, numTel, numSec, dateNaissance, sexe, codePostal, ville );
     }
 
 

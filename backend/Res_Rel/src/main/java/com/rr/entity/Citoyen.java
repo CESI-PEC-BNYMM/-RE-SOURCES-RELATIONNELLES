@@ -49,6 +49,9 @@ public class Citoyen {
     private List<Ticket> tickets;
 
 
+
+
+
     public String getMdp() {
         return mdp;
     }
@@ -81,12 +84,8 @@ public class Citoyen {
         this.mail = mail;
     }
 
-    public String getNum_tel() {
+    public String getnumTel() {
         return numTel;
-    }
-
-    public void setNum_tel(String num_tel) {
-        this.numTel = num_tel;
     }
 
     public String getRole() {
@@ -95,14 +94,6 @@ public class Citoyen {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public String getNum_sec() {
-        return numSec;
-    }
-
-    public void setNum_sec(String num_sec) {
-        this.numSec = num_sec;
     }
 
     public Date getDateNaissance() {
@@ -169,9 +160,6 @@ public class Citoyen {
         this.demandeenvoyee = (List<DemandeAmi>) demandeenvoyee;
     }
 
-    public String getNumTel() {
-        return numTel;
-    }
 
     public void setNumTel(String numTel) {
         this.numTel = numTel;
