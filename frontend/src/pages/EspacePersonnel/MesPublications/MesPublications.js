@@ -124,22 +124,6 @@ const MesPublications = () => {
         return $content;
     };
 
-    const getRandomAnswers = ($count) => {
-        let $answers = [];
-        for (let i = 0; i < $count; i++) {
-            let $user = users[Math.floor(Math.random() * users.length)];
-            $answers.push({
-                user: {
-                    name: getUserName($user),
-                    image: $user.picture.thumbnail,
-                },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                content: getRandomArticleContent(Math.floor(Math.random() * 1) + 1),
-            });
-        }
-        return $answers;
-    };
-
     const getRandomComments = ($count) => {
         let $comments = [];
         for (let i = 0; i < $count; i++) {
@@ -152,8 +136,6 @@ const MesPublications = () => {
                 },
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: getRandomArticleContent(Math.floor(Math.random() * 2) + 1),
-                answers: getRandomAnswers(Math.floor(Math.random() * 3) + 1),
-                showAnswers: false,
             });
         }
         return $comments;
@@ -201,32 +183,10 @@ const MesPublications = () => {
                 },
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: $content,
-                answers: [],
-                showAnswers: false,
             });
             $article.showComments = true;
             setArticles([...articles]);
             document.querySelector(('.commentForm' + $articleId + ' input')).value = '';
-        }
-    };
-
-    const addAnswer = ($articleId, $commentId) => {
-        let $article = articles.find((article) => article.id === $articleId);
-        let $comment = $article.comments.find((comment) => comment.id === $commentId);
-        let $user = myUser;
-        let $content = document.querySelector(('.answerForm' + $articleId + $commentId + ' input')).value;
-        if ($content.length > 0) {
-            $comment.answers.push({
-                user: {
-                    name: $user.name,
-                    image: $user.image,
-                },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                content: $content,
-            });
-            $comment.showAnswers = true;
-            setArticles([...articles]);
-            document.querySelector(('.answerForm' + $articleId + $commentId + ' input')).value = '';
         }
     };
 
@@ -339,42 +299,6 @@ const MesPublications = () => {
                                                             <FaCircleExclamation fill='red' />
                                                         </div>
                                                     </div>
-                                                    <div className="d-flex align-items-center justify-content-center mb-3" style={{ width: 'fit-content' }}>
-                                                        {comment.answers.length > 0 ?
-                                                            <button className='btn btn-sm' onClick={() => { comment.showAnswers = !comment.showAnswers; setArticles([...articles]); }}>
-                                                                <small>{comment.showAnswers ? ('Masquer' + (comment.answers.length > 1 ? ' les réponses' : ' la réponse')) : ('Voir' + (comment.answers.length > 1 ? ' les ' + comment.answers.length + ' réponses' : ' la réponse'))}</small>
-                                                            </button>
-                                                            : null}
-                                                        <button className='btn btn-sm d-flex' onClick={() => { comment.showAnswers = true; setArticles([...articles]); setTimeout(() => { document.querySelector(('.answerForm' + article.id + comment.id + ' input')).focus(); }, 100); }}>
-                                                            <small>Répondre</small>
-                                                        </button>
-                                                    </div>
-                                                    {comment.showAnswers ?
-                                                        <div className="Answers">
-                                                            <form className={"answerForm" + article.id + comment.id + " input-group input-group-sm mb-4"} onSubmit={(e) => { e.preventDefault(); addAnswer(article.id, comment.id); }}>
-                                                                <input type="text" className='form-control' placeholder="Ajouter une réponse..." aria-label="Ajouter une réponse..." aria-describedby="button-addon3" />
-                                                                <div className="input-group-text p-0">
-                                                                    <button className='btn' type="submit"><FaArrowAltCircleRight /></button>
-                                                                </div>
-                                                            </form>
-                                                            {comment.answers.length > 0 && comment.answers.map((answer, index) => (
-                                                                <div className="Answer ms-5 mb-2" key={index}>
-                                                                    <div className="d-flex align-items-center gap-2 mb-2 profile">
-                                                                        {formatImage(answer.user.image, '35px')}
-                                                                        <div className="d-flex flex-column">
-                                                                            <p className='mb-0'><b>{answer.user.name}</b><br />{answer.date}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="commentContent">
-                                                                        <p>{answer.content}</p>
-                                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Réponse de ' + answer.user.name + ' signalée !') }}>
-                                                                            <FaCircleExclamation fill='red' />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                        : null}
                                                 </div>
                                             ))}
                                         </div>
