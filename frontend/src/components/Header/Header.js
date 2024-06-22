@@ -52,12 +52,6 @@ const Header = () => {
                         <div>Se connecter</div>
                     </NavLink>
                 </div>
-                <div className="notification" style={{ cursor: 'pointer' }}>
-                    {notifications.length > 0
-                        ? <VscBellDot style={{ fontSize: '1.5rem' }} onClick={() => setNotifications([])} />
-                        : <VscBell style={{ fontSize: '1.5rem' }} onClick={() => setNotifications([...notifications, { id: notifications.length + 1, message: "Nouvelle notification" }])} />
-                    }
-                </div>
                 <div className="user">
                     <FaUser onClick={handleUserDropdown} style={{ cursor: 'pointer' }} fontSize="1.3rem" />
                     {isUserDropdownActive && (
