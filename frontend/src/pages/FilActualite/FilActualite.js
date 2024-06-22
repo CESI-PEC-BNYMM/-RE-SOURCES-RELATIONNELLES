@@ -10,7 +10,6 @@ import { FaCircleExclamation } from "react-icons/fa6";
 
 const FilActualite = () => {
     const [myUser, setMyUser] = useState({
-        username: 'mathieu',
         name: 'Mathieu Nowakowski',
         image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
     });
@@ -131,7 +130,6 @@ const FilActualite = () => {
             let $user = users[Math.floor(Math.random() * users.length)];
             $answers.push({
                 user: {
-                    username: $user.login.username,
                     name: getUserName($user),
                     image: $user.picture.thumbnail,
                 },
@@ -149,7 +147,6 @@ const FilActualite = () => {
             $comments.push({
                 id: i,
                 user: {
-                    username: $user.login.username,
                     name: getUserName($user),
                     image: $user.picture.thumbnail,
                 },
@@ -174,7 +171,6 @@ const FilActualite = () => {
                 category: $category,
                 showComments: false,
                 user: {
-                    username: users[i].login.username,
                     name: getUserName(users[i]),
                     image: users[i].picture.thumbnail,
                 },
@@ -199,7 +195,6 @@ const FilActualite = () => {
         if ($content.length > 0) {
             $article.comments.push({
                 user: {
-                    username: $user.username,
                     name: $user.name,
                     image: $user.image,
                 },
@@ -222,7 +217,6 @@ const FilActualite = () => {
         if ($content.length > 0) {
             $comment.answers.push({
                 user: {
-                    username: $user.username,
                     name: $user.name,
                     image: $user.image,
                 },
@@ -281,7 +275,7 @@ const FilActualite = () => {
                         {articlesToShow.map((article) => (
                             <div className="Article whiteBox p-3" key={article.id}>
                                 <div className="d-flex w-100 align-items-start justify-content-between mb-4">
-                                    <div className="d-flex align-items-center gap-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + article.user.username, '_blank'); }}>
+                                    <div className="d-flex align-items-center gap-2 profile">
                                         {formatImage(article.user.image, '50px')}
                                         <div className="d-flex flex-column">
                                             <p className='mb-0'><b>{article.user.name}</b><br />{article.date}</p>
@@ -321,7 +315,7 @@ const FilActualite = () => {
                                             </form>
                                             {article.comments.length > 0 && article.comments.map((comment, index) => (
                                                 <div className="Comment commentUser" key={index}>
-                                                    <div className="d-flex align-items-center gap-2 mb-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + comment.user.username, '_blank'); }}>
+                                                    <div className="d-flex align-items-center gap-2 mb-2 profile">
                                                         {formatImage(comment.user.image, '35px')}
                                                         <div className="d-flex flex-column">
                                                             <p className='mb-0'><b>{comment.user.name}</b><br />{comment.date}</p>
@@ -329,11 +323,9 @@ const FilActualite = () => {
                                                     </div>
                                                     <div className="commentContent">
                                                         <p>{comment.content}</p>
-                                                        {comment.user.username !== myUser.username ?
-                                                            <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
-                                                                <FaCircleExclamation fill='red' />
-                                                            </div>
-                                                        : null}
+                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
+                                                            <FaCircleExclamation fill='red' />
+                                                        </div>
                                                     </div>
                                                     <div className="d-flex align-items-center justify-content-center mb-3" style={{ width: 'fit-content' }}>
                                                         {comment.answers.length > 0 ?
@@ -355,7 +347,7 @@ const FilActualite = () => {
                                                             </form>
                                                             {comment.answers.length > 0 && comment.answers.map((answer, index) => (
                                                                 <div className="Answer ms-5 mb-2" key={index}>
-                                                                    <div className="d-flex align-items-center gap-2 mb-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + answer.user.username, '_blank'); }}>
+                                                                    <div className="d-flex align-items-center gap-2 mb-2 profile">
                                                                         {formatImage(answer.user.image, '35px')}
                                                                         <div className="d-flex flex-column">
                                                                             <p className='mb-0'><b>{answer.user.name}</b><br />{answer.date}</p>
@@ -363,11 +355,9 @@ const FilActualite = () => {
                                                                     </div>
                                                                     <div className="commentContent">
                                                                         <p>{answer.content}</p>
-                                                                        {answer.user.username !== myUser.username ?
-                                                                            <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Réponse de ' + answer.user.name + ' signalée !') }}>
-                                                                                <FaCircleExclamation fill='red' />
-                                                                            </div>
-                                                                        : null}
+                                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Réponse de ' + answer.user.name + ' signalée !') }}>
+                                                                            <FaCircleExclamation fill='red' />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             ))}
