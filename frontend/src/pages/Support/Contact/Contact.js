@@ -41,17 +41,6 @@ const Contact = () => {
                             <div className="form-group col-md-5">
                                 <input type="email" className="form-control" id="email" placeholder="Entrez votre adresse e-mail..." />
                             </div>
-                            <div className="form-group col-md-5">
-                                <input type="tel" className="form-control" id="phone" placeholder="Entrez votre numéro de téléphone..." />
-                            </div>
-                            <div className="form-group col-md-5">
-                                <select className="form-select" id="subject">
-                                    <option value="" disabled selected hidden>Quel est le sujet ?</option>
-                                    <option value="sujet1">Sujet 1</option>
-                                    <option value="sujet2">Sujet 2</option>
-                                    <option value="sujet3">Sujet 3</option>
-                                </select>
-                            </div>
                             <div className="form-group col-md-5"></div>
                             <div className="form-group col-md-5">
                                 <input type="text" className="form-control" id="requestObject" placeholder="Entrez l'objet de votre demande..." />
