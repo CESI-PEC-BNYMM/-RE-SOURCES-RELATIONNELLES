@@ -23,41 +23,36 @@ const MesPublications = () => {
         },
         {
             id: 2,
-            key: '/favoris',
-            name: 'Favoris',
-        },
-        {
-            id: 3,
             key: '/sport',
             name: 'Sport',
         },
         {
-            id: 4,
+            id: 3,
             key: '/politique',
             name: 'Politique',
         },
         {
-            id: 5,
+            id: 4,
             key: '/culture',
             name: 'Culture',
         },
         {
-            id: 6,
+            id: 5,
             key: '/economie',
             name: 'Economie',
         },
         {
-            id: 7,
+            id: 6,
             key: '/societe',
             name: 'Société',
         },
         {
-            id: 8,
+            id: 7,
             key: '/technologie',
             name: 'Technologie',
         },
         {
-            id: 9,
+            id: 8,
             key: '/sante',
             name: 'Santé',
         },
@@ -170,7 +165,7 @@ const MesPublications = () => {
     const setRandomArticles = async () => {
         let $articles = [];
         for (let i = 0; i < users.length; i++) {
-            let $category = categories[Math.floor(Math.random() * (categories.length - 2)) + 2]; // Exclude 'Tous' and 'Favoris'
+            let $category = categories[Math.floor(Math.random() * (categories.length - 1)) + 1]; // Exclude 'Tous'
             // let $randomLink = await getRandomLink(); // for the API PublicAPI
             let $randomLink = await getRandomLink(i); // for the API NewAPI
             let $articleLink = getArticleLink($randomLink);
@@ -276,10 +271,10 @@ const MesPublications = () => {
                         <ul>
                             {categories.map((category) => (
                                 <NavLink to={uri + category.key} key={category.id} onClick={() => {
-                                    category.key === '/' ? setArticlesToShow(articles) : category.key === '/favoris' ? setArticlesToShow(articles.filter((article) => article.isLiked)) : setArticlesToShow(articles.filter((article) => article.category.name === category.name));
+                                    category.key === '/' ? setArticlesToShow(articles) : setArticlesToShow(articles.filter((article) => article.category.name === category.name));
                                 }}>
                                     <li key={category.id}>
-                                        {category.name} ({category.key === '/' ? articles.length : category.key === '/favoris' ? articles.filter((article) => article.isLiked).length : articles.filter((article) => article.category.name === category.name).length})
+                                        {category.name} ({category.key === '/' ? articles.length : articles.filter((article) => article.category.name === category.name).length})
                                     </li>
                                 </NavLink>
                             ))}
@@ -305,10 +300,6 @@ const MesPublications = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center gap-4">
-                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { article.isLiked = !article.isLiked; setArticles([...articles]); }}>
-                                            {article.isLiked ? <p className='text-danger mb-0 user-select-none'><b>Dans vos favoris</b></p> : <p className='mb-0 user-select-none'>Mettre dans vos favoris</p>}
-                                            {article.isLiked ? <IoMdHeart fill='red' /> : <IoMdHeartEmpty />}
-                                        </div>
                                         <button className='btn btn-danger btn-sm' onClick={() => { deleteArticle(article.id); }}>Supprimer</button>
                                         <h6 className='mb-0'>Catégorie: {article.category.name}</h6>
                                     </div>
