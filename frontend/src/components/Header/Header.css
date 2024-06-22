@@ -13,6 +13,7 @@ svg {
     height: 55px;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     z-index: 1;
 }
 
@@ -25,6 +26,42 @@ svg {
     align-items: center;
     justify-content: center;
     margin-right: 25px;
+}
+
+.topNav .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    height: 55%;
+    margin-right: 10px;
+}
+
+.topNav .actions a:hover {
+    background-color: rgb(71, 101, 118);
+    color: white;
+}
+
+.topNav .actions a {
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    color: #476576;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.topNav .actions a div {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-inline: auto;
+    padding-inline: 10px;
 }
 
 .topNav .user {
