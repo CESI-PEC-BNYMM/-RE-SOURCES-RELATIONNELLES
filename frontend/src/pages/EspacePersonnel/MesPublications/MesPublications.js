@@ -134,7 +134,6 @@ const MesPublications = () => {
                     name: getUserName($user),
                     image: $user.picture.thumbnail,
                 },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: getRandomArticleContent(Math.floor(Math.random() * 2) + 1),
             });
         }
@@ -181,7 +180,6 @@ const MesPublications = () => {
                     name: $user.name,
                     image: $user.image,
                 },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: $content,
             });
             $article.showComments = true;
@@ -290,7 +288,7 @@ const MesPublications = () => {
                                                     <div className="d-flex align-items-center gap-2 mb-2 profile">
                                                         {formatImage(comment.user.image, '35px')}
                                                         <div className="d-flex flex-column">
-                                                            <p className='mb-0'><b>{comment.user.name}</b><br />{comment.date}</p>
+                                                            <p className='mb-0'><b>{comment.user.name}</b></p>
                                                         </div>
                                                     </div>
                                                     <div className="commentContent">
