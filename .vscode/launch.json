@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "ExempleApplication",
+            "request": "launch",
+            "mainClass": "com.rr.ExempleApplication",
+            "projectName": "Res_Rel"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ExempleApplication<exemple>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.exemple.ExempleApplication",
+            "projectName": "exemple",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -10,8 +10,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ressources_relationnelles
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+    ports:
+      - 3306:3306
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -20,29 +20,32 @@ services:
       mysql:
         condition: service_started
     ports:
-      - 8080:80
+      - 8090:80
     environment:
       PMA_HOST: mysql
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #   container_name: backend_ressources_relationnelles
-  #   ports:
-  #     - 8000:8000
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./backend:/usr/src/app
+  backend:
+    container_name: backend_ressources_relationnelles
+    build:
+      context: ./backend/Res_Rel
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ressources_relationnelles
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    volumes:
+      - ./backend/Res_Rel:/app
 
   frontend:
     container_name: frontend_ressources_relationnelles
     build:
       context: ./frontend
-    # depends_on:
-    #   backend:
-    #     condition: service_started
+    depends_on:
+      backend:
+        condition: service_started
     ports:
       - 3000:3000
     stdin_open: true
