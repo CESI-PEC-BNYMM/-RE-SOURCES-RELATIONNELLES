@@ -1,23 +1,27 @@
 package com.rr.services;
 
-import com.rr.entity.Citoyen;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rr.entity.Citoyen;
 import com.rr.entity.DemandeAmi;
 import com.rr.repository.CitoyenRepository;
 import com.rr.repository.DemandeAmiRepository;
 
-import javax.swing.*;
-
 @Service
 
-public class MaListeAmi {
+public class DemandeAmiService {
     @Autowired
     private DemandeAmiRepository demandeAmiRepository;
 
     @Autowired
     private CitoyenRepository UtilisateurRepository;
+
+    public List<DemandeAmi> findall() {
+        return demandeAmiRepository.findAll();
+    }
 
     public DemandeAmi ajouterAmi(Citoyen citoyen, Citoyen ami) {
         DemandeAmi demande = new DemandeAmi();

@@ -55,7 +55,7 @@
     `pub_signalee` TINYINT(1) NULL DEFAULT 0,
     `nbr_vues` INT NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`idpublication`, `citoyen_mail`),
+    PRIMARY KEY (`idpublication`),
     INDEX `fk_publication_citoyen1_idx` (`citoyen_mail` ASC) ,
     CONSTRAINT `fk_publication_citoyen1`
       FOREIGN KEY (`citoyen_mail`)
@@ -97,9 +97,7 @@
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`ressource` (
     `idressource` INT NOT NULL AUTO_INCREMENT,
-    `type` VARCHAR(45) NULL,
     `lien` VARCHAR(255) NULL,
-    `extension` VARCHAR(45) NULL,
     `publication_idpublication` INT NOT NULL,
     PRIMARY KEY (`idressource`),
     INDEX `fk_ressource_publication1_idx` (`publication_idpublication` ASC) ,
@@ -112,11 +110,11 @@
 
   -- Insert data into ressource
   INSERT INTO `ressources_relationnelles`.`ressource`
-  (`type`, `lien`, `extension`, `publication_idpublication`)
+  (`lien`, `publication_idpublication`)
   VALUES
-  ('image', 'https://example.com/image.jpg', 'jpg', 1),
-  ('video', 'https://example.com/video.mp4', 'mp4', 2),
-  ('document', 'https://example.com/document.pdf', 'pdf', 3);
+  ('https://example.com/image.jpg', 1),
+  ('https://example.com/video.mp4', 2),
+  ('https://example.com/document.pdf', 3);
 
   -- -----------------------------------------------------
   -- Table `ressources_relationnelles`.`ticket`
@@ -129,7 +127,7 @@
     `nom_createur` VARCHAR(45) NULL,
     `prenom_createur` VARCHAR(45) NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`idticket`, `citoyen_mail`),
+    PRIMARY KEY (`idticket`),
     INDEX `fk_ticket_citoyen1_idx` (`citoyen_mail` ASC) ,
     CONSTRAINT `fk_ticket_citoyen1`
       FOREIGN KEY (`citoyen_mail`)
@@ -157,7 +155,7 @@
     `type` TINYINT(1) NULL,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     INDEX `fk_citoyen_has_publication_publication1_idx` (`publication_idpublication` ASC) ,
-    PRIMARY KEY (`idcommentaire`, `citoyen_mail`),
+    PRIMARY KEY (`idcommentaire`),
     INDEX `fk_commentaire_citoyen1_idx` (`citoyen_mail` ASC) ,
     CONSTRAINT `fk_citoyen_has_publication_publication1`
       FOREIGN KEY (`publication_idpublication`)
@@ -188,7 +186,8 @@
     `citoyen_mail` VARCHAR(45) NOT NULL,
     `citoyen_mail1` VARCHAR(45) NOT NULL,
     `id_demande_ami` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`citoyen_mail`, `citoyen_mail1`, `id_demande_ami`),
+    PRIMARY KEY (`id_demande_ami`),
+    INDEX `fk_demande_ami_citoyen1_idx` (`citoyen_mail` ASC) ,
     INDEX `fk_demande_ami_citoyen2_idx` (`citoyen_mail1` ASC) ,
     CONSTRAINT `fk_demande_ami_citoyen1`
       FOREIGN KEY (`citoyen_mail`)
