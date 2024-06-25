@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BsChat } from "react-icons/bs";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
 
 const FilActualite = () => {
@@ -156,6 +156,8 @@ const FilActualite = () => {
                     image: users[i].picture.thumbnail,
                 },
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+                nbrVue: Math.floor(Math.random() * 1000),
+                seen: false,
                 content: getRandomArticleContent(Math.floor(Math.random() * 3) + 1),
                 link: {
                     link: $articleLink,
@@ -240,6 +242,9 @@ const FilActualite = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center gap-4">
+                                        <div className="d-flex align-items-center gap-2">
+                                            <FaEye />{article.nbrVue}
+                                        </div>
                                         <button className='btn btn-danger btn-sm' onClick={() => { alert('Article id: ' + article.id + ' signalé !') }}>Signaler</button>
                                         <h6 className='mb-0'>Catégorie: {article.category.name}</h6>
                                     </div>

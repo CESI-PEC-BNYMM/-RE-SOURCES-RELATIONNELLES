@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BsChat } from "react-icons/bs";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
 
 const MesPublications = () => {
@@ -156,6 +156,8 @@ const MesPublications = () => {
                     name: myUser.name,
                     image: myUser.image,
                 },
+                nbrVue: Math.floor(Math.random() * 1000),
+                seen: false,
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: getRandomArticleContent(Math.floor(Math.random() * 3) + 1),
                 link: {
@@ -252,6 +254,9 @@ const MesPublications = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center gap-4">
+                                        <div className="d-flex align-items-center gap-2">
+                                            <FaEye />{article.nbrVue}
+                                        </div>
                                         <button className='btn btn-danger btn-sm' onClick={() => { deleteArticle(article.id); }}>Supprimer</button>
                                         <h6 className='mb-0'>Catégorie: {article.category.name}</h6>
                                     </div>
