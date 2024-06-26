@@ -42,11 +42,15 @@ const Header = () => {
     return (
         <div>
             <div className="topNav">
-                <div className="notification" style={{ cursor: 'pointer' }}>
-                    {notifications.length > 0
-                        ? <VscBellDot style={{ fontSize: '1.5rem' }} onClick={() => setNotifications([])} />
-                        : <VscBell style={{ fontSize: '1.5rem' }} onClick={() => setNotifications([...notifications, { id: notifications.length + 1, message: "Nouvelle notification" }])} />
-                    }
+                <div className="actions" style={{ cursor: 'pointer' }}>
+                    <NavLink to={`/register`} data-path="/register" className="register">
+                        <div>Inscription</div>
+                    </NavLink>
+                </div>
+                <div className="actions" style={{ cursor: 'pointer' }}>
+                    <NavLink to={`/login`} data-path="/login" className="login">
+                        <div>Se connecter</div>
+                    </NavLink>
                 </div>
                 <div className="user">
                     <FaUser onClick={handleUserDropdown} style={{ cursor: 'pointer' }} fontSize="1.3rem" />

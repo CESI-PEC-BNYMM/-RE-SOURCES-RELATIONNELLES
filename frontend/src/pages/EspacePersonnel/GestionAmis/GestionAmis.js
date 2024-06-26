@@ -4,60 +4,60 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 const GestionAmis = () => {
     const [amis, setAmis] = useState([
-        { nom: 'Jean Dupont', date: '01/01/2021' },
-        { nom: 'Marie Durand', date: '01/01/2021' },
-        { nom: 'Paul Martin', date: '01/01/2021' },
-        { nom: 'Sophie Lefevre', date: '01/01/2021' },
-        { nom: 'Jacques Lemoine', date: '01/01/2021' },
-        { nom: 'Jeanne Lefevre', date: '01/01/2021' },
-        { nom: 'Pierre Lemoine', date: '01/01/2021' },
-        { nom: 'Julie Dupont', date: '01/01/2021' },
-        { nom: 'Lucie Durand', date: '01/01/2021' },
-        { nom: 'Marc Martin', date: '01/01/2021' },
-        { nom: 'Hélène Lefevre', date: '01/01/2021' },
-        { nom: 'Philippe Lemoine', date: '01/01/2021' },
-        { nom: 'Marie Dupont', date: '01/01/2021' },
-        { nom: 'Paul Durand', date: '01/01/2021' },
-        { nom: 'Sophie Martin', date: '01/01/2021' },
-        { nom: 'Jacques Lefevre', date: '01/01/2021' },
-        { nom: 'Jeanne Lemoine', date: '01/01/2021' },
-        { nom: 'Pierre Dupont', date: '01/01/2021' },
-        { nom: 'Julie Durand', date: '01/01/2021' },
-        { nom: 'Lucie Martin', date: '01/01/2021' },
-        { nom: 'Marc Lefevre', date: '01/01/2021' },
-        { nom: 'Hélène Lemoine', date: '01/01/2021' },
-        { nom: 'Philippe Dupont', date: '01/01/2021' },
-        { nom: 'Marie Durand', date: '01/01/2021' },
-        { nom: 'Paul Martin', date: '01/01/2021' },
-        { nom: 'Sophie Lefevre', date: '01/01/2021' },
-        { nom: 'Jacques Lemoine', date: '01/01/2021' },
-        { nom: 'Jeanne Lefevre', date: '01/01/2021' },
-        { nom: 'Pierre Lemoine', date: '01/01/2021' }
+        { nom: 'Jean Dupont'},
+        { nom: 'Marie Durand'},
+        { nom: 'Paul Martin'},
+        { nom: 'Sophie Lefevre'},
+        { nom: 'Jacques Lemoine'},
+        { nom: 'Jeanne Lefevre'},
+        { nom: 'Pierre Lemoine'},
+        { nom: 'Julie Dupont'},
+        { nom: 'Lucie Durand'},
+        { nom: 'Marc Martin'},
+        { nom: 'Hélène Lefevre'},
+        { nom: 'Philippe Lemoine'},
+        { nom: 'Marie Dupont'},
+        { nom: 'Paul Durand'},
+        { nom: 'Sophie Martin'},
+        { nom: 'Jacques Lefevre'},
+        { nom: 'Jeanne Lemoine'},
+        { nom: 'Pierre Dupont'},
+        { nom: 'Julie Durand'},
+        { nom: 'Lucie Martin'},
+        { nom: 'Marc Lefevre'},
+        { nom: 'Hélène Lemoine'},
+        { nom: 'Philippe Dupont'},
+        { nom: 'Marie Durand'},
+        { nom: 'Paul Martin'},
+        { nom: 'Sophie Lefevre'},
+        { nom: 'Jacques Lemoine'},
+        { nom: 'Jeanne Lefevre'},
+        { nom: 'Pierre Lemoine'}
     ]);
     const [amisShown, setAmisShown] = useState([...amis.slice(0, 10)]);
     const [demandes, setDemandes] = useState([
-        { nom: 'Jeanne Lefevre', date: '01/01/2021' },
-        { nom: 'Pierre Lemoine', date: '01/01/2021' },
-        { nom: 'Julie Dupont', date: '01/01/2021' },
-        { nom: 'Lucie Durand', date: '01/01/2021' },
-        { nom: 'Marc Martin', date: '01/01/2021' },
-        { nom: 'Hélène Lefevre', date: '01/01/2021' },
-        { nom: 'Philippe Lemoine', date: '01/01/2021' },
-        { nom: 'Marie Dupont', date: '01/01/2021' },
-        { nom: 'Paul Durand', date: '01/01/2021' },
-        { nom: 'Sophie Martin', date: '01/01/2021' },
-        { nom: 'Jacques Lefevre', date: '01/01/2021' },
-        { nom: 'Jeanne Lemoine', date: '01/01/2021' },
-        { nom: 'Pierre Dupont', date: '01/01/2021' },
-        { nom: 'Julie Durand', date: '01/01/2021' },
-        { nom: 'Lucie Martin', date: '01/01/2021' },
-        { nom: 'Marc Lefevre', date: '01/01/2021' },
-        { nom: 'Hélène Lemoine', date: '01/01/2021' },
-        { nom: 'Philippe Dupont', date: '01/01/2021' },
-        { nom: 'Marie Durand', date: '01/01/2021' },
-        { nom: 'Paul Martin', date: '01/01/2021' },
-        { nom: 'Sophie Lefevre', date: '01/01/2021' },
-        { nom: 'Jacques Lemoine', date: '01/01/2021' }
+        { nom: 'Jeanne Lefevre'},
+        { nom: 'Pierre Lemoine'},
+        { nom: 'Julie Dupont'},
+        { nom: 'Lucie Durand'},
+        { nom: 'Marc Martin'},
+        { nom: 'Hélène Lefevre'},
+        { nom: 'Philippe Lemoine'},
+        { nom: 'Marie Dupont'},
+        { nom: 'Paul Durand'},
+        { nom: 'Sophie Martin'},
+        { nom: 'Jacques Lefevre'},
+        { nom: 'Jeanne Lemoine'},
+        { nom: 'Pierre Dupont'},
+        { nom: 'Julie Durand'},
+        { nom: 'Lucie Martin'},
+        { nom: 'Marc Lefevre'},
+        { nom: 'Hélène Lemoine'},
+        { nom: 'Philippe Dupont'},
+        { nom: 'Marie Durand'},
+        { nom: 'Paul Martin'},
+        { nom: 'Sophie Lefevre'},
+        { nom: 'Jacques Lemoine'}
     ]);
     const [demandesShown, setDemandesShown] = useState([...demandes.slice(0, 10)]);
     const [isLoading, setIsLoading] = useState(false);
@@ -89,14 +89,10 @@ const GestionAmis = () => {
         }
     }
 
-    const formatDate = (date) => {
-        return date.split('T')[0].split('-').reverse().join('/');
-    }
-
     const addRequest = (demande) => {
         alert(demande.nom + ' est maintenant votre ami !');
-        setAmis([...amis, { nom: demande.nom, date: formatDate(new Date().toISOString()) }]);
-        setAmisShown([...amisShown, { nom: demande.nom, date: formatDate(new Date().toISOString()) }]);
+        setAmis([...amis, { nom: demande.nom }]);
+        setAmisShown([...amisShown, { nom: demande.nom }]);
         setDemandes(demandes.filter((d) => d !== demande));
         setDemandesShown(demandesShown.filter((d) => d !== demande));
     }
@@ -156,7 +152,7 @@ const GestionAmis = () => {
                                     className="btn btn-primary"
                                     onClick={() => {
                                         alert(selection[0].login + ' est maintenant votre ami !');
-                                        setAmis([...amis, { nom: selection[0].login, date: formatDate(new Date().toISOString()) }]);
+                                        setAmis([...amis, { nom: selection[0].login }]);
                                         setSelection([]);
                                     }}
                                 >
@@ -168,11 +164,10 @@ const GestionAmis = () => {
                     <div className="d-flex flex-column justify-content-between flex-wrap w-100">
                         {amisShown.map((ami, index) => (
                             <div className='Ami d-flex justify-content-between align-items-start flex-wrap' key={index}>
-                                <div className='Profile d-flex align-items-start flex-wrap'>
+                                <div className='Profile d-flex align-items-center mb-2 flex-wrap'>
                                     {formatImage(("https://picsum.photos/200/200?random=1" + index), 50)}
                                     <div className='ProfileInfos d-flex flex-column align-items-start ms-3'>
                                         <h6>{ami.nom}</h6>
-                                        <p>Depuis le {ami.date}</p>
                                     </div>
                                 </div>
                                 <button className="btn btn-danger" onClick={() => removeFriend(ami)}>Supprimer</button>
@@ -190,11 +185,10 @@ const GestionAmis = () => {
                     <div className="d-flex flex-column justify-content-between flex-wrap w-100">
                         {demandesShown.map((demande, index) => (
                             <div className='Demande d-flex justify-content-between align-items-start flex-wrap' key={index}>
-                                <div className='Profile d-flex align-items-start'>
+                                <div className='Profile d-flex align-items-center mb-2 flex-wrap'>
                                     {formatImage(("https://picsum.photos/200/200?random=" + index), 50)}
                                     <div className='ProfileInfos d-flex flex-column align-items-start ms-3'>
                                         <h6>{demande.nom}</h6>
-                                        <p>Depuis le {demande.date}</p>
                                     </div>
                                 </div>
                                 <div className='d-flex gap-3 flex-wrap'>

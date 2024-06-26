@@ -5,12 +5,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BsChat } from "react-icons/bs";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
 
 const FilActualite = () => {
     const [myUser, setMyUser] = useState({
-        username: 'mathieu',
         name: 'Mathieu Nowakowski',
         image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
     });
@@ -23,41 +22,36 @@ const FilActualite = () => {
         },
         {
             id: 2,
-            key: '/favoris',
-            name: 'Favoris',
-        },
-        {
-            id: 3,
             key: '/sport',
             name: 'Sport',
         },
         {
-            id: 4,
+            id: 3,
             key: '/politique',
             name: 'Politique',
         },
         {
-            id: 5,
+            id: 4,
             key: '/culture',
             name: 'Culture',
         },
         {
-            id: 6,
+            id: 5,
             key: '/economie',
             name: 'Economie',
         },
         {
-            id: 7,
+            id: 6,
             key: '/societe',
             name: 'Société',
         },
         {
-            id: 8,
+            id: 7,
             key: '/technologie',
             name: 'Technologie',
         },
         {
-            id: 9,
+            id: 8,
             key: '/sante',
             name: 'Santé',
         },
@@ -130,23 +124,6 @@ const FilActualite = () => {
         return $content;
     };
 
-    const getRandomAnswers = ($count) => {
-        let $answers = [];
-        for (let i = 0; i < $count; i++) {
-            let $user = users[Math.floor(Math.random() * users.length)];
-            $answers.push({
-                user: {
-                    username: $user.login.username,
-                    name: getUserName($user),
-                    image: $user.picture.thumbnail,
-                },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                content: getRandomArticleContent(Math.floor(Math.random() * 1) + 1),
-            });
-        }
-        return $answers;
-    };
-
     const getRandomComments = ($count) => {
         let $comments = [];
         for (let i = 0; i < $count; i++) {
@@ -154,14 +131,10 @@ const FilActualite = () => {
             $comments.push({
                 id: i,
                 user: {
-                    username: $user.login.username,
                     name: getUserName($user),
                     image: $user.picture.thumbnail,
                 },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: getRandomArticleContent(Math.floor(Math.random() * 2) + 1),
-                answers: getRandomAnswers(Math.floor(Math.random() * 3) + 1),
-                showAnswers: false,
             });
         }
         return $comments;
@@ -170,21 +143,21 @@ const FilActualite = () => {
     const setRandomArticles = async () => {
         let $articles = [];
         for (let i = 0; i < users.length; i++) {
-            let $category = categories[Math.floor(Math.random() * (categories.length - 2)) + 2]; // Exclude 'Tous' and 'Favoris'
+            let $category = categories[Math.floor(Math.random() * (categories.length - 1)) + 1]; // Exclude 'Tous'
             // let $randomLink = await getRandomLink(); // for the API PublicAPI
             let $randomLink = await getRandomLink(i); // for the API NewAPI
             let $articleLink = getArticleLink($randomLink);
             $articles.push({
                 id: i,
                 category: $category,
-                isLiked: false,
                 showComments: false,
                 user: {
-                    username: users[i].login.username,
                     name: getUserName(users[i]),
                     image: users[i].picture.thumbnail,
                 },
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+                nbrVue: Math.floor(Math.random() * 1000),
+                seen: false,
                 content: getRandomArticleContent(Math.floor(Math.random() * 3) + 1),
                 link: {
                     link: $articleLink,
@@ -205,39 +178,14 @@ const FilActualite = () => {
         if ($content.length > 0) {
             $article.comments.push({
                 user: {
-                    username: $user.username,
                     name: $user.name,
                     image: $user.image,
                 },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 content: $content,
-                answers: [],
-                showAnswers: false,
             });
             $article.showComments = true;
             setArticles([...articles]);
             document.querySelector(('.commentForm' + $articleId + ' input')).value = '';
-        }
-    };
-
-    const addAnswer = ($articleId, $commentId) => {
-        let $article = articles.find((article) => article.id === $articleId);
-        let $comment = $article.comments.find((comment) => comment.id === $commentId);
-        let $user = myUser;
-        let $content = document.querySelector(('.answerForm' + $articleId + $commentId + ' input')).value;
-        if ($content.length > 0) {
-            $comment.answers.push({
-                user: {
-                    username: $user.username,
-                    name: $user.name,
-                    image: $user.image,
-                },
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                content: $content,
-            });
-            $comment.showAnswers = true;
-            setArticles([...articles]);
-            document.querySelector(('.answerForm' + $articleId + $commentId + ' input')).value = '';
         }
     };
 
@@ -265,10 +213,10 @@ const FilActualite = () => {
                         <ul>
                             {categories.map((category) => (
                                 <NavLink to={uri + category.key} key={category.id} onClick={() => {
-                                    category.key === '/' ? setArticlesToShow(articles) : category.key === '/favoris' ? setArticlesToShow(articles.filter((article) => article.isLiked)) : setArticlesToShow(articles.filter((article) => article.category.name === category.name));
+                                    category.key === '/' ? setArticlesToShow(articles) : setArticlesToShow(articles.filter((article) => article.category.name === category.name));
                                 }}>
                                     <li key={category.id}>
-                                        {category.name} ({category.key === '/' ? articles.length : category.key === '/favoris' ? articles.filter((article) => article.isLiked).length : articles.filter((article) => article.category.name === category.name).length})
+                                        {category.name} ({category.key === '/' ? articles.length : articles.filter((article) => article.category.name === category.name).length})
                                     </li>
                                 </NavLink>
                             ))}
@@ -287,16 +235,15 @@ const FilActualite = () => {
                         {articlesToShow.map((article) => (
                             <div className="Article whiteBox p-3" key={article.id}>
                                 <div className="d-flex w-100 align-items-start justify-content-between mb-4">
-                                    <div className="d-flex align-items-center gap-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + article.user.username, '_blank'); }}>
+                                    <div className="d-flex align-items-center gap-2 profile">
                                         {formatImage(article.user.image, '50px')}
                                         <div className="d-flex flex-column">
                                             <p className='mb-0'><b>{article.user.name}</b><br />{article.date}</p>
                                         </div>
                                     </div>
                                     <div className="d-flex align-items-center gap-4">
-                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { article.isLiked = !article.isLiked; setArticles([...articles]); }}>
-                                            {article.isLiked ? <p className='text-danger mb-0 user-select-none'><b>Dans vos favoris</b></p> : <p className='mb-0 user-select-none'>Mettre dans vos favoris</p>}
-                                            {article.isLiked ? <IoMdHeart fill='red' /> : <IoMdHeartEmpty />}
+                                        <div className="d-flex align-items-center gap-2">
+                                            <FaEye />{article.nbrVue}
                                         </div>
                                         <button className='btn btn-danger btn-sm' onClick={() => { alert('Article id: ' + article.id + ' signalé !') }}>Signaler</button>
                                         <h6 className='mb-0'>Catégorie: {article.category.name}</h6>
@@ -331,58 +278,18 @@ const FilActualite = () => {
                                             </form>
                                             {article.comments.length > 0 && article.comments.map((comment, index) => (
                                                 <div className="Comment commentUser" key={index}>
-                                                    <div className="d-flex align-items-center gap-2 mb-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + comment.user.username, '_blank'); }}>
+                                                    <div className="d-flex align-items-center gap-2 mb-2 profile">
                                                         {formatImage(comment.user.image, '35px')}
                                                         <div className="d-flex flex-column">
-                                                            <p className='mb-0'><b>{comment.user.name}</b><br />{comment.date}</p>
+                                                            <p className='mb-0'><b>{comment.user.name}</b></p>
                                                         </div>
                                                     </div>
                                                     <div className="commentContent">
                                                         <p>{comment.content}</p>
-                                                        {comment.user.username !== myUser.username ?
-                                                            <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
-                                                                <FaCircleExclamation fill='red' />
-                                                            </div>
-                                                        : null}
-                                                    </div>
-                                                    <div className="d-flex align-items-center justify-content-center mb-3" style={{ width: 'fit-content' }}>
-                                                        {comment.answers.length > 0 ?
-                                                            <button className='btn btn-sm' onClick={() => { comment.showAnswers = !comment.showAnswers; setArticles([...articles]); }}>
-                                                                <small>{comment.showAnswers ? ('Masquer' + (comment.answers.length > 1 ? ' les réponses' : ' la réponse')) : ('Voir' + (comment.answers.length > 1 ? ' les ' + comment.answers.length + ' réponses' : ' la réponse'))}</small>
-                                                            </button>
-                                                            : null}
-                                                        <button className='btn btn-sm d-flex' onClick={() => { comment.showAnswers = true; setArticles([...articles]); setTimeout(() => { document.querySelector(('.answerForm' + article.id + comment.id + ' input')).focus(); }, 100); }}>
-                                                            <small>Répondre</small>
-                                                        </button>
-                                                    </div>
-                                                    {comment.showAnswers ?
-                                                        <div className="Answers">
-                                                            <form className={"answerForm" + article.id + comment.id + " input-group input-group-sm mb-4"} onSubmit={(e) => { e.preventDefault(); addAnswer(article.id, comment.id); }}>
-                                                                <input type="text" className='form-control' placeholder="Ajouter une réponse..." aria-label="Ajouter une réponse..." aria-describedby="button-addon3" />
-                                                                <div className="input-group-text p-0">
-                                                                    <button className='btn' type="submit"><FaArrowAltCircleRight /></button>
-                                                                </div>
-                                                            </form>
-                                                            {comment.answers.length > 0 && comment.answers.map((answer, index) => (
-                                                                <div className="Answer ms-5 mb-2" key={index}>
-                                                                    <div className="d-flex align-items-center gap-2 mb-2 profile" style={{ cursor: 'pointer' }} onClick={() => { window.open('/profil/' + answer.user.username, '_blank'); }}>
-                                                                        {formatImage(answer.user.image, '35px')}
-                                                                        <div className="d-flex flex-column">
-                                                                            <p className='mb-0'><b>{answer.user.name}</b><br />{answer.date}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="commentContent">
-                                                                        <p>{answer.content}</p>
-                                                                        {answer.user.username !== myUser.username ?
-                                                                            <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Réponse de ' + answer.user.name + ' signalée !') }}>
-                                                                                <FaCircleExclamation fill='red' />
-                                                                            </div>
-                                                                        : null}
-                                                                    </div>
-                                                                </div>
-                                                            ))}
+                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
+                                                            <FaCircleExclamation fill='red' />
                                                         </div>
-                                                        : null}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
