@@ -1,20 +1,13 @@
-// Importation des hooks React et des icônes FontAwesome pour l'édition et la suppression
 import React, { useState, useContext } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-// Importation des composants modaux pour ajouter, mettre à jour, et confirmer les actions
 import ModalAddRole from './ModalAddRole';
-import ModalUpdateRole from './ModalUpdateRole';
+import ModalEditRole from './ModalUpdateRole';
 import ModalConfirmation from '../users/ModalConfirmation';
-// Importation du contexte d'administration
 import { AdminContext } from '../../../utils/adminContext';
 import TableTemplate from '../../../components/TableTemplate/TableTemplate';
 
-// Définition du composant RolePage
 const RolePage = () => {
-    // Récupération des données et méthodes depuis AdminContext
     const { roles, setMessageNotification, addRole, updateRole, deleteRole } = useContext(AdminContext);
-
-    // États locaux pour la gestion de la visibilité des modaux
     const [showModalAddRole, setShowModalAddRole] = useState(false);
     const [showModalUpdateRole, setShowModalUpdateRole] = useState(false);
     const [showModalDeleteRole, setShowModalDeleteRole] = useState(false);
@@ -39,7 +32,7 @@ const RolePage = () => {
             "edit": false,
             "render": (value, row, index) => (
                 <div className="d-flex gap-2 align-items-center justify-content-center">
-                    <button onClick={() => handleModalUpdateRoleOpen(row)}  className="btn d-flex align-items-center justify-content-center"><FaEdit className="action-icon mr-2 text-primary" /></button>
+                    <button onClick={() => handleModalUpdateRoleOpen(row)} className="btn d-flex align-items-center justify-content-center"><FaEdit className="action-icon mr-2 text-primary" /></button>
                     <button onClick={() => handleModalDeleteRoleOpen(row.id)} className="btn d-flex align-items-center justify-content-center"><FaTrash className="action-icon text-danger" /></button>
                 </div>
             )
@@ -47,34 +40,26 @@ const RolePage = () => {
     ];
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fonctions pour ouvrir et fermer le modal d'ajout de rôle
     const handleModalAddRoleOpen = () => setShowModalAddRole(true);
     const handleModalAddRoleClose = () => setShowModalAddRole(false);
-
-    // Fonctions pour ouvrir et fermer le modal de mise à jour de rôle
     const handleModalUpdateRoleOpen = (role) => {
-        setEditRoleData(role); // Définit les données du rôle à modifier
+        setEditRoleData(role);
         setShowModalUpdateRole(true);
     };
     const handleModalUpdateRoleClose = () => setShowModalUpdateRole(false);
-
-    // Fonctions pour ouvrir et fermer le modal de suppression de rôle
     const handleModalDeleteRoleOpen = (roleId) => {
-        setIdRoleToDelete(roleId); // Définit l'ID du rôle à supprimer
+        setIdRoleToDelete(roleId);
         setShowModalDeleteRole(true);
     };
     const handleModalDeleteRoleClose = () => setShowModalDeleteRole(false);
-
-    // Fonction pour confirmer la suppression d'un rôle
     const handleConfirmDeleteRole = () => {
-        deleteRole(idRoleToDelete); // Appelle la fonction de suppression du contexte
-        setMessageNotification('Rôle supprimé avec succès'); // Affiche une notification de succès
-        setShowModalDeleteRole(false); // Ferme le modal de confirmation
+        deleteRole(idRoleToDelete);
+        setMessageNotification('Rôle supprimé avec succès');
+        setShowModalDeleteRole(false);
     };
 
-    console.log("roles", roles); // Affiche les rôles dans la console
+    console.log("roles", roles);
 
-    // Rendu du composant
     return (
         <div className="Content">
             <h4>Administration : Gestion des rôles</h4>
@@ -93,13 +78,12 @@ const RolePage = () => {
                     tbodyData={roles}
                     isLoading={isLoading}
                 />
-                {showModalAddRole && <ModalAddRole showModal={showModalAddRole} handleModalClose={handleModalAddRoleClose} addRole={addRole} />}
-                {showModalUpdateRole && <ModalUpdateRole roleData={editRoleData} showModal={showModalUpdateRole} handleModalClose={handleModalUpdateRoleClose} updateRole={updateRole} />}
+                {showModalAddRole && <ModalAddRole showModal={showModalAddRole} handleModalClose={handleModalAddRoleClose} />}
+                {showModalUpdateRole && <ModalEditRole roleData={editRoleData} showModal={showModalUpdateRole} handleModalClose={handleModalUpdateRoleClose} />}
                 {showModalDeleteRole && <ModalConfirmation handleConfirm={handleConfirmDeleteRole} show={showModalDeleteRole} handleModalClose={handleModalDeleteRoleClose} />}
             </div>
         </div>
     );
 };
 
-// Exportation du composant pour une utilisation dans d'autres parties de l'application
 export default RolePage;
