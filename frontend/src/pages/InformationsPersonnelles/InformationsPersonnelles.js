@@ -5,7 +5,7 @@ function InformationsPersonnelles() {
   const [userInfo, setUserInfo] = useState({
     nom: '',
     prenom: '',
-    adresse: '',
+    numeroTelephone: '',
     ville: '',
     codePostal: '',
     email: '',
@@ -44,8 +44,8 @@ function InformationsPersonnelles() {
           <input type="text" name="prenom" value={userInfo.prenom} onChange={handleChange} />
         </div>
         <div>
-          <label htmlFor='adresse'>Adresse:</label>
-          <input type="text" name="adresse" value={userInfo.adresse} onChange={handleChange} />
+          <label htmlFor='numeroTelephone'>Numéro de téléphone:</label>
+          <input type="text" name="numeroTelephone" value={userInfo.numeroTelephone} onChange={handleChange} />
         </div>
         <div>
           <label htmlFor='ville'>Ville:</label>

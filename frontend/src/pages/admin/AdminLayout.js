@@ -10,9 +10,9 @@ const AdminLayout = () => {
   return (
     <div className="admin-layout">
       <div className="admin-content">
-        <Routes> // Définition des routes pour la partie du contenu administratif
-          <Route path="utilisateurs" element={<UserPage />} /> // Route pour la page des utilisateurs
-          <Route path="roles" element={<RolePage />} /> // Route pour la page des rôles
+        <Routes> 
+          <Route path="utilisateurs" element={<UserPage />} /> 
+          <Route path="roles" element={<RolePage />} /> 
 
         </Routes>
       </div>

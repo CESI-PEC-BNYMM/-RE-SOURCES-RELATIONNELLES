@@ -1,20 +1,14 @@
-// Importation des hooks et composants nécessaires de React, Bootstrap et autres bibliothèques
 import React, { useContext, useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Formik, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup'; // Bibliothèque de validation de schémas pour les formulaires
-import { AdminContext } from '../../../utils/adminContext'; // Contexte pour l'administration
-import { toast } from 'react-toastify'; // Bibliothèque pour afficher des notifications
+import * as Yup from 'yup';
+import { AdminContext } from '../../../utils/adminContext';
+import { toast } from 'react-toastify';
 
-// Déclaration du composant fonctionnel ModalAddRole avec props pour la gestion de la visibilité et la fermeture
 const ModalAddRole = ({ showModal, handleModalClose }) => {
-    // Utilisation du contexte pour accéder aux fonctions de gestion des rôles
     const { addRole, setMessageNotification } = useContext(AdminContext);
-
-    // State local pour gérer les messages d'erreur
     const [messageErreur, setMessageErreur] = useState(null);
 
-    // useEffect pour réinitialiser le message d'erreur après 3 secondes
     useEffect(() => {
         if (messageErreur) {
             const timeout = setTimeout(() => {
@@ -24,26 +18,23 @@ const ModalAddRole = ({ showModal, handleModalClose }) => {
         }
     }, [messageErreur]);
 
-    // Schéma de validation Yup pour le formulaire
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Le nom du rôle est requis'), // Validation pour le champ "name"
+        name: Yup.string().required('Le nom du rôle est requis'),
     });
 
-    // Fonction de soumission du formulaire
     const handleSubmit = async (values, { resetForm }) => {
-        const response = await addRole(values); // Appel à la fonction addRole du contexte
+        const response = await addRole(values);
         if (response.success) {
-            toast.success(response.message); // Notification de succès
-            resetForm(); // Réinitialisation du formulaire
-            handleModalClose(); // Fermeture du modal
-            setMessageNotification(response.message); // Mise à jour du message de notification
+            toast.success(response.message);
+            resetForm();
+            handleModalClose();
+            setMessageNotification(response.message);
         } else {
-            toast.error(response.message); // Notification d'erreur
-            setMessageErreur(response.message); // Mise à jour du message d'erreur local
+            toast.error(response.message);
+            setMessageErreur(response.message);
         }
     };
 
-    // Rendu du composant
     return (
         <Modal show={showModal} onHide={handleModalClose} centered>
             <Modal.Header closeButton className='p-3'>
@@ -60,7 +51,13 @@ const ModalAddRole = ({ showModal, handleModalClose }) => {
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formRole">
                                 <Form.Label>Nom du Rôle</Form.Label>
-                                <Field type="text" name="name" as={Form.Control} />
+                                <Field as="select" name="name" className="form-control">
+                                    <option value="">Sélectionner un rôle</option>
+                                    <option value="superadministrateur">Superadministrateur</option>
+                                    <option value="administrateur">Administrateur</option>
+                                    <option value="modérateur">Modérateur</option>
+                                    <option value="citoyen">Citoyen</option>
+                                </Field>
                                 <ErrorMessage name="name" component="div" className="text-danger" />
                             </Form.Group>
                             <div className='d-flex justify-content-between align-items-center mt-3'>
@@ -75,4 +72,4 @@ const ModalAddRole = ({ showModal, handleModalClose }) => {
     );
 }
 
-export default ModalAddRole; // Exportation du composant pour utilisation ailleurs dans l'application
+export default ModalAddRole;
