@@ -13,6 +13,8 @@ import com.rr.ResourceNotFoundException;
 import com.rr.entity.DemandeAmi;
 import com.rr.repository.DemandeAmiRepository;
 import com.rr.services.DemandeAmiService;
+import com.rr.utils.JwtUtil;
+
 
 @RestController
 @RequestMapping("/api")
@@ -29,8 +31,8 @@ public class DemandeAmiController {
 
     @PostMapping("/api/demande_ami/accept_friend/{token}/{idDemandeAmi}")
 public ResponseEntity<Void> accepterDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
-    String emailUser = jwtUtil.getEmailFromToken(token);
-    if (!jwtUtil.validateToken(token)) {
+    String emailUser = JwtUtil.getEmailFromToken(token);
+    if (!JwtUtil.validateToken(token)) {
         return ResponseEntity.badRequest().build();
     }
 
