@@ -157,22 +157,38 @@ public class DemandeAmiController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Deletes a friend request for a user.
+     *
+     * @param token The authentication token of the user.
+     * @param idDemandeAmi The ID of the friend request to delete.
+     * @return A response indicating the success of the operation.
+     */
     @DeleteMapping("/api/demande_ami/delete/{token}/{idDemandeAmi}")
     public ResponseEntity<Void> deleteDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
+        // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
+
+        // Validate the token
         if (!JwtUtil.validateToken(token)) {
+            // If the token is invalid, return a bad request response
             return ResponseEntity.badRequest().build();
         }
 
+        // Find the friend request by ID
         DemandeAmi demande = demandeAmiRepository.findById(idDemandeAmi)
                 .orElseThrow(() -> new ResourceNotFoundException("Answer Not Found"));
 
+        // Check if the request was made by the correct user
         if (!demande.getCitoyen().getMail().equals(emailUser)) {
+            // If not, return a bad request response
             return ResponseEntity.badRequest().build();
         }
 
+        // Delete the friend request
         demandeAmiRepository.delete(demande);
 
+        // Return a success response
         return ResponseEntity.ok().build();
     }
 

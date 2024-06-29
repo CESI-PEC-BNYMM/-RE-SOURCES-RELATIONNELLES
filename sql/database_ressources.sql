@@ -90,7 +90,12 @@
   VALUES
   ('Sport'),
   ('Culture'),
-  ('Environnement');
+  ('Environnement')
+  ('Politique')
+  ('Economie')
+  ('Société')
+  ('Technologie')
+  ('Sante');
 
   -- -----------------------------------------------------
   -- Table `ressources_relationnelles`.`ressource`

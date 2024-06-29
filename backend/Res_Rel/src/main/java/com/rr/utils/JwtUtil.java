@@ -1,6 +1,8 @@
 package com.rr.utils;
 
 import java.security.Key;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
@@ -10,8 +12,16 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "secret";
+    private static final int KEY_LENGTH = 256;
+    private static final String SECRET_KEY;
     private static final long EXPIRATION_TIME = 86400000; // 1 jour
+
+    static {
+        SecureRandom random = new SecureRandom();
+        byte[] keyBytes = new byte[KEY_LENGTH];
+        random.nextBytes(keyBytes);
+        SECRET_KEY = Base64.getEncoder().encodeToString(keyBytes);
+    }
 
     public String generateToken(String email) {
         Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
