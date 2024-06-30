@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'; // Importation des composants 
 
 import UserPage from './users/UserPage'; // Importation de la page des utilisateurs
 import RolePage from './roles/RolePage'; // Importation de la page des rôles
+import ManageArticles from './ManageArticles/ManageArticles';
 
 
 
@@ -13,7 +14,7 @@ const AdminLayout = () => {
         <Routes> 
           <Route path="utilisateurs" element={<UserPage />} /> 
           <Route path="roles" element={<RolePage />} /> 
-
+          <Route path="articles" element={<ManageArticles />} />
         </Routes>
       </div>
     </div>
