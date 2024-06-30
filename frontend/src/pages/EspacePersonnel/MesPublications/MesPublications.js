@@ -60,6 +60,7 @@ const MesPublications = () => {
     const [articlesToShow, setArticlesToShow] = useState([]);
     const [showPublishModal, setShowPublishModal] = useState(false);
     const uri = '/espace-personnel/mes-publications';
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
     const getRandomUsers = ($count) => {
         try {
@@ -100,7 +101,7 @@ const MesPublications = () => {
     };
 
     const getImageFromLink = ($link) => {
-        return 'https://www.google.com/s2/favicons?domain=' + $link;
+        return 'https://www.google.com/s2/favicons?domain=' + $link + '&sz=64';
     };
 
     const getTitleFromLink = ($link) => {
@@ -208,7 +209,6 @@ const MesPublications = () => {
     const checkUrl = async ($url) => {
         handlePublishButton(true);
 
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
         const apiUrl = `https://www.ipqualityscore.com/api/json/url?key=${process.env.REACT_APP_IPQS_API_KEY}&url=${$url}`;
         const url = proxyUrl + apiUrl;
 
@@ -263,7 +263,6 @@ const MesPublications = () => {
             handlePublishButton(false);
             return;
         }
-
 
         if ($content.length > 0) {
             let $article = {
