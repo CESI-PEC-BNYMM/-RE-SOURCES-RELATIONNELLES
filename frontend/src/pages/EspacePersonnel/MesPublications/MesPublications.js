@@ -58,6 +58,7 @@ const MesPublications = () => {
     ]);
     const [articles, setArticles] = useState([]);
     const [articlesToShow, setArticlesToShow] = useState([]);
+    const [showPublishModal, setShowPublishModal] = useState(false);
     const uri = '/espace-personnel/mes-publications';
 
     const getRandomUsers = ($count) => {
@@ -190,6 +191,112 @@ const MesPublications = () => {
         }
     };
 
+    const handlePublishButton = ($loading) => {
+        if ($loading) {
+            document.querySelector('.publishButtonIconDiv').classList.add('spinner-grow');
+            document.querySelector('.publishButtonIconDiv').classList.add('spinner-grow-sm');
+            document.querySelector('.publishButtonIcon').classList.add('visually-hidden');
+            document.querySelector('.publishButtonText').innerHTML = 'Vérification du lien en cours...';
+        } else {
+            document.querySelector('.publishButtonIconDiv').classList.remove('spinner-grow');
+            document.querySelector('.publishButtonIconDiv').classList.remove('spinner-grow-sm');
+            document.querySelector('.publishButtonIcon').classList.remove('visually-hidden');
+            document.querySelector('.publishButtonText').innerHTML = 'Publier';
+        }
+    };
+
+    const checkUrl = async ($url) => {
+        handlePublishButton(true);
+
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const apiUrl = `https://www.ipqualityscore.com/api/json/url?key=${process.env.REACT_APP_IPQS_API_KEY}&url=${$url}`;
+        const url = proxyUrl + apiUrl;
+
+        try {
+            const res = await axios.get(url);
+            console.log(res.data);
+
+            if (!res.data.success) {
+                return 'Ce lien est invalide. Si vous pensez qu\'il s\'agit d\'une erreur, veuillez réessayer plus tard ou contactez le support.';
+            }
+
+            const {
+                risk_score,
+                phishing,
+                malware,
+                adult,
+                suspicious,
+                spamming,
+                parking,
+            } = res.data;
+
+            if (risk_score >= 85 || phishing || malware || adult || suspicious || spamming || parking) {
+                let reasons = [];
+
+                if (risk_score >= 85) reasons.push('Risque élevé'); // ex : www1.euro.dhl.de
+                if (phishing) reasons.push('Phishing détecté'); // ex : paypai-verify-acccount.com
+                if (malware) reasons.push('Malware détecté'); // ex : mygreathealthwebsite.com
+                if (adult) reasons.push('Contenu adulte'); // ex : www.adultfriendfinder.com
+                if (suspicious) reasons.push('URL suspecte'); // ex : badsite.example.com
+                if (spamming) reasons.push('SPAM détecté'); // ex : 0n-line.tv
+                if (parking) reasons.push('Domaine parqué'); // ex : parked-domain.com
+
+                return `Ce lien est invalide pour les raisons suivantes : ${reasons.join(', ')}`;
+            }
+
+            return true;
+        } catch (error) {
+            console.error(error);
+            return 'Erreur lors de la vérification de l\'URL.';
+        }
+    };
+
+    const publishArticle = async () => {
+        let $category = categories.find((category) => category.id === parseInt(document.getElementById('publishCategory').value));
+        let $content = document.getElementById('publishContent').value;
+        let $link = document.getElementById('publishLink').value;
+        let $resIPQS = await checkUrl($link);
+
+        if ($resIPQS !== true) {
+            alert($resIPQS);
+            document.getElementById('publishLink').value = '';
+            handlePublishButton(false);
+            return;
+        }
+
+
+        if ($content.length > 0) {
+            let $article = {
+                id: articles.length + 1,
+                category: $category,
+                isLiked: false,
+                showComments: false,
+                user: {
+                    name: myUser.name,
+                    image: myUser.image,
+                },
+                nbrVue: 0,
+                seen: false,
+                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+                content: $content,
+                link: {
+                    link: $link,
+                    image: getImageFromLink($link),
+                    title: getTitleFromLink($link),
+                    description: getDescriptionFromLink($link),
+                },
+                comments: [],
+            };
+            articles.unshift($article);
+            setArticles([...articles]);
+            document.getElementById('publishCategory').value = '';
+            document.getElementById('publishContent').value = '';
+            document.getElementById('publishLink').value = '';
+            handlePublishButton(false);
+            alert('Article publié !');
+        }
+    };
+
     const deleteArticle = ($articleId) => {
         if (!window.confirm('Voulez-vous vraiment supprimer cet article ?')) {
             return;
@@ -237,6 +344,42 @@ const MesPublications = () => {
                 </div>
                 <div className="col-md-10">
                     <div className="Articles">
+                        <div className="Article whiteBox p-3">
+                            <button className='btn btn-outline-primary btn-sm w-100' onClick={() => { setShowPublishModal(!showPublishModal); }}>
+                                {showPublishModal ? 'Fermer' : 'Publier un article'}
+                            </button>
+                            {showPublishModal ?
+                                <form onSubmit={(e) => { e.preventDefault(); publishArticle(); }} className="w-100 mt-4">
+                                    <div className="w-100 mb-4">
+                                        <select className='form-select' id="publishCategory" required>
+                                            <option value="" disabled selected>Sélectionner une catégorie</option>
+                                            {categories.filter((category) => category.name !== 'Tous').map((category) => (
+                                                <option value={category.id} key={category.id}>{category.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="w-100 mb-4">
+                                        <textarea className='form-control' id="publishContent" placeholder="Ajouter un contenu..." required />
+                                    </div>
+                                    <div className="w-100 mb-4">
+                                        <input type="text" className='form-control' id="publishLink" placeholder="Ajouter un lien..." required />
+                                    </div>
+                                    <div className='w-100'>
+                                        <div className="d-flex align-items-center justify-content-between mb-4">
+                                            <button className='btn d-flex align-items-center' type="submit">
+                                                <div className='publishButtonIconDiv' role='status'>
+                                                    <span className='publishButtonIcon'>
+                                                        <FaArrowAltCircleRight />
+                                                    </span>
+                                                </div>
+                                                &nbsp;&nbsp;<span className='publishButtonText'>Publier</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                : null
+                            }
+                        </div>
                         {
                             articles.length === 0
                                 ? <p>Chargement...</p>
