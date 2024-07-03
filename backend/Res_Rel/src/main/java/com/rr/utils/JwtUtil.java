@@ -14,7 +14,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtUtil {
     private static final int KEY_LENGTH = 256;
     private static final String SECRET_KEY;
-    private static final long EXPIRATION_TIME = 86400000; // 1 jour
+    private static final long EXPIRATION_TIME = 3600000; // 1 heure d'expiration
 
     static {
         SecureRandom random = new SecureRandom();
