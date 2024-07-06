@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import UserPage from '../pages/admin/users/UserPage';
-import RolePage from '../pages/admin/roles/RolePage';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -18,7 +17,7 @@ const AdminRoutes = () => {
   
         <Route index element={<AdminRoute><UserPage /></AdminRoute>} />
         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
-        <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
+       
        
       </Route>
       
