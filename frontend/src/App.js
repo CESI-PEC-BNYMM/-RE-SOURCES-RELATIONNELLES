@@ -31,6 +31,9 @@ import RGPD from './pages/RGPD/RGPD';
 import ParametresCompte from './pages/ParametresCompte/ParametresCompte';
 import ManageArticles from './pages/admin/ManageArticles/ManageArticles';
 import RolePage from './pages/admin/roles/RolePage';
+import ManageCategories from './pages/admin/ManageCategories/ManageCategories';
+import ManageCommentaires from './pages/admin/ManageCommentaires/ManageCommentaires';
+import ManageTickets from './pages/admin/ManageTickets/ManageTickets';
 
 const App = () => {
     const { isLoggedIn, isAdmin } = useContext(AuthContext);
@@ -77,6 +80,9 @@ const App = () => {
                         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
                         <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
                         <Route path="articles" element={<AdminRoute><ManageArticles /></AdminRoute>} />
+                        <Route path="categories" element={<AdminRoute><ManageCategories /></AdminRoute>} />
+                        <Route path="commentaires" element={<AdminRoute><ManageCommentaires /></AdminRoute>} />
+                        <Route path="tickets" element={<AdminRoute><ManageTickets /></AdminRoute>} />
                     </Route>
                     <Route path="/rgpd" element={<RGPD />} />
                     <Route path="*" element={<NotFound />} />

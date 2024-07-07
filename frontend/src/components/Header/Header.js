@@ -134,6 +134,21 @@ const Header = () => {
                             <FaUsersGear />
                             <p>Articles</p>
                         </NavLink>
+                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/categories`} data-path="/administration/categories">
+                            <span></span>
+                            <FaUsersGear />
+                            <p>Catégories</p>
+                        </NavLink>
+                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/commentaires`} data-path="/administration/commentaires">
+                            <span></span>
+                            <FaUsersGear />
+                            <p>Commentaires</p>
+                        </NavLink>
+                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/tickets`} data-path="/administration/tickets">
+                            <span></span>
+                            <FaUsersGear />
+                            <p>Tickets</p>
+                        </NavLink>
                     </div>
                     <NavLink to={`/rgpd`} data-path="/rgpd" className={({ isActive }) => isActive ? "active menuItem" : "menuItem"}>
                         <GoLaw />

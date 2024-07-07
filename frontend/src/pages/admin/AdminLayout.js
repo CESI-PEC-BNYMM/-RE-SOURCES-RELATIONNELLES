@@ -4,6 +4,9 @@ import { Routes, Route } from 'react-router-dom'; // Importation des composants 
 import UserPage from './users/UserPage'; // Importation de la page des utilisateurs
 import RolePage from './roles/RolePage'; // Importation de la page des rôles
 import ManageArticles from './ManageArticles/ManageArticles';
+import ManageCategories from './ManageCategories/ManageCategories';
+import ManageCommentaires from './ManageCommentaires/ManageCommentaires';
+import ManageTickets from './ManageTickets/ManageTickets';
 
 const AdminLayout = () => {
   return (
@@ -13,6 +16,9 @@ const AdminLayout = () => {
           <Route path="utilisateurs" element={<UserPage />} /> 
           <Route path="roles" element={<RolePage />} /> 
           <Route path="articles" element={<ManageArticles />} />
+          <Route path="categories" element={<ManageCategories />} />
+          <Route path="commentaires" element={<ManageCommentaires />} />
+          <Route path="tickets" element={<ManageTickets />} />
         </Routes>
       </div>
     </div>

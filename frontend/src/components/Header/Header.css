@@ -222,7 +222,7 @@ svg {
 }
 
 .dropdown.show {
-    max-height: 150px;
+    max-height: 300px;
 }
 
 .leftNav .menu .dropdown .menuItem {
