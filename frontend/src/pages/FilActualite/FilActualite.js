@@ -64,6 +64,7 @@ const FilActualite = () => {
     const [articles, setArticles] = useState([]);
     const [articlesToShow, setArticlesToShow] = useState([]);
     const uri = '/fil-d-actualite';
+    const cheerio = require('cheerio');
 
     const getRandomUsers = ($count) => {
         try {
@@ -104,17 +105,43 @@ const FilActualite = () => {
     };
 
     const getImageFromLink = ($link) => {
-        return 'https://www.google.com/s2/favicons?domain=' + $link;
+        return 'https://www.google.com/s2/favicons?domain=' + $link + '&sz=64';
     };
 
-    const getTitleFromLink = ($link) => {
+    const getTitleFromLink = async ($link) => {
         // return $link.API;
-        return $link.author;
+        // return $link.author;
+        if ($link.url)
+            return $link.author;
+        
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
+                const $res = cheerio.load(response.data);
+                return $res('meta[property="og:site_name"]').attr('content') || 'Titre introuvable';
+            });
+            return response;
+        } catch (error) {
+            console.error(error);
+            return 'Titre introuvable';
+        }
     };
 
-    const getDescriptionFromLink = ($link) => {
+    const getDescriptionFromLink = async ($link) => {
         // return $link.Description;
-        return $link.title;
+        // return $link.title;
+        if ($link.url)
+            return $link.title;
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
+                const $res = cheerio.load(response.data);
+                return $res('title').text() || 'Description introuvable';
+            });
+            return response;
+        } catch (error) {
+            console.error(error);
+            return 'Description introuvable';
+        }
     };
 
     const getRandomArticleContent = ($count) => {

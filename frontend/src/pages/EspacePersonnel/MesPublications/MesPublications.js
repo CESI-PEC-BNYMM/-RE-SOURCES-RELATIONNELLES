@@ -14,6 +14,7 @@ const MesPublications = () => {
         image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
     });
     const [users, setUsers] = useState([]);
+    const cheerio = require('cheerio');
     const [categories, setCategories] = useState([
         {
             id: 1,
@@ -65,7 +66,6 @@ const MesPublications = () => {
     const [articlesToShow, setArticlesToShow] = useState([]);
     const [showPublishModal, setShowPublishModal] = useState(false);
     const uri = '/espace-personnel/mes-publications';
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
     const getRandomUsers = ($count) => {
         try {
@@ -109,14 +109,41 @@ const MesPublications = () => {
         return 'https://www.google.com/s2/favicons?domain=' + $link + '&sz=64';
     };
 
-    const getTitleFromLink = ($link) => {
+    const getTitleFromLink = async ($link) => {
         // return $link.API;
-        return $link.author;
+        // return $link.author;
+        if ($link.url)
+            return $link.author;
+        
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
+                const $res = cheerio.load(response.data);
+                // get the title of the website (ex: Google or Facebook or L'Équipe)
+                return $res('meta[property="og:site_name"]').attr('content') || 'Titre introuvable';
+            });
+            return response;
+        } catch (error) {
+            console.error(error);
+            return 'Titre introuvable';
+        }
     };
 
-    const getDescriptionFromLink = ($link) => {
+    const getDescriptionFromLink = async ($link) => {
         // return $link.Description;
-        return $link.title;
+        // return $link.title;
+        if ($link.url)
+            return $link.title;
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
+                const $res = cheerio.load(response.data);
+                return $res('title').text() || 'Description introuvable';
+            });
+            return response;
+        } catch (error) {
+            console.error(error);
+            return 'Description introuvable';
+        }
     };
 
     const getRandomArticleContent = ($count) => {
@@ -215,7 +242,7 @@ const MesPublications = () => {
         handlePublishButton(true);
 
         const apiUrl = `https://www.ipqualityscore.com/api/json/url?key=${process.env.REACT_APP_IPQS_API_KEY}&url=${$url}`;
-        const url = proxyUrl + apiUrl;
+        const url = `${process.env.REACT_APP_PROXY_URL}` + apiUrl;
 
         try {
             const res = await axios.get(url);
@@ -286,8 +313,8 @@ const MesPublications = () => {
                 link: {
                     link: $link,
                     image: getImageFromLink($link),
-                    title: getTitleFromLink($link),
-                    description: getDescriptionFromLink($link),
+                    title: await getTitleFromLink($link),
+                    description: await getDescriptionFromLink($link),
                 },
                 comments: [],
             };
