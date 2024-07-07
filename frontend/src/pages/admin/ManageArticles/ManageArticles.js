@@ -13,8 +13,8 @@ const ManageArticles = () => {
 
     return (
         <ManageModeration
-            title="Gestion des articles"
-            context="articles"
+            title="Gestion des publications"
+            context="publications"
             theadData={[
                 {
                     "key": "id",
