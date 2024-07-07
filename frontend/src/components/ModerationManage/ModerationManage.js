@@ -6,7 +6,7 @@ const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = fa
     const [filters, setFilters] = useState({});
 
     const handleModalAddOpen = () => {
-        console.log(`Ajout d'un ${context}`);
+        alert(`Ajout d'un ${context && context.slice(0, -1)}`);
     };
 
     const handleFilterChange = (key, value) => {
