@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import IsLoading from '../IsLoading/IsLoading';
 import TableTemplate from '../TableTemplate/TableTemplate';
 
-const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = false, limit = null, filterBy = null, addButton = true }) => {
+const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = false, limit = null, filterBy = null, addButton = true, manageTicketsField = null }) => {
     const [filters, setFilters] = useState({});
 
     const handleModalAddOpen = () => {
@@ -62,7 +62,7 @@ const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = fa
                 <div className="d-flex justify-content-end w-100">
                     <small>{filteredData.length} {context} trouvés</small>
                 </div>
-                <TableTemplate theadData={theadData} tbodyData={filteredData} isLoading={isLoading} limit={limit} />
+                <TableTemplate theadData={theadData} tbodyData={filteredData} isLoading={isLoading} limit={limit} manageTicketsField={manageTicketsField} />
             </div>
         </div>
     );

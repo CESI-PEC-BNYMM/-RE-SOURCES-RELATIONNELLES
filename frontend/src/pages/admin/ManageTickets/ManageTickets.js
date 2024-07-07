@@ -100,6 +100,7 @@ const ManageTickets = () => {
                 }
             ]}
             addButton={false}
+            manageTicketsField={"Résolu"}
         />
     );
 }
