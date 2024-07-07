@@ -30,6 +30,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import RGPD from './pages/RGPD/RGPD';
 import ParametresCompte from './pages/ParametresCompte/ParametresCompte';
 import ManageArticles from './pages/admin/ManageArticles/ManageArticles';
+import RolePage from './pages/admin/roles/RolePage';
 
 const App = () => {
     const { isLoggedIn, isAdmin } = useContext(AuthContext);

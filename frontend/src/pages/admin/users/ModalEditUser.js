@@ -24,6 +24,12 @@ const ModalEditUser = ({ showModal, userData, handleModalClose }) => {
         roleId: Yup.string().required('Le rôle est requis'),
     });
 
+    const updateUser = async (id, values) => {
+        // Envoi de la requête PUT pour mettre à jour un utilisateur
+        // temporairement remplacé par un objet vide
+        return { success: true };
+    };
+
     const handleSubmit = async (values, { resetForm }) => {
         console.log('Submitting values:', values); // Debugging line
         const response = await updateUser(userData.id, values);
