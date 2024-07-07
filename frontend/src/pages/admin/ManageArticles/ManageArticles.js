@@ -17,15 +17,9 @@ const ManageArticles = () => {
             context="publications"
             theadData={[
                 {
-                    "key": "id",
+                    "key": "idpublication",
                     "label": "ID",
                     "edit": false,
-                },
-                {
-                    "key": "title",
-                    "label": "Titre",
-                    "edit": true,
-                    "required": true
                 },
                 {
                     "key": "category",
@@ -34,40 +28,48 @@ const ManageArticles = () => {
                     "required": true
                 },
                 {
-                    "key": "content",
+                    "key": "description",
                     "label": "Contenu",
                     "edit": true,
                     "required": true
                 },
                 {
-                    "key": "idAuthor",
-                    "label": "ID Auteur",
+                    "key": "lien",
+                    "label": "URL",
                     "edit": true,
-                    "required": true 
+                    "required": true
+                },
+                {
+                    "key": "citoyen_mail",
+                    "label": "Mail citoyen",
+                    "edit": false
                 },
                 {
                     "key": "author",
                     "label": "Auteur",
-                    "edit": true,
-                    "required": true
+                    "edit": false
                 },
                 {
-                    "key": "date",
+                    "key": "date_pub",
                     "label": "Date",
-                    "edit": true,
-                    "required": true
+                    "edit": false
                 },
                 {
-                    "key": "status",
+                    "key": "pub_validee",
                     "label": "Statut",
                     "edit": true,
                     "required": true
                 },
                 {
-                    "key": "signal",
+                    "key": "pub_signalee",
                     "label": "Signalée",
                     "edit": true,
                     "required": true
+                },
+                {
+                    "key": "nbr_vues",
+                    "label": "Vues",
+                    "edit": false
                 },
                 {
                     "key": "action",
@@ -76,53 +78,56 @@ const ManageArticles = () => {
                     "render": (value, row, index) => (
                         <div className="d-flex gap-2 align-items-center justify-content-center">
                             <button onClick={() => handleModalEditArticleOpen(row)} className="btn d-flex align-items-center justify-content-center"><FaEdit className="action-icon mr-2 text-primary" /></button>
-                            <button onClick={() => handleModalDeleteArticleOpen(row.id)} className="btn d-flex align-items-center justify-content-center"><FaTrash className="action-icon text-danger" /></button>
+                            <button onClick={() => handleModalDeleteArticleOpen(row.idpublication)} className="btn d-flex align-items-center justify-content-center"><FaTrash className="action-icon text-danger" /></button>
                         </div>
                     )
                 }
             ]}
             tbodyData={[
                 {
-                    "id": 1,
-                    "title": "Article 1",
+                    "idpublication": 1,
                     "category": "Politique",
-                    "content": "Contenu de l'article 1",
-                    "idAuthor": 1,
+                    "description": "Contenu de l'article 1",
+                    "lien": "https://lequipe.fr",
+                    "citoyen_mail": "mail@mail.com",
                     "author": "Auteur 1",
-                    "date": "01/01/2021",
-                    "status": "En attente",
-                    "signal": "Non"
+                    "date_pub": "01/01/2021",
+                    "pub_validee": "En attente",
+                    "pub_signalee": "Non",
+                    "nbr_vues": 3000
                 },
                 {
-                    "id": 2,
-                    "title": "Article 2",
+                    "idpublication": 2,
                     "category": "Sport",
-                    "content": "Contenu de l'article 2",
-                    "idAuthor": 2,
+                    "description": "Contenu de l'article 2",
+                    "lien": "https://lemonde.fr",
+                    "citoyen_mail": "mail@mail.com",
                     "author": "Auteur 2",
-                    "date": "02/01/2021",
-                    "status": "Validé",
-                    "signal": "Oui"
+                    "date_pub": "02/01/2021",
+                    "pub_validee": "Validé",
+                    "pub_signalee": "Oui",
+                    "nbr_vues": 5
                 },
                 {
-                    "id": 3,
-                    "title": "Article 3",
+                    "idpublication": 3,
                     "category": "Culture",
-                    "content": "Contenu de l'article 3",
-                    "idAuthor": 3,
+                    "description": "Contenu de l'article 3",
+                    "lien": "https://lefigaro.fr",
+                    "citoyen_mail": "mail@mail.com",
                     "author": "Auteur 3",
-                    "date": "03/01/2021",
-                    "status": "Refusé",
-                    "signal": "Non"
+                    "date_pub": "03/01/2021",
+                    "pub_validee": "Refusé",
+                    "pub_signalee": "Non",
+                    "nbr_vues": 10
                 },
             ]}
             filterBy={[
                 {
-                    "key": "status",
+                    "key": "pub_validee",
                     "label": "Statut"
                 },
                 {
-                    "key": "signal",
+                    "key": "pub_signalee",
                     "label": "Signalée"
                 }
             ]}
