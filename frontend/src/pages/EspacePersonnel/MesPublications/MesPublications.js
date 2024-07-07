@@ -55,6 +55,11 @@ const MesPublications = () => {
             key: '/sante',
             name: 'Santé',
         },
+        {
+            id: 9,
+            key: '/environnement',
+            name: 'Environnement',
+        }
     ]);
     const [articles, setArticles] = useState([]);
     const [articlesToShow, setArticlesToShow] = useState([]);
