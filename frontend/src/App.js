@@ -29,6 +29,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RGPD from './pages/RGPD/RGPD';
 import ParametresCompte from './pages/ParametresCompte/ParametresCompte';
+import ManageArticles from './pages/admin/ManageArticles/ManageArticles';
 
 const App = () => {
     const { isLoggedIn, isAdmin } = useContext(AuthContext);
@@ -73,6 +74,8 @@ const App = () => {
                     <Route path="/administration/*" element={<AdminLayout />}>
                         <Route index element={<Navigate to="utilisateurs" />} />
                         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
+                        <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
+                        <Route path="articles" element={<AdminRoute><ManageArticles /></AdminRoute>} />
                     </Route>
                     <Route path="/rgpd" element={<RGPD />} />
                     <Route path="*" element={<NotFound />} />
