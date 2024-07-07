@@ -2,24 +2,18 @@ import React, { useContext, useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { AdminContext } from '../../../utils/adminContext';
 import TableTemplate from '../../../components/TableTemplate/TableTemplate';
-import IsLoading from '../../../components/IsLoading/IsLoading';
 import ModalAddUser from './ModalAddUser';
 import ModalEditUser from './ModalEditUser';
 import ModalConfirmation from './ModalConfirmation';
 
 const UserPage = () => {
-    const { roles, users, deleteUser, setMessageNotification } = useContext(AdminContext);
+    const { users, deleteUser, setMessageNotification } = useContext(AdminContext);
     const [showModalAddUser, setShowModalAddUser] = useState(false);
     const [showModalEditUser, setShowModalEditUser] = useState(false);
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
     const [idUserToDelete, setIdUserToDelete] = useState(null);
     const [editUserData, setEditUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        // Cette partie pourrait être utilisée pour charger les données depuis un backend
-        console.log("Users:", users);
-    }, [users]);
 
     const handleModalAddUserOpen = () => setShowModalAddUser(true);
     const handleModalAddUserClose = () => setShowModalAddUser(false);
@@ -42,7 +36,7 @@ const UserPage = () => {
         setShowModalDeleteUser(false);
     };
 
-    const header = [
+    const userHeader = [
         {
             "key": "id",
             "label": "ID",
@@ -87,7 +81,7 @@ const UserPage = () => {
 
     return (
         <div className="Content">
-            <h4>Administration : Gestion des utilisateurs</h4>
+            <h4>Administration : Gestion des utilisateurs et des rôles</h4>
             <form className="row g-3 whiteBox searchBox">
                 <div className="col-md-2">
                     <label htmlFor="idUser" className="form-label">ID</label>
@@ -109,9 +103,10 @@ const UserPage = () => {
                     <label htmlFor="roleUser" className="form-label">Rôle</label>
                     <select id="roleUser" className="form-select">
                         <option value="0" disabled selected>Choisir un rôle</option>
-                        {roles.map((role) => (
-                            <option key={role.id} value={role.id}>{role.name}</option>
-                        ))}
+                        <option value="superadministrateur">Superadministrateur</option>
+                        <option value="administrateur">Administrateur</option>
+                        <option value="modérateur">Modérateur</option>
+                        <option value="citoyen">Citoyen</option>
                     </select>
                 </div>
                 <div className="col-md-3"></div>
@@ -149,7 +144,7 @@ const UserPage = () => {
                     <small>{users.length} utilisateurs trouvés</small>
                 </div>
                 <TableTemplate
-                    theadData={header}
+                    theadData={userHeader}
                     tbodyData={users}
                     isLoading={isLoading}
                 />

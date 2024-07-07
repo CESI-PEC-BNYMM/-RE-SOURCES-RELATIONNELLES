@@ -1,45 +1,47 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap'; // Composants de Bootstrap pour l'interface utilisateur
-import { Formik, Field, ErrorMessage } from 'formik'; // Bibliothèque Formik pour la gestion des formulaires
-import * as Yup from 'yup'; // Bibliothèque Yup pour la validation des données du formulaire
-import { saveNewUser } from '../../../services/admin/userService'; // Fonction pour enregistrer un nouvel utilisateur
-import { AdminContext } from '../../../utils/adminContext'; // Contexte administratif pour les notifications
-
+import { Modal, Button, Form } from 'react-bootstrap';
+import { Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { AdminContext } from '../../../utils/adminContext';
 
 const ModalAddUser = ({ showModal, handleModalClose }) => {
-    const { setMessageNotification } = useContext(AdminContext) // Utilisation du contexte pour les notifications
+    const { setMessageNotification, roles } = useContext(AdminContext);
+    const [messageErreur, setMessageErreur] = useState(null);
 
-    const [messageErreur, setMessageErreur] = useState(null); // État local pour gérer les messages d'erreur
-
-    // Gestion du temps d'affichage des messages d'erreur
     useEffect(() => {
         if (messageErreur) {
             const timeout = setTimeout(() => {
                 setMessageErreur('');
-            }, 3000); // Efface le message d'erreur après 3 secondes
-
-            return () => clearTimeout(timeout); // Nettoyage de l'effet
+            }, 3000);
+            return () => clearTimeout(timeout);
         }
     }, [messageErreur]);
 
-    // Schéma de validation des champs du formulaire avec Yup
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Le nom est requis'), // Validation pour le nom
-        email: Yup.string().email('Email invalide').required('L\'email est requis'), // Validation pour l'email
+        name: Yup.string().required('Le nom est requis'),
+        email: Yup.string().email('Email invalide').required('L\'email est requis'),
         password: Yup.string()
             .required('Le mot de passe est requis')
             .matches(
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\s\S]{6,}$/,
                 'Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule et un chiffre'
-            ), // Validation complexe pour le mot de passe
+            ),
+        roleId: Yup.string().required('Le rôle est requis'),
     });
 
-    // Gestion de la soumission du formulaire
     const handleSubmit = async (values, { resetForm }) => {
-        await saveNewUser(values, resetForm, handleModalClose, setMessageErreur, setMessageNotification);
+        console.log('Submitting values:', values); // Debugging line
+        const response = await saveNewUser(values);
+        if (response.success) {
+            setMessageNotification('Utilisateur ajouté avec succès');
+            handleModalClose();
+            resetForm();
+        } else {
+            console.log('Error response:', response); // Debugging line
+            setMessageErreur(response.message || 'Erreur lors de l\'ajout de l\'utilisateur');
+        }
     };
 
-    // Rendu du composant modal avec Formik pour la gestion du formulaire
     return (
         <Modal show={showModal} onHide={handleModalClose} centered>
             <Modal.Header closeButton className='p-3'>
@@ -48,7 +50,7 @@ const ModalAddUser = ({ showModal, handleModalClose }) => {
             <Modal.Body className='p-3'>
                 {messageErreur && <p className="text-danger">{messageErreur}</p>}
                 <Formik
-                    initialValues={{ name: '', email: '', password: '' }}
+                    initialValues={{ name: '', email: '', password: '', roleId: '' }}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
@@ -68,6 +70,20 @@ const ModalAddUser = ({ showModal, handleModalClose }) => {
                                 <Form.Label>Mot de passe</Form.Label>
                                 <Field type="password" name="password" as={Form.Control} />
                                 <ErrorMessage name="password" component="div" className="text-danger" />
+                            </Form.Group>
+                            <Form.Group controlId="formRole">
+                                <Form.Label>Rôle</Form.Label>
+                                <Field as="select" name="roleId" className="form-select">
+                                    <option value="">Sélectionner un rôle</option>
+                                    {roles.map((role) => (
+                                        <option key={role.id} value={role.id}>
+                                            {role.name}
+                                        </option>
+                                    ))}
+                                    <option value="superadministrateur">Superadministrateur</option>
+                                    <option value="modérateur">Modérateur</option>
+                                </Field>
+                                <ErrorMessage name="roleId" component="div" className="text-danger" />
                             </Form.Group>
                             <div className='d-flex justify-content-between align-items-center mt-3'>
                                 <Button variant="secondary" onClick={handleModalClose}>Annuler</Button>

@@ -5,8 +5,6 @@ import UserPage from './users/UserPage'; // Importation de la page des utilisate
 import RolePage from './roles/RolePage'; // Importation de la page des rôles
 import ManageArticles from './ManageArticles/ManageArticles';
 
-
-
 const AdminLayout = () => {
   return (
     <div className="admin-layout">
@@ -22,4 +20,3 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Contextes
@@ -13,7 +13,6 @@ import InformationsPersonnelles from './pages/InformationsPersonnelles/Informati
 
 import AdminLayout from './pages/admin/AdminLayout';
 import UserPage from './pages/admin/users/UserPage';
-import RolePage from './pages/admin/roles/RolePage';
 import NotFound from './pages/NotFound/NotFound';
 import FilActualite from './pages/FilActualite/FilActualite';
 import Contact from './pages/Support/Contact/Contact';
@@ -21,8 +20,6 @@ import FAQ from './pages/Support/FAQ/FAQ';
 import MesPublications from './pages/EspacePersonnel/MesPublications/MesPublications';
 import GestionAmis from './pages/EspacePersonnel/GestionAmis/GestionAmis';
 import CookiesBanner from './components/CookiesBanner/CookiesBanner';
-
-
 
 // Route protégée
 import ProtectedRoute from './routes/protectedRoute';
