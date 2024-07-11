@@ -85,7 +85,7 @@ public class CommentaireController {
          * @param signal The value of the signal field to filter by.
          * @return A list of comments that match the specified citoyen and signal values.
          */
-        @GetMapping("/api/commentaires/{idCitoyen}")
+        @GetMapping("/api/commentaires/citoyen")
         public List<Commentaire> findByCitoyenAndSignal(@PathVariable int idCitoyen, @PathVariable Boolean signal) {
             // Call the service method to retrieve all comments based on the citoyen and signal fields
             return commentaireService.findByCitoyenAndSignal(idCitoyen, signal);

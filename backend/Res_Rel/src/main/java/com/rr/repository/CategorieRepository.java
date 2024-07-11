@@ -13,4 +13,10 @@ public interface CategorieRepository extends JpaRepository<Categorie, Integer> {
 
     Optional<Categorie> findByLibelle(String libelle);
 
+    Optional<Categorie> findByActif(boolean actif);
+
+    public void addCategorie(int idCategorie, String libelle, boolean actif);
+
+    public Optional<Categorie> filterByActif(boolean actif);
+
 }

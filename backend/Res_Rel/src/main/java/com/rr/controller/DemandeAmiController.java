@@ -1,6 +1,5 @@
 package com.rr.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +20,8 @@ import com.rr.utils.JwtUtil;
 
 public class DemandeAmiController {
 
-    @Autowired
     private DemandeAmiService demandeAmiService;
 
-    @Autowired
     private DemandeAmiController(DemandeAmiRepository demandeAmiRepository) {
         this.demandeAmiRepository = demandeAmiRepository;
     }
