@@ -36,6 +36,10 @@ public class Publication {
     @JoinColumn(name = "citoyen_id") // This column in DemandeAmi table will store the foreign key
     private Citoyen citoyen;
 
+
+
+    public String getCitoyenEmail(){return citoyen.getMail();}
+
     public int getIdPublication() {
         return idPublication;
     }
