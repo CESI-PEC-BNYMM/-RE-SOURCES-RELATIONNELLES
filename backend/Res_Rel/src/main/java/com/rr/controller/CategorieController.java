@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rr.entity.Categorie;
@@ -41,18 +41,18 @@ public class CategorieController {
     }
 
     @PutMapping("/categories/addCategorie")
-    public void ajoutCategorie(int idCategorie, String libelle, boolean actif) {
+    public void addCategorie(@RequestParam int idCategorie, @RequestParam String libelle, @RequestParam boolean actif) {
         CategorieService categorieService = new CategorieService(categorieRepository); // create an instance of CategorieService
         categorieService.addCategorie(idCategorie, libelle, actif); // call the addCategorie method on the instance
         System.out.println("Categorie ajouté");
     }
 
     @GetMapping("/categories/filterbyactif/@PathVariable{actif}")
-    public Optional<Categorie> filterByActif(@PathVariable boolean actif) {
+    public Optional<Categorie> findByActif(boolean actif) {
         if (actif == true) {
-            return categorieRepository.findByActif(actif);
+            return categorieRepository.findByActif(true);
         } else if (actif == false) {
-            return categorieRepository.findByActif(actif);
+            return categorieRepository.findByActif(false);
         } else {
             return Optional.empty();
         }

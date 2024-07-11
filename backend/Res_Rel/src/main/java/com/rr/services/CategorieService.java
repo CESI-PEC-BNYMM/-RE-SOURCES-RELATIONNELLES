@@ -31,11 +31,11 @@ public class CategorieService {
         .orElseThrow(() -> new RuntimeException("Aucune Categorie n'existe avec ce libelle"));
     }
 
-    public Optional<Categorie> filterByActif(boolean actif) {
+    public Optional<Categorie> findByActif(boolean actif) {
         if (actif == true) {
-            return categorieRepository.findByActif(actif);
+            return categorieRepository.findByActif(true);
         } else if (actif == false) {
-            return categorieRepository.findByActif(actif);
+            return categorieRepository.findByActif(false);
         } else {
             return Optional.empty();
         }
