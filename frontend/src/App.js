@@ -30,7 +30,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import RGPD from './pages/RGPD/RGPD';
 import ParametresCompte from './pages/ParametresCompte/ParametresCompte';
 import ManageArticles from './pages/admin/ManageArticles/ManageArticles';
-import RolePage from './pages/admin/roles/RolePage';
 import ManageCategories from './pages/admin/ManageCategories/ManageCategories';
 import ManageCommentaires from './pages/admin/ManageCommentaires/ManageCommentaires';
 import ManageTickets from './pages/admin/ManageTickets/ManageTickets';
@@ -78,7 +77,6 @@ const App = () => {
                     <Route path="/administration/*" element={<AdminLayout />}>
                         <Route index element={<Navigate to="utilisateurs" />} />
                         <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
-                        <Route path="roles" element={<AdminRoute><RolePage /></AdminRoute>} />
                         <Route path="articles" element={<AdminRoute><ManageArticles /></AdminRoute>} />
                         <Route path="categories" element={<AdminRoute><ManageCategories /></AdminRoute>} />
                         <Route path="commentaires" element={<AdminRoute><ManageCommentaires /></AdminRoute>} />

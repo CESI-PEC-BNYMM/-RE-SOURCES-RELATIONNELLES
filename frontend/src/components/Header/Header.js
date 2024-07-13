@@ -124,11 +124,6 @@ const Header = () => {
                             <FaUsersGear />
                             <p>Utilisateurs</p>
                         </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/roles`} data-path="/administration/roles">
-                            <span></span>
-                            <PiUserCircleGearFill />
-                            <p>Rôles</p>
-                        </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/articles`} data-path="/administration/articles">
                             <span></span>
                             <FaUsersGear />
