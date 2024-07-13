@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import IsLoading from '../IsLoading/IsLoading';
 import TableTemplate from '../TableTemplate/TableTemplate';
 
-const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = false, limit = null, filterBy = null, addButton = null, manageTicketsField = null }) => {
+const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = false, limit = null, filterBy = null, addButton = null, manageTicketsField = false }) => {
     const [filters, setFilters] = useState({});
 
     const handleFilterChange = (key, value) => {

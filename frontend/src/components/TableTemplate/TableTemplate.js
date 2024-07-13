@@ -1,7 +1,7 @@
 import React from 'react';
 import IsLoading from '../IsLoading/IsLoading';
 
-const TableTemplate = ({ theadData, tbodyData, isLoading = false, limit = null, manageTicketsField = null }) => {
+const TableTemplate = ({ theadData, tbodyData, isLoading = false, limit = null, manageTicketsField = false }) => {
     let displayData = tbodyData;
 
     if (limit !== null) {
@@ -28,7 +28,10 @@ const TableTemplate = ({ theadData, tbodyData, isLoading = false, limit = null, 
                 {!isLoading && displayData.map((rowData, rowIndex) => (
                     <tr key={rowIndex}>
                         {theadData.map((column, cellIndex) => (
-                            <td key={cellIndex} style={{ display: column.column_hidden ? 'none' : 'table-cell', backgroundColor: (manageTicketsField && rowData[column.key] === manageTicketsField) ? 'lightgreen' : '' }}>
+                            <td key={cellIndex} style={{
+                                    display: column.column_hidden ? 'none' : 'table-cell',
+                                    backgroundColor: (manageTicketsField && rowData[column.key] === "Résolu") ? 'lightgreen' : manageTicketsField && rowData[column.key] === "En cours" ? 'orange' : 'white'
+                                }}>
                                 {column.render
                                     ? column.render(rowData[column.key], rowData, rowIndex)
                                     : rowData[column.key]}
