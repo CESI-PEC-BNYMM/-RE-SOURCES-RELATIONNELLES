@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import IsLoading from '../IsLoading/IsLoading';
 import TableTemplate from '../TableTemplate/TableTemplate';
 
-const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = false, limit = null, filterBy = null, addButton = true, manageTicketsField = null }) => {
+const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = false, limit = null, filterBy = null, addButton = null, manageTicketsField = null }) => {
     const [filters, setFilters] = useState({});
-
-    const handleModalAddOpen = () => {
-        alert(`Ajout d'un ${context && context.slice(0, -1)}`);
-    };
 
     const handleFilterChange = (key, value) => {
         setFilters(prevFilters => ({
@@ -54,7 +50,7 @@ const ManageModeration = ({ title, context, theadData, tbodyData, isLoading = fa
                         </div>
                     </div>
                     {addButton &&
-                        <button className="btn btn-outline-primary" onClick={handleModalAddOpen}>
+                        <button className="btn btn-outline-primary" onClick={addButton}>
                             Ajouter un {context && context.slice(0, -1)}
                         </button>
                     }

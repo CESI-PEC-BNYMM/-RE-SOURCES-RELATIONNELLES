@@ -113,7 +113,7 @@ const ManageCommentaires = () => {
                     "label": "Type"
                 }
             ]}
-            addButton={false}
+            addButton={null}
         />
     );
 }

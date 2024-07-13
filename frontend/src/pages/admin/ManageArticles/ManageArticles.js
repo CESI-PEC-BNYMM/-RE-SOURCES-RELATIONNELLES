@@ -131,7 +131,7 @@ const ManageArticles = () => {
                     "label": "Signalée"
                 }
             ]}
-            addButton={false}
+            addButton={null}
         />
     );
 }

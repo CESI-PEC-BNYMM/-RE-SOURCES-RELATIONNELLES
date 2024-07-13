@@ -11,6 +11,10 @@ const ManageCategories = () => {
         alert(`Suppression de la catégorie ${id}`);
     };
 
+    const handleModalAddCategorie = () => {
+        alert(`Ajout d'une catégorie`);
+    };
+
     return (
         <ManageModeration
             title="Gestion des catégories"
@@ -78,7 +82,7 @@ const ManageCategories = () => {
                     "label": "Actif"
                 }
             ]}
-            addButton={true}
+            addButton={handleModalAddCategorie}
         />
     );
 }

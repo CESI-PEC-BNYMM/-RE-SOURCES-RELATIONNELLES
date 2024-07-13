@@ -99,7 +99,7 @@ const ManageTickets = () => {
                     "label": "État"
                 }
             ]}
-            addButton={false}
+            addButton={null}
             manageTicketsField={"Résolu"}
         />
     );
