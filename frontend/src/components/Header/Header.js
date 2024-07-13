@@ -5,11 +5,14 @@ import './Header.css';
 import logo from '../../assets/Logo (RE)ssources relationnelles v4.png';
 import { useEffect } from 'react';
 import { Link, NavLink } from "react-router-dom";
-import { FaBorderAll, FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaBorderAll, FaUser, FaEnvelope, FaComments } from 'react-icons/fa';
 import { FaHouse, FaPerson, FaUserGroup, FaLifeRing, FaUsersGear, FaWrench, FaQuestion } from "react-icons/fa6";
 import { PiUserCircleGearFill } from "react-icons/pi";
 import { VscBell, VscBellDot } from "react-icons/vsc";
 import { GoLaw } from "react-icons/go";
+import { BsChat, BsPostcardFill } from "react-icons/bs";
+import { BiSolidCategory } from "react-icons/bi";
+import { IoTicketSharp } from "react-icons/io5";
 
 const Header = () => {
     // const token = localStorage.getItem('token');
@@ -126,22 +129,22 @@ const Header = () => {
                         </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/articles`} data-path="/administration/articles">
                             <span></span>
-                            <FaUsersGear />
+                            <BsPostcardFill />
                             <p>Articles</p>
                         </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/categories`} data-path="/administration/categories">
                             <span></span>
-                            <FaUsersGear />
+                            <BiSolidCategory />
                             <p>Catégories</p>
                         </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/commentaires`} data-path="/administration/commentaires">
                             <span></span>
-                            <FaUsersGear />
+                            <FaComments />
                             <p>Commentaires</p>
                         </NavLink>
                         <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/tickets`} data-path="/administration/tickets">
                             <span></span>
-                            <FaUsersGear />
+                            <IoTicketSharp />
                             <p>Tickets</p>
                         </NavLink>
                     </div>
