@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'; // Importation des composants Routes et Route pour le routage dans React Router
 
-import UserPage from './users/UserPage'; // Importation de la page des utilisateurs
+import UserPage from './ManageUsers/ManageUsers'; // Importation de la page des utilisateurs
 import ManageArticles from './ManageArticles/ManageArticles';
 import ManageCategories from './ManageCategories/ManageCategories';
 import ManageCommentaires from './ManageCommentaires/ManageCommentaires';

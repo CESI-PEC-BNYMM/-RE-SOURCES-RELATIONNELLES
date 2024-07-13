@@ -12,7 +12,7 @@ import RegisterForm from './pages/auth/RegisterForm';
 import InformationsPersonnelles from './pages/InformationsPersonnelles/InformationsPersonnelles';
 
 import AdminLayout from './pages/admin/AdminLayout';
-import UserPage from './pages/admin/users/UserPage';
+import ManageUsers from './pages/admin/ManageUsers/ManageUsers';
 import NotFound from './pages/NotFound/NotFound';
 import FilActualite from './pages/FilActualite/FilActualite';
 import Contact from './pages/Support/Contact/Contact';
@@ -76,7 +76,7 @@ const App = () => {
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
                     <Route path="/administration/*" element={<AdminLayout />}>
                         <Route index element={<Navigate to="utilisateurs" />} />
-                        <Route path="utilisateurs" element={<AdminRoute><UserPage /></AdminRoute>} />
+                        <Route path="utilisateurs" element={<AdminRoute><ManageUsers /></AdminRoute>} />
                         <Route path="articles" element={<AdminRoute><ManageArticles /></AdminRoute>} />
                         <Route path="categories" element={<AdminRoute><ManageCategories /></AdminRoute>} />
                         <Route path="commentaires" element={<AdminRoute><ManageCommentaires /></AdminRoute>} />
