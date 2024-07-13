@@ -87,3 +87,13 @@
     height: 20px;
     width: 20px;
 }
+
+.Article div article h1 {
+    font-size: 1.3rem;
+    color: #5f849a;
+}
+
+.Article div article p {
+    font-size: .9rem;
+    color: #5f849a;
+}

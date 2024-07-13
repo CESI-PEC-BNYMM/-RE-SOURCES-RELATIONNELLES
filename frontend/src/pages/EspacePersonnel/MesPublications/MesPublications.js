@@ -7,6 +7,9 @@ import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BsChat } from "react-icons/bs";
 import { FaArrowAltCircleRight, FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
+import { LeafPoll, Result } from 'react-leaf-polls'
+import 'react-leaf-polls/dist/index.css'
+import PollForm from '../../../components/PollForm/PollForm';
 
 const MesPublications = () => {
     const [myUser, setMyUser] = useState({
@@ -15,6 +18,7 @@ const MesPublications = () => {
     });
     const [users, setUsers] = useState([]);
     const cheerio = require('cheerio');
+    const [isPollButtonClicked, setIsPollButtonClicked] = useState(false);
     const [categories, setCategories] = useState([
         {
             id: 1,
@@ -114,7 +118,7 @@ const MesPublications = () => {
         // return $link.author;
         if ($link.url)
             return $link.author;
-        
+
         try {
             const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
                 const $res = cheerio.load(response.data);
@@ -287,6 +291,7 @@ const MesPublications = () => {
         let $category = categories.find((category) => category.id === parseInt(document.getElementById('publishCategory').value));
         let $content = document.getElementById('publishContent').value;
         let $link = document.getElementById('publishLink').value;
+        let $hasPoll = document.getElementById('addPoll').checked;
         let $resIPQS = await checkUrl($link);
 
         if ($resIPQS !== true) {
@@ -317,14 +322,24 @@ const MesPublications = () => {
                     description: await getDescriptionFromLink($link),
                 },
                 comments: [],
+                poll: $hasPoll ? {
+                    title: document.getElementById('pollTitle').value,
+                    answers: [...Array(parseInt(document.querySelector('input[name="inlineRadioOptions"]:checked').value)).keys()].map((index) => ({
+                        id: index,
+                        text: document.getElementById('pollAnswer' + (index + 1)).value,
+                        votes: 0,
+                    })),
+                } : null,
             };
             articles.unshift($article);
             setArticles([...articles]);
             document.getElementById('publishCategory').value = '';
             document.getElementById('publishContent').value = '';
             document.getElementById('publishLink').value = '';
+            document.getElementById('addPoll').checked = false;
             handlePublishButton(false);
             alert('Article publié !');
+            console.log($article);
         }
     };
 
@@ -395,6 +410,11 @@ const MesPublications = () => {
                                     <div className="w-100 mb-4">
                                         <input type="text" className='form-control' id="publishLink" placeholder="Ajouter un lien..." required />
                                     </div>
+                                    <div className="w-100 mb-4 form-check">
+                                        <label htmlFor="addPoll">Ajouter un sondage</label>
+                                        <input type="checkbox" className='form-check-input' id="addPoll" onClick={() => { setIsPollButtonClicked(!isPollButtonClicked); }} />
+                                    </div>
+                                    {isPollButtonClicked && <PollForm />}
                                     <div className='w-100'>
                                         <div className="d-flex align-items-center justify-content-between mb-4">
                                             <button className='btn d-flex align-items-center' type="submit">
@@ -444,6 +464,31 @@ const MesPublications = () => {
                                             <p>{article.link.description}</p>
                                         </div>
                                     </div>
+                                    {article.poll &&
+                                        <div className="mt-4">
+                                            <LeafPoll
+                                                type='multiple'
+                                                question={"Sondage : " + article.poll.title}
+                                                results={article.poll.answers}
+                                                theme={{
+                                                    mainColor: '#5f849a',
+                                                    textColor: 'black',
+                                                    backgroundColor: 'white',
+                                                    alignment: 'start',
+                                                }}
+                                                onVote={(answer) => {
+                                                    article.poll.answers = article.poll.answers.map((choice) => {
+                                                        if (choice.id === answer.id) {
+                                                            choice.votes++;
+                                                        }
+                                                        return choice;
+                                                    });
+                                                    setArticles([...articles]);
+                                                }}
+                                                isVoted={false}
+                                            />
+                                        </div>
+                                    }
                                 </div>
                                 <div className='w-100'>
                                     <div className="d-flex align-items-center justify-content-between mb-4">
