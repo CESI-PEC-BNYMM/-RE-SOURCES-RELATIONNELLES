@@ -66,16 +66,20 @@ const App = () => {
                     <Route path="/fil-d-actualite/*" element={<FilActualite />} />
                     <Route path="/support/contact" element={<Contact />} />
                     <Route path="/support/faq" element={<FAQ />} />
+                    {/* <Route path="/espace-personnel/mes-publications" element={<ProtectedRoute><MesPublications /></ProtectedRoute>} /> */}
                     <Route path="/espace-personnel/mes-publications" element={<MesPublications />} />
+                    {/* <Route path="/espace-personnel/mes-publications/*" element={<ProtectedRoute><MesPublications /></ProtectedRoute>} /> */}
                     <Route path="/espace-personnel/mes-publications/*" element={<MesPublications />} />
+                    {/* <Route path="/espace-personnel/gestion-d-amis" element={<ProtectedRoute><GestionAmis /></ProtectedRoute>} /> */}
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
-                    <Route path="/informations-personnelles" element={<ProtectedRoute><InformationsPersonnelles /></ProtectedRoute>} />
+                    {/* <Route path="/informations-personnelles" element={<ProtectedRoute><InformationsPersonnelles /></ProtectedRoute>} /> */}
+                    <Route path="/informations-personnelles" element={<InformationsPersonnelles />} />
                     {/* <Route path="/parametres-du-compte" element={<ProtectedRoute><ParametresCompte /></ProtectedRoute>} /> */}
                     <Route path="/parametres-du-compte" element={<ParametresCompte />} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />
                     <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterForm />} />
+                    {/* <Route path="/administration/*" element={<AdminRoute><AdminLayout /></AdminRoute>}> */}
                     <Route path="/administration/*" element={<AdminLayout />}>
-                        <Route index element={<Navigate to="utilisateurs" />} />
                         <Route path="utilisateurs" element={<AdminRoute><ManageUsers /></AdminRoute>} />
                         <Route path="articles" element={<AdminRoute><ManageArticles /></AdminRoute>} />
                         <Route path="categories" element={<AdminRoute><ManageCategories /></AdminRoute>} />
