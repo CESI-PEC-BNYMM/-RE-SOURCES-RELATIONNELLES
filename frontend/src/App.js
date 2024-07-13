@@ -9,7 +9,7 @@ import { AdminContextProvider } from './utils/adminContext';
 import Header from './components/Header/Header';
 import LoginForm from './pages/auth/LoginForm';
 import RegisterForm from './pages/auth/RegisterForm';
-import InformationsPersonnelles from './pages/InformationsPersonnelles/InformationsPersonnelles';
+import ParametresSite from './pages/ParametresSite/ParametresSite';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import ManageUsers from './pages/admin/ManageUsers/ManageUsers';
@@ -72,8 +72,8 @@ const App = () => {
                     <Route path="/espace-personnel/mes-publications/*" element={<MesPublications />} />
                     {/* <Route path="/espace-personnel/gestion-d-amis" element={<ProtectedRoute><GestionAmis /></ProtectedRoute>} /> */}
                     <Route path="/espace-personnel/gestion-d-amis" element={<GestionAmis />} />
-                    {/* <Route path="/informations-personnelles" element={<ProtectedRoute><InformationsPersonnelles /></ProtectedRoute>} /> */}
-                    <Route path="/informations-personnelles" element={<InformationsPersonnelles />} />
+                    {/* <Route path="/parametres-du-site" element={<ProtectedRoute><ParametresSite /></ProtectedRoute>} /> */}
+                    <Route path="/parametres-du-site" element={<ParametresSite />} />
                     {/* <Route path="/parametres-du-compte" element={<ProtectedRoute><ParametresCompte /></ProtectedRoute>} /> */}
                     <Route path="/parametres-du-compte" element={<ParametresCompte />} />
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <LoginForm />} />

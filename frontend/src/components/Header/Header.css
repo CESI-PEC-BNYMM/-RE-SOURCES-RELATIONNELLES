@@ -120,11 +120,11 @@ svg {
     background-color: rgba(255, 0, 0, 0.7);
 }
 
-.topNav .dropdownContent .personalInfos:hover {
+.topNav .dropdownContent .websiteSettings:hover {
     background-color: rgba(0, 50, 218, 0.1);
 }
 
-.topNav .dropdownContent .personalInfos:active {
+.topNav .dropdownContent .websiteSettings:active {
     background: rgba(0, 50, 218, 0.2);
 }
 

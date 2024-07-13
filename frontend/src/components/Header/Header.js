@@ -61,8 +61,8 @@ const Header = () => {
                         <div className="dropdownContent">
                             {/* <p>Connecté en tant que <b>{user.username}</b></p> */}
                             <p>Connecté en tant que *TODO*</p>
-                            <NavLink to={`/informations-personnelles`} data-path="/informations-personnelles" className="personalInfos">
-                                <p>Informations personnelles</p>
+                            <NavLink to={`/parametres-du-site`} data-path="/parametres-du-site" className="websiteSettings">
+                                <p>Paramètres du site</p>
                             </NavLink>
                             <NavLink to={`/parametres-du-compte`} data-path="/parametres-du-compte" className="profileSettings">
                                 <p>Paramètres du compte</p>
