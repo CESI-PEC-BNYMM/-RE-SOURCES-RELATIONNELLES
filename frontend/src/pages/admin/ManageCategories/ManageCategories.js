@@ -9,7 +9,7 @@ const ManageCategories = () => {
     const theadData = [
         { key: "idcategorie", label: "ID", edit: false },
         { key: "libelle", label: "Libellé", edit: true, required: true },
-        { key: "actif", label: "Actif", edit: true, required: true, type: "select", options: ["Oui", "Non"] },
+        { key: "actif", label: "Actif", edit: true, required: true, type: "select", options: ["Oui", "Non"], filterable: true },
         {
             key: "action",
             label: "Action",
