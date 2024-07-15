@@ -1,21 +1,29 @@
 package com.rr.services;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import com.rr.entity.Citoyen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rr.entity.Publication;
 import com.rr.repository.PublicationRepository;
+import com.rr.repository.CitoyenRepository;
+import com.rr.entity.Citoyen;
+
 
 
 
 @Service
+
 public class PublicationService {
 
 boolean vrai = true;
     @Autowired
     private PublicationRepository publicationRepository;
+
+
 
     public PublicationService(PublicationRepository publicationRepository){
         this.publicationRepository = publicationRepository;
@@ -24,21 +32,20 @@ boolean vrai = true;
     public List<Publication> getAllPublications() {
         return publicationRepository.findAll();
     }
-// à repenser
-   /* @Autowired List<Publication> getAllPubCitoyen(String emailCitoyen){
-        Publication publication =  publicationRepository.findByEmail(emailCitoyen).orElseThrow();
-        return publication.findAll();
-    }*/
+    @Autowired
+
+    public List<Publication> findByCitoyen(Citoyen citoyen){
+        return publicationRepository.findByCitoyen(citoyen);
+    }
 
     @Autowired
-    public void deletePublication(Integer idPublication) {
+    public void deletePublication(int idPublication) {
         publicationRepository.deleteById(idPublication);
     }
 
-    public void reportPublication(Integer idPublication) {
+    public boolean reportPublication(Integer idPublication) {
         Publication publication = publicationRepository.findById(idPublication).orElseThrow();
-        publicationRepository.report(idPublication);
-        publication.isPubSignalee();
+        return publication.isPubSignalee();
     }
 
     @Autowired
@@ -49,8 +56,8 @@ boolean vrai = true;
     }
 
     @Autowired
-    public void findId(Integer idPublication){
-         this.publicationRepository.findById(idPublication);
+    public Optional<Publication> findById(int idPublication){
+        return publicationRepository.findById(idPublication);
     }
 
     public void publishPublication(Integer idPublication){
@@ -60,5 +67,11 @@ boolean vrai = true;
             publicaiton.setDatePub(aujourdhui);
         }
     }
+
+
+  /*  public  Optional<Publication> findByDatePub (Date DatePub){
+        return publicationRepository.findByDatePub(DatePub);
+    }*/
+
 
 }

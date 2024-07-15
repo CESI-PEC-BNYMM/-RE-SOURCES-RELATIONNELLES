@@ -1,5 +1,5 @@
 package com.rr.controller;
-import com.rr.ResourceNotFoundException;
+import com.rr.entity.Citoyen;
 import com.rr.entity.Publication;
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.rr.services.PublicationService;
+import com.rr.services.CitoyenService;
+
 
 @Controller
 @RestController
@@ -68,5 +70,11 @@ public class PublicationController{
         this.publicationservice.publishPublication(idPublication);
     }
 
+ /*   @GetMapping("/api/publications/{email}")
+    public ResponseEntity<List<Publication>> getPublicationsByCitoyenEmail(@PathVariable String email) {
+        CitoyenService citoyenService = new CitoyenService();
 
+        Citoyen citoyen =  citoyenService.findbymail(email);
+        return (ResponseEntity<List<Publication>>) getallpublications(citoyen);
+    }*/
 }

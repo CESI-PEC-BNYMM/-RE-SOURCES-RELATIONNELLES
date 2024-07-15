@@ -1,8 +1,10 @@
 package com.rr.repository;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 
+import com.rr.entity.Citoyen;
 import com.rr.entity.Publication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -16,10 +18,11 @@ import javax.swing.text.html.Option;
 public interface PublicationRepository  extends JpaRepository<Publication, Integer> {
 
     Optional<Publication> findById(int idPublication);
-    Optional<Publication> findBydescription(Long description);
-    Optional<Publication> findByDatePub(Date DatePub);
-    Optional<Publication> report(int idPublication);
-    Optional<Publication> delete(int idPublication);
-    Optional<Publication> findByEmail(String email);
+    Optional<Publication> findByDatePub (Date DatePub);
+    List<Publication> findByCitoyen(Citoyen citoyen);
+
+
+
+
 
 }
