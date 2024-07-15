@@ -3,6 +3,157 @@
   fill: #476576;
 }
 
+/************* DARK MODE *************/
+
+/************* DARK MODE - Général *************/
+
+:root,
+:root *,
+:root.dark-mode,
+:root.dark-mode * {
+  transition: background-color 0.25s ease;
+}
+
+:root.dark-mode {
+  background-color: #2d2d30;
+  fill: white;
+  color: white;
+}
+
+:root.dark-mode .whiteBox {
+  background-color: #3e3e42;
+  color: white;
+}
+
+:root.dark-mode h6,
+:root.dark-mode h5,
+:root.dark-mode h4,
+:root.dark-mode h3,
+:root.dark-mode h2,
+:root.dark-mode h1,
+:root.dark-mode button,
+:root.dark-mode button.btn,
+:root.dark-mode small,
+:root.dark-mode a,
+:root.dark-mode p,
+:root.dark-mode label {
+  color: white !important;
+}
+
+/************* FIN DARK MODE - Général *************/
+
+/************* DARK MODE - Header *************/
+
+:root.dark-mode .Header .leftNav,
+:root.dark-mode .Header .leftNav .menu .menuItem,
+:root.dark-mode .Header .topNav,
+:root.dark-mode .Header .topNav .dropdownContent,
+:root.dark-mode .Header .topNav .dropdownContent a {
+  background-color: #252526;
+  color: white;
+}
+
+:root.dark-mode .Header .topNav .dropdownContent a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:root.dark-mode .Header .topNav .dropdownContent .logout {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+:root.dark-mode .Header .topNav .dropdownContent .logout:hover {
+  background-color: rgba(255, 0, 0, 0.7);
+}
+
+:root.dark-mode .Header .leftNav .menu .menuItem.active {
+  background-color: #476576;
+}
+
+:root.dark-mode .Header .leftNav .menu .menuItem.active svg {
+  fill: white;
+}
+
+:root.dark-mode .Header .leftNav .menu .menuItem svg {
+  fill: rgb(154, 154, 154);
+}
+
+:root.dark-mode .Header .leftNav .menu .menuItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/************* FIN DARK MODE - Header *************/
+
+/************* DARK MODE - Publications *************/
+
+:root.dark-mode .comments .input-group-text {
+  background-color: #3e3e42;
+}
+
+:root.dark-mode li:hover {
+  background-color: #3e3e42;
+}
+
+:root.dark-mode .ArticleLink:hover {
+  background-color: #636363;
+}
+
+:root.dark-mode .commentContent {
+  background-color: #636363;
+}
+
+:root.dark-mode article div p,
+:root.dark-mode article span {
+  color: black !important;
+}
+
+/************* FIN DARK MODE - Publications *************/
+
+/************* DARK MODE - Gestion d'amis *************/
+
+:root.dark-mode .GestionAmis span {
+  color: black !important;
+}
+
+/************* FIN DARK MODE - Gestion d'amis *************/
+
+/************* DARK MODE - Table Template *************/
+
+:root.dark-mode table {
+  background-color: #3e3e42 !important;
+}
+
+:root.dark-mode table th {
+  background-color: #252526 !important;
+}
+
+:root.dark-mode table th,
+:root.dark-mode table td {
+  color: white !important;
+}
+
+:root.dark-mode table td {
+  background-color: #636363 !important;
+}
+
+:root.dark-mode table tr:nth-child(even) td {
+  background-color: #7b7b7b !important;
+}
+
+:root.dark-mode table td button svg {
+  fill: white;
+}
+
+/************* FIN DARK MODE - Table Template *************/
+
+/************* DARK MODE - Modals *************/
+
+:root.dark-mode .modal-content {
+  background-color: #3e3e42;
+  color: white;
+}
+
+/************* FIN DARK MODE - Modals *************/
+
 .Content {
   color: #476576;
   position: absolute;

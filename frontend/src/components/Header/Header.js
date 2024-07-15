@@ -43,7 +43,7 @@ const Header = () => {
     };
 
     return (
-        <div>
+        <div className='Header'>
             <div className="topNav">
                 <div className="actions" style={{ cursor: 'pointer' }}>
                     <NavLink to={`/register`} data-path="/register" className="register">

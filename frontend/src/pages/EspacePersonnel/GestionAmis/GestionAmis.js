@@ -114,7 +114,7 @@ const GestionAmis = () => {
     };
 
     return (
-        <div className="Content">
+        <div className="Content GestionAmis">
             <h4 className="mb-4">Gestion d'amis</h4>
             <div className="Container d-flex justify-content-between flex-row flex-wrap">
                 <div className="Amis whiteBox d-flex flex-column align-items-start mb-3" style={{ width: '49%' }}>

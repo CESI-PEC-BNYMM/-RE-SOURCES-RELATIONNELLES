@@ -47,6 +47,9 @@ const App = () => {
         if (localStorage.getItem('cookies') && localStorage.getItem('cookies').length > 0) {
             setCookies(JSON.parse(localStorage.getItem('cookies')));
         }
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark-mode');
+        }
     }, []);
 
     useEffect(() => {
