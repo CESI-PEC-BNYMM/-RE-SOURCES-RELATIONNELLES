@@ -7,6 +7,8 @@ import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BsChat } from "react-icons/bs";
 import { FaArrowAltCircleRight, FaEye } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
+import { LeafPoll, Result } from 'react-leaf-polls'
+import 'react-leaf-polls/dist/index.css'
 
 const FilActualite = () => {
     const [myUser, setMyUser] = useState({
@@ -113,7 +115,7 @@ const FilActualite = () => {
         // return $link.author;
         if ($link.url)
             return $link.author;
-        
+
         try {
             const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
                 const $res = cheerio.load(response.data);
@@ -181,6 +183,7 @@ const FilActualite = () => {
             let $articleLink = getArticleLink($randomLink);
             $articles.push({
                 id: i,
+                type: 'article',
                 category: $category,
                 showComments: false,
                 user: {
@@ -281,16 +284,43 @@ const FilActualite = () => {
                                         <h6 className='mb-0'>Catégorie: {article.category.name}</h6>
                                     </div>
                                 </div>
-                                <div className="w-100 mb-4">
-                                    <p>{article.content}</p>
-                                    <div className="ArticleLink" onClick={() => { window.open(article.link.link, '_blank'); }}>
-                                        <img src={article.link.image} alt={article.link.title} />
-                                        <div>
-                                            <h4>{article.link.title}</h4>
-                                            <p>{article.link.description}</p>
+                                {article.type === 'article' ?
+                                    <div className="w-100 mb-4">
+                                        <p>{article.content}</p>
+                                        <div className="ArticleLink" onClick={() => { window.open(article.link.link, '_blank'); }}>
+                                            <img src={article.link.image} alt={article.link.title} />
+                                            <div>
+                                                <h4>{article.link.title}</h4>
+                                                <p>{article.link.description}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    : null}
+                                {article.type === 'poll' ?
+                                    <div className="w-100 mb-4">
+                                        <LeafPoll
+                                            type='multiple'
+                                            question={"Sondage : " + article.poll.title}
+                                            results={article.poll.answers}
+                                            theme={{
+                                                mainColor: '#5f849a',
+                                                textColor: 'black',
+                                                backgroundColor: 'white',
+                                                alignment: 'start',
+                                            }}
+                                            onVote={(answer) => {
+                                                article.poll.answers = article.poll.answers.map((choice) => {
+                                                    if (choice.id === answer.id) {
+                                                        choice.votes++;
+                                                    }
+                                                    return choice;
+                                                });
+                                                setArticles([...articles]);
+                                            }}
+                                            isVoted={false}
+                                        />
+                                    </div>
+                                    : null}
                                 <div className='w-100'>
                                     <div className="d-flex align-items-center justify-content-between mb-4">
                                         <button className='btn d-flex align-items-center' onClick={() => { article.showComments = true; setArticles([...articles]); setTimeout(() => { document.querySelector(('.commentForm' + article.id + ' input')).focus(); }, 100); }}>

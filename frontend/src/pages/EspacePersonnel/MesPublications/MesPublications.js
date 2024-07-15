@@ -18,7 +18,8 @@ const MesPublications = () => {
     });
     const [users, setUsers] = useState([]);
     const cheerio = require('cheerio');
-    const [isPollButtonClicked, setIsPollButtonClicked] = useState(false);
+    const [isPublicationPoll, setIsPublicationPoll] = useState(false);
+    const [isPublicationArticle, setIsPublicationArticle] = useState(true);
     const [categories, setCategories] = useState([
         {
             id: 1,
@@ -187,6 +188,7 @@ const MesPublications = () => {
             let $articleLink = getArticleLink($randomLink);
             $articles.push({
                 id: i,
+                type: 'article',
                 category: $category,
                 isLiked: false,
                 showComments: false,
@@ -288,23 +290,39 @@ const MesPublications = () => {
     };
 
     const publishArticle = async () => {
-        let $category = categories.find((category) => category.id === parseInt(document.getElementById('publishCategory').value));
-        let $content = document.getElementById('publishContent').value;
-        let $link = document.getElementById('publishLink').value;
-        let $hasPoll = document.getElementById('addPoll').checked;
-        let $resIPQS = await checkUrl($link);
+        const categoryId = parseInt(document.getElementById('publishCategory').value);
+        const category = categories.find((cat) => cat.id === categoryId);
+        let content = '';
+        let link = '';
+        let resIPQS = null;
+        let poll = null;
 
-        if ($resIPQS !== true) {
-            alert($resIPQS);
-            document.getElementById('publishLink').value = '';
-            handlePublishButton(false);
-            return;
+        if (isPublicationArticle) {
+            content = document.getElementById('publishContent').value || '';
+            link = document.getElementById('publishLink').value || '';
+            resIPQS = await checkUrl(link);
+            if (resIPQS !== true) {
+                alert(resIPQS);
+                document.getElementById('publishLink').value = '';
+                handlePublishButton(false);
+                return;
+            }
+        } else if (isPublicationPoll) {
+            const answersCount = parseInt(document.querySelector('input[name="inlineRadioOptions"]:checked').value);
+            poll = {
+                title: document.getElementById('pollTitle').value,
+                answers: Array.from({ length: answersCount }, (_, index) => ({
+                    id: index,
+                    text: document.getElementById('pollAnswer' + (index + 1)).value,
+                    votes: 0,
+                })),
+            };
         }
 
-        if ($content.length > 0) {
-            let $article = {
+        if ((content && link) || (poll && poll.title && poll.answers.length)) {
+            const articleBase = {
                 id: articles.length + 1,
-                category: $category,
+                category,
                 isLiked: false,
                 showComments: false,
                 user: {
@@ -314,32 +332,44 @@ const MesPublications = () => {
                 nbrVue: 0,
                 seen: false,
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                content: $content,
-                link: {
-                    link: $link,
-                    image: getImageFromLink($link),
-                    title: await getTitleFromLink($link),
-                    description: await getDescriptionFromLink($link),
-                },
                 comments: [],
-                poll: $hasPoll ? {
-                    title: document.getElementById('pollTitle').value,
-                    answers: [...Array(parseInt(document.querySelector('input[name="inlineRadioOptions"]:checked').value)).keys()].map((index) => ({
-                        id: index,
-                        text: document.getElementById('pollAnswer' + (index + 1)).value,
-                        votes: 0,
-                    })),
-                } : null,
             };
-            articles.unshift($article);
+
+            const article = isPublicationArticle ? {
+                ...articleBase,
+                type: 'article',
+                content,
+                link: {
+                    link,
+                    image: getImageFromLink(link),
+                    title: await getTitleFromLink(link),
+                    description: await getDescriptionFromLink(link),
+                },
+            } : {
+                ...articleBase,
+                type: 'poll',
+                poll,
+            };
+
+            articles.unshift(article);
             setArticles([...articles]);
-            document.getElementById('publishCategory').value = '';
-            document.getElementById('publishContent').value = '';
-            document.getElementById('publishLink').value = '';
-            document.getElementById('addPoll').checked = false;
+
+            if (isPublicationPoll) {
+                document.getElementById('pollTitle').value = '';
+                document.querySelector('input[name="inlineRadioOptions"]:checked').checked = false;
+                Array.from({ length: 4 }, (_, i) => i + 1).forEach(index => {
+                    const answerField = document.getElementById('pollAnswer' + index);
+                    if (answerField) answerField.value = '';
+                });
+            } else if (isPublicationArticle) {
+                document.getElementById('publishCategory').value = '';
+                document.getElementById('publishContent').value = '';
+                document.getElementById('publishLink').value = '';
+            }
+
             handlePublishButton(false);
             alert('Article publié !');
-            console.log($article);
+            console.log(article);
         }
     };
 
@@ -397,6 +427,19 @@ const MesPublications = () => {
                             {showPublishModal ?
                                 <form onSubmit={(e) => { e.preventDefault(); publishArticle(); }} className="w-100 mt-4">
                                     <div className="w-100 mb-4">
+                                        <label htmlFor="publicationType">Type de publication</label>
+                                        <div className="d-flex gap-4">
+                                            <div className="form-check form-check-inline">
+                                                <input className="form-check-input" type="radio" name="publicationType" id="publicationArticle" value="article" defaultChecked onClick={() => { setIsPublicationArticle(true); setIsPublicationPoll(false); }} />
+                                                <label className="form-check-label" htmlFor="publicationArticle">Article</label>
+                                            </div>
+                                            <div className="form-check form-check-inline">
+                                                <input className="form-check-input" type="radio" name="publicationType" id="publicationPoll" value="poll" onClick={() => { setIsPublicationArticle(false); setIsPublicationPoll(true); }} />
+                                                <label className="form-check-label" htmlFor="publicationPoll">Sondage</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-100 mb-4">
                                         <select className='form-select' id="publishCategory" required>
                                             <option value="" disabled selected>Sélectionner une catégorie</option>
                                             {categories.filter((category) => category.name !== 'Tous').map((category) => (
@@ -404,17 +447,17 @@ const MesPublications = () => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="w-100 mb-4">
-                                        <textarea className='form-control' id="publishContent" placeholder="Ajouter un contenu..." required />
-                                    </div>
-                                    <div className="w-100 mb-4">
-                                        <input type="text" className='form-control' id="publishLink" placeholder="Ajouter un lien..." required />
-                                    </div>
-                                    <div className="w-100 mb-4 form-check">
-                                        <label htmlFor="addPoll">Ajouter un sondage</label>
-                                        <input type="checkbox" className='form-check-input' id="addPoll" onClick={() => { setIsPollButtonClicked(!isPollButtonClicked); }} />
-                                    </div>
-                                    {isPollButtonClicked && <PollForm />}
+                                    {isPublicationArticle ?
+                                        <>
+                                            <div className="w-100 mb-4">
+                                                <textarea className='form-control' id="publishContent" placeholder="Ajouter un contenu..." required />
+                                            </div>
+                                            <div className="w-100 mb-4">
+                                                <input type="text" className='form-control' id="publishLink" placeholder="Ajouter un lien..." required />
+                                            </div>
+                                        </>
+                                        : null}
+                                    {isPublicationPoll && <PollForm />}
                                     <div className='w-100'>
                                         <div className="d-flex align-items-center justify-content-between mb-4">
                                             <button className='btn d-flex align-items-center' type="submit">
@@ -455,41 +498,43 @@ const MesPublications = () => {
                                         <h6 className='mb-0'>Catégorie: {article.category.name}</h6>
                                     </div>
                                 </div>
-                                <div className="w-100 mb-4">
-                                    <p>{article.content}</p>
-                                    <div className="ArticleLink" onClick={() => { window.open(article.link.link, '_blank'); }}>
-                                        <img src={article.link.image} alt={article.link.title} />
-                                        <div>
-                                            <h4>{article.link.title}</h4>
-                                            <p>{article.link.description}</p>
+                                {article.type === 'article' ?
+                                    <div className="w-100 mb-4">
+                                        <p>{article.content}</p>
+                                        <div className="ArticleLink" onClick={() => { window.open(article.link.link, '_blank'); }}>
+                                            <img src={article.link.image} alt={article.link.title} />
+                                            <div>
+                                                <h4>{article.link.title}</h4>
+                                                <p>{article.link.description}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    {article.poll &&
-                                        <div className="mt-4">
-                                            <LeafPoll
-                                                type='multiple'
-                                                question={"Sondage : " + article.poll.title}
-                                                results={article.poll.answers}
-                                                theme={{
-                                                    mainColor: '#5f849a',
-                                                    textColor: 'black',
-                                                    backgroundColor: 'white',
-                                                    alignment: 'start',
-                                                }}
-                                                onVote={(answer) => {
-                                                    article.poll.answers = article.poll.answers.map((choice) => {
-                                                        if (choice.id === answer.id) {
-                                                            choice.votes++;
-                                                        }
-                                                        return choice;
-                                                    });
-                                                    setArticles([...articles]);
-                                                }}
-                                                isVoted={false}
-                                            />
-                                        </div>
-                                    }
-                                </div>
+                                    : null}
+                                {article.type === 'poll' ?
+                                    <div className="w-100 mb-4">
+                                        <LeafPoll
+                                            type='multiple'
+                                            question={"Sondage : " + article.poll.title}
+                                            results={article.poll.answers}
+                                            theme={{
+                                                mainColor: '#5f849a',
+                                                textColor: 'black',
+                                                backgroundColor: 'white',
+                                                alignment: 'start',
+                                            }}
+                                            onVote={(answer) => {
+                                                article.poll.answers = article.poll.answers.map((choice) => {
+                                                    if (choice.id === answer.id) {
+                                                        choice.votes++;
+                                                    }
+                                                    return choice;
+                                                });
+                                                setArticles([...articles]);
+                                            }}
+                                            isVoted={false}
+                                        />
+                                    </div>
+                                    : null}
                                 <div className='w-100'>
                                     <div className="d-flex align-items-center justify-content-between mb-4">
                                         <button className='btn d-flex align-items-center' onClick={() => { article.showComments = true; setArticles([...articles]); setTimeout(() => { document.querySelector(('.commentForm' + article.id + ' input')).focus(); }, 100); }}>
