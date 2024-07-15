@@ -3,11 +3,17 @@ package com.rr.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.rr.entity.Commentaire;
 
+@Repository
 public interface CommentaireRepository extends JpaRepository<Commentaire, Integer> {
 
+    @Modifying
+    @Query("UPDATE Commentaire c SET c.commentaireSignale = :commentaireSignale WHERE c.idCommentaire = :idCommentaire")
     void signaleCommentaire(Commentaire commentaire, int idCommentaire);
     
     List<Commentaire> findAllByCommentaireSignale(Boolean commentaireSignale);
@@ -18,5 +24,5 @@ public interface CommentaireRepository extends JpaRepository<Commentaire, Intege
 
     List<Commentaire> findByTypeAndSignal(Boolean type, Boolean signal);
 
-    List<Commentaire> findByCitoyenAndSignal(int idCitoyen, Boolean signal);
+    // List<Commentaire> findByCitoyenAndSignal(int idCitoyen, Boolean signal);
 }

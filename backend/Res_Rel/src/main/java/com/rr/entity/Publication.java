@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,10 @@ public class Publication {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int idPublication;
     private Long description;
-    private Date DatePub;
+
+    @Column(name = "date_pub")
+    private Date datePub;
+
     private boolean PubValidee;
     private  boolean PubSignalee;
     private int NbrVues;
@@ -64,11 +68,11 @@ public class Publication {
     }
 
     public Date getDatePub() {
-        return DatePub;
+        return datePub;
     }
 
-    public void setDatePub(Date DatePub) {
-        DatePub = DatePub;
+    public void setDatePub(Date datePub) {
+        this.datePub = datePub;
     }
 
     public boolean isPubValidee() {

@@ -47,7 +47,7 @@ public class CategorieController {
         System.out.println("Categorie ajouté");
     }
 
-    @GetMapping("/categories/filterbyactif/@PathVariable{actif}")
+    @GetMapping("/categories/findByActif/@PathVariable{actif}")
     public Optional<Categorie> findByActif(boolean actif) {
         if (actif == true) {
             return categorieRepository.findByActif(true);

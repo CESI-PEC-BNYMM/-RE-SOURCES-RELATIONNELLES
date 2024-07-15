@@ -2,9 +2,12 @@ package com.rr.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.rr.entity.Commentaire;
 import com.rr.repository.CommentaireRepository;
 
+@Service
 public class CommentaireService {
     
     private CommentaireRepository commentaireRepository;
@@ -29,14 +32,14 @@ public class CommentaireService {
         return commentaireRepository.findByTypeAndSignal(type, signal);
     }
 
-    public List<Commentaire> findByCitoyenAndSignal(int idCitoyen, Boolean signal) {
-        return commentaireRepository.findByCitoyenAndSignal(idCitoyen, signal);
-    }
+    // public List<Commentaire> findByCitoyenAndSignal(Citoyen citoyen, Boolean signal) {
+    //     return commentaireRepository.findByCitoyenAndSignal(citoyen, signal);
+    // }
 
 
     public void signaleCommentaire(Commentaire commentaire, int idCommentaire) {
         commentaire.setCommentaireSignale(true);
         commentaireRepository.save(commentaire);
-        commentaireRepository.signaleCommentaire(commentaire, idCommentaire);
+        // commentaireRepository.signaleCommentaire(commentaire, idCommentaire);
     }
 }

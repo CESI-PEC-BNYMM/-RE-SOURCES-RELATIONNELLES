@@ -1,24 +1,16 @@
 package com.rr.services;
 
-import com.rr.entity.Publication;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.rr.entity.Citoyen;
 import com.rr.repository.CitoyenRepository;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-
+@Service
 public class CitoyenService {
 
-    @Autowired
-    CitoyenRepository utilisateurRepository;
+    public CitoyenRepository utilisateurRepository;
   /*  private CitoyenRepository utilisateurRepository = new CitoyenRepository() {
         @Override
         public Optional<Citoyen> findByMail(String mail) {
@@ -200,7 +192,7 @@ public class CitoyenService {
         return utilisateurRepository.findAll();
     }
 
-    public boolean removeCitoyen(Citoyen citoyen){
-        utilisateurRepository.deleteByMail(citoyen.getMail());
-    }
+    // public boolean removeCitoyen(Citoyen citoyen){
+    //     utilisateurRepository.deleteByMail(citoyen.getMail());
+    // }
 }

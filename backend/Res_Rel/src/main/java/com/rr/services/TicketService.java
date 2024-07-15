@@ -3,9 +3,12 @@ package com.rr.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.rr.entity.Ticket;
 import com.rr.repository.TicketRepository;
 
+@Service
 public class TicketService {
 
     private TicketRepository TicketRepository;
@@ -50,7 +53,7 @@ public class TicketService {
 
     //méthode pour supprimer un ticket
     public void supprimerTicket(int idticket) {
-        TicketRepository.deleteById(idticket);
+        TicketRepository.deleteAll();
         System.out.println("Ticket supprimé");
     }
 

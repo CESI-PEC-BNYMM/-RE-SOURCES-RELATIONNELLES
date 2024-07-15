@@ -2,9 +2,12 @@ package com.rr.services;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.rr.entity.Categorie;
 import com.rr.repository.CategorieRepository;
 
+@Service
 public class CategorieService {
 
     private CategorieRepository categorieRepository;

@@ -1,44 +1,35 @@
 package com.rr.services;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.rr.entity.Citoyen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rr.entity.Citoyen;
 import com.rr.entity.Publication;
 import com.rr.repository.PublicationRepository;
-import com.rr.repository.CitoyenRepository;
-import com.rr.entity.Citoyen;
-
-
-
 
 @Service
-
 public class PublicationService {
 
-boolean vrai = true;
+    private final boolean vrai = true;
+    private final PublicationRepository publicationRepository;
+
     @Autowired
-    private PublicationRepository publicationRepository;
-
-
-
-    public PublicationService(PublicationRepository publicationRepository){
+    public PublicationService(PublicationRepository publicationRepository) {
         this.publicationRepository = publicationRepository;
     }
 
     public List<Publication> getAllPublications() {
         return publicationRepository.findAll();
     }
-    @Autowired
 
-    public List<Publication> findByCitoyen(Citoyen citoyen){
+    public List<Publication> findByCitoyen(Citoyen citoyen) {
         return publicationRepository.findByCitoyen(citoyen);
     }
 
-    @Autowired
     public void deletePublication(int idPublication) {
         publicationRepository.deleteById(idPublication);
     }
@@ -48,30 +39,22 @@ boolean vrai = true;
         return publication.isPubSignalee();
     }
 
-    @Autowired
-    public void validatePublicaiton(Integer idPublication){
+    public void validatePublication(Integer idPublication) {
         Publication publication = publicationRepository.findById(idPublication).orElseThrow();
-
         publication.setPubSignalee(vrai);
+        publicationRepository.save(publication);  // Save the updated publication
     }
 
-    @Autowired
-    public Optional<Publication> findById(int idPublication){
+    public Optional<Publication> findById(int idPublication) {
         return publicationRepository.findById(idPublication);
     }
 
-    public void publishPublication(Integer idPublication){
-        Publication publicaiton = publicationRepository.findById(idPublication).orElseThrow();
-        if (publicaiton.isPubValidee()) {
+    public void publishPublication(Integer idPublication) {
+        Publication publication = publicationRepository.findById(idPublication).orElseThrow();
+        if (publication.isPubValidee()) {
             Date aujourdhui = new Date();
-            publicaiton.setDatePub(aujourdhui);
+            publication.setDatePub(aujourdhui);
+            publicationRepository.save(publication);  // Save the updated publication
         }
     }
-
-
-  /*  public  Optional<Publication> findByDatePub (Date DatePub){
-        return publicationRepository.findByDatePub(DatePub);
-    }*/
-
-
 }
