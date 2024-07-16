@@ -34,9 +34,10 @@ public class PublicationService {
         publicationRepository.deleteById(idPublication);
     }
 
-    public boolean reportPublication(Integer idPublication) {
+    public Publication reportPublication(Integer idPublication) {
         Publication publication = publicationRepository.findById(idPublication).orElseThrow();
-        return publication.isPubSignalee();
+        publication.isPubSignalee();
+        return publicationRepository.save(publication);
     }
 
     public void validatePublication(Integer idPublication) {

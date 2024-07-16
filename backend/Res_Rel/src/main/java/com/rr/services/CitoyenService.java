@@ -189,8 +189,38 @@ public class CitoyenService {
     }
 
     public List<Citoyen> findAll(){
-        return utilisateurRepository.findAll();
+        return utilisateurRepository.findAll();}
+
+    public void removeCitoyen(Citoyen citoyen){
+        utilisateurRepository.deleteByMail(citoyen.getMail()).orElseThrow(() -> new RuntimeException("le citoyen que vous essayez de supprimer n'existe pas"));
     }
+
+    public void validateCitoyen(Citoyen citoyen){
+        if(citoyen.getValidaton() != 1)
+            citoyen.setValidaton(1);
+    }
+    public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, int validaton, String codePostal, String ville, String mdp ){
+        citoyen.setNom(name);
+        citoyen.setPrenom(prenom);
+        citoyen.setNumTel(numTel);
+        citoyen.setMail(mail);
+        citoyen.setNumSec(numSec);
+        citoyen.setRole(role);
+        citoyen.setDateNaissance(dateNaissance);
+        citoyen.setSexe(sexe);
+        citoyen.setValidaton(validaton);
+        citoyen.setCodePostal(codePostal);
+        citoyen.setVille(ville);
+        if(!Objects.equals(mdp, ""))
+            citoyen.setMdp(mdp);
+        else
+            citoyen.setMdp(citoyen.getMdp());
+
+
+
+    }
+
+
 
     // public boolean removeCitoyen(Citoyen citoyen){
     //     utilisateurRepository.deleteByMail(citoyen.getMail());
