@@ -65,7 +65,7 @@ public class PublicationController{
 
     @PostMapping("/api/publications/validate_publi/{idPublication}")
     public void ValidatePublication(@PathVariable int idPublication){
-        this.publicationservice.validatePublicaiton(idPublication);
+        this.publicationservice.validatePublication(idPublication);
     }
 
     @PostMapping("/api/publication/publish/{idPublication}")
