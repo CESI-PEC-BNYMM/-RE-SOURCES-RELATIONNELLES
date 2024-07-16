@@ -23,23 +23,18 @@ public class TicketService {
     }
 
     // méthode pour créer un ticket
-    public void ajouterTicket(int idticket, String objet, boolean etat, String nomCreateur, String prenomCreateur, String mail_createur) {
+    public Ticket ajouterTicket(String objet, boolean etat, String nomCreateur, String prenomCreateur, String mail_createur) {
         Ticket ticket = new Ticket();
-
-        // affectation des valeurs
-        ticket.setIdticket(idticket);
         ticket.setObjet(objet);
         ticket.setEtat(etat);
         ticket.setNomCreateur(nomCreateur);
         ticket.setPrenomCreateur(prenomCreateur);
         ticket.setMail_createur(mail_createur);
-
-        TicketRepository.save(ticket);
-        
+        return TicketRepository.save(ticket);
     }
 
     //méthode pour modifier un ticket
-    public void modifierTicket(int idticket, String objet, boolean etat, String nomCreateur, String prenomCreateur, String mail_createur) {
+    public Ticket modifierTicket(int idticket, String objet, boolean etat, String nomCreateur, String prenomCreateur, String mail_createur) {
         Ticket ticket = findByIdTicket(idticket);
         ticket.setIdticket(idticket);
         ticket.setObjet(objet);
@@ -47,13 +42,13 @@ public class TicketService {
         ticket.setNomCreateur(nomCreateur);
         ticket.setPrenomCreateur(prenomCreateur);
         ticket.setMail_createur(mail_createur);
-        TicketRepository.save(ticket);
+        return TicketRepository.save(ticket);
 
     }
 
     //méthode pour supprimer un ticket
     public void supprimerTicket(int idticket) {
-        TicketRepository.deleteAll();
+        TicketRepository.deleteById(idticket);
         System.out.println("Ticket supprimé");
     }
 
