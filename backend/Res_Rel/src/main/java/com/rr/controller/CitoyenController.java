@@ -38,10 +38,15 @@ public class CitoyenController {
     }
 
     @PostMapping("/api/citoyen/update/{emailUser}")
-    public void update(@PathVariable Citoyen citoyen, @RequestParam String name, @RequestParam String prenom, @RequestParam String mail, @RequestParam String numTel, @RequestParam String numSec, @RequestParam String role, @RequestParam Date dateNaissance, @RequestParam char sexe, @RequestParam int validaton, @RequestParam String codePostal, @RequestParam String ville, @RequestParam String mdp ){
+    public void update(@PathVariable Citoyen citoyen, @RequestParam String name, @RequestParam String prenom,
+                       @RequestParam String mail, @RequestParam String numTel, @RequestParam String numSec,
+                       @RequestParam String role, @RequestParam Date dateNaissance, @RequestParam char sexe,
+                       @RequestParam int validaton, @RequestParam String codePostal, @RequestParam String ville,
+                       @RequestParam String mdp ){
 
 
-        citoyenService.update(citoyen, name, prenom, mail, numSec, numTel, role, dateNaissance, sexe, validaton, codePostal, ville, mdp );
+        citoyenService.update(citoyen, name, prenom, mail, numSec, numTel,
+                role, dateNaissance, sexe, validaton, codePostal, ville, mdp );
 
 
 
