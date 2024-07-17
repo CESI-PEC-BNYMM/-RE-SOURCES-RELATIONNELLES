@@ -55,6 +55,7 @@ const ParametresSite = () => {
         try {
             localStorage.clear()
         } catch (error) {
+            resetModals();
             handleModalShow('showError', {
                 title: 'Erreur',
                 message: 'Une erreur est survenue lors de la suppression de vos données en cache. Veuillez réessayer ou contacter le support si le problème persiste.',
@@ -63,6 +64,7 @@ const ParametresSite = () => {
             });
             return;
         }
+        resetModals();
         handleModalShow('showSuccess', {
             title: 'Données supprimées',
             message: 'Vos données en cache ont bien été supprimées.',
