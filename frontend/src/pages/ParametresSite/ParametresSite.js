@@ -50,8 +50,19 @@ const ParametresSite = () => {
     };
 
     const clearLocalStorage = () => {
-        localStorage.clear();
         resetModals();
+        handleModalShow('showLoading', { message: 'Suppression de vos données en cache en cours...' });
+        try {
+            localStorage.clear()
+        } catch (error) {
+            handleModalShow('showError', {
+                title: 'Erreur',
+                message: 'Une erreur est survenue lors de la suppression de vos données en cache. Veuillez réessayer ou contacter le support si le problème persiste.',
+                details: 'Erreur : ' + error.message,
+                onHide: () => window.location.reload(),
+            });
+            return;
+        }
         handleModalShow('showSuccess', {
             title: 'Données supprimées',
             message: 'Vos données en cache ont bien été supprimées.',
@@ -76,12 +87,16 @@ const ParametresSite = () => {
 
     const deleteAccount = () => {
         resetModals();
-        handleModalShow('showSuccess', {
-            title: 'Compte supprimé',
-            message: 'Votre compte a bien été supprimé.',
-            details: 'Vous allez être redirigé vers la page d\'accueil.',
-            onHide: () => window.location.href = '/',
-        });
+        handleModalShow('showLoading', { message: 'Suppression de votre compte en cours...' });
+        setTimeout(() => {
+            resetModals();
+            handleModalShow('showSuccess', {
+                title: 'Compte supprimé',
+                message: 'Votre compte a bien été supprimé.',
+                details: 'Vous allez être redirigé vers la page d\'accueil.',
+                onHide: () => window.location.href = '/',
+            });
+        }, 2000);
     };
 
     const sectionClassNames = 'd-flex align-items-center mt-2';
