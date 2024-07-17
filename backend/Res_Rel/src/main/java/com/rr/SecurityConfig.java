@@ -15,13 +15,11 @@ public class SecurityConfig {
         return http
             .authorizeRequests(authorizeRequests ->
                 authorizeRequests
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
             )
-            .formLogin(formLogin ->
-                formLogin
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/home")
-)
+            .httpBasic().disable()
+            .csrf().disable()
             .build();
     }
 }
+
