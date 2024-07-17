@@ -3,6 +3,10 @@ import { FaMoon } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 
 const ParametresSite = () => {
+    useEffect(() => {
+        document.title = '(RE) – Paramètres du site';
+    }, []);
+
     const [darkMode, setDarkMode] = useState(false);
 
     const handleDarkMode = () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
+  useEffect(() => {
+    document.title = '(RE) – Inscription';
+  }, []);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (values, { setSubmitting }) => {

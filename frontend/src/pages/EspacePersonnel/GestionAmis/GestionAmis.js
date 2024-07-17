@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 const GestionAmis = () => {
+    useEffect(() => {
+        document.title = '(RE) – Gestion d\'amis';
+    }, []);
+
     const [amis, setAmis] = useState([
         { nom: 'Jean Dupont'},
         { nom: 'Marie Durand'},

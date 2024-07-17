@@ -12,6 +12,10 @@ import 'react-leaf-polls/dist/index.css'
 import PollForm from '../../../components/PollForm/PollForm';
 
 const MesPublications = () => {
+    useEffect(() => {
+        document.title = '(RE) – Mes publications';
+    }, []);
+
     const [myUser, setMyUser] = useState({
         name: 'Mathieu Nowakowski',
         image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',

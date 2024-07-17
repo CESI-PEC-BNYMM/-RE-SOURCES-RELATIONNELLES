@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ParametresCompte.css';
 
 function ParametresCompte() {
+  useEffect(() => {
+    document.title = '(RE) – Paramètres du compte';
+  }, []);
+
   const [userInfo, setUserInfo] = useState({
     nom: '',
     prenom: '',

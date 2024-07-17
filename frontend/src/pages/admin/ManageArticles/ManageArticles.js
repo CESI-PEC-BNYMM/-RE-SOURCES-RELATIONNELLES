@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ManageModeration from '../../../components/ModerationManage/ModerationManage';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 
 const ManageArticles = () => {
+    useEffect(() => {
+        document.title = '(RE) – Gestion des articles';
+    }, []);
+
     const handleModalEditArticleOpen = (row) => {
         setIsEditing(row);
     };

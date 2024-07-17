@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ManageModeration from '../../../components/ModerationManage/ModerationManage';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 
 const ManageTickets = () => {
+    useEffect(() => {
+        document.title = '(RE) – Gestion des tickets';
+    }, []);
+
     const [isEditing, setIsEditing] = useState(null);
     const [isDeleting, setIsDeleting] = useState(null);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ManageModeration from '../../../components/ModerationManage/ModerationManage';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
@@ -6,6 +6,10 @@ import AddModal from '../../../components/AddModal/AddModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 
 const ManageCategories = () => {
+    useEffect(() => {
+        document.title = '(RE) – Gestion des catégories';
+    }, []);
+
     const theadData = [
         { key: "idcategorie", label: "ID", edit: false },
         { key: "libelle", label: "Libellé", edit: true, required: true },

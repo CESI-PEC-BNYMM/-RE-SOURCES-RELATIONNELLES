@@ -11,6 +11,10 @@ import { LeafPoll, Result } from 'react-leaf-polls'
 import 'react-leaf-polls/dist/index.css'
 
 const FilActualite = () => {
+    useEffect(() => {
+        document.title = '(RE) – Fil d\'actualité';
+    }, []);
+
     const [myUser, setMyUser] = useState({
         name: 'Mathieu Nowakowski',
         image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',

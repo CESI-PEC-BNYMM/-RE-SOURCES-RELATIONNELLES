@@ -7,6 +7,10 @@ import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 import AddModal from '../../../components/AddModal/AddModal';
 
 const ManageUsers = () => {
+    useEffect(() => {
+        document.title = '(RE) – Gestion des utilisateurs';
+    }, []);
+
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(null);
     const [isDeleting, setIsDeleting] = useState(null);

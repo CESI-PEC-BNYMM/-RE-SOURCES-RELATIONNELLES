@@ -1,8 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Contact.css";
 
 const Contact = () => {
+    useEffect(() => {
+        document.title = "(RE) – Contact";
+    }, []);
+
     const [files, setFiles] = useState([]);
 
     const handleFileChange = (event) => {
