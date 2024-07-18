@@ -1,19 +1,22 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'; // Importation des composants Routes et Route pour le routage dans React Router
 
-import UserPage from './users/UserPage'; // Importation de la page des utilisateurs
-import RolePage from './roles/RolePage'; // Importation de la page des rôles
-
-
+import UserPage from './ManageUsers/ManageUsers'; // Importation de la page des utilisateurs
+import ManageArticles from './ManageArticles/ManageArticles';
+import ManageCategories from './ManageCategories/ManageCategories';
+import ManageCommentaires from './ManageCommentaires/ManageCommentaires';
+import ManageTickets from './ManageTickets/ManageTickets';
 
 const AdminLayout = () => {
   return (
     <div className="admin-layout">
       <div className="admin-content">
-        <Routes> // Définition des routes pour la partie du contenu administratif
-          <Route path="utilisateurs" element={<UserPage />} /> // Route pour la page des utilisateurs
-          <Route path="roles" element={<RolePage />} /> // Route pour la page des rôles
-
+        <Routes> 
+          <Route path="utilisateurs" element={<UserPage />} /> 
+          <Route path="articles" element={<ManageArticles />} />
+          <Route path="categories" element={<ManageCategories />} />
+          <Route path="commentaires" element={<ManageCommentaires />} />
+          <Route path="tickets" element={<ManageTickets />} />
         </Routes>
       </div>
     </div>
@@ -21,4 +24,3 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-

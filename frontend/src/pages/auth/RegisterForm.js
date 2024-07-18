@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,9 @@ const validationSchema = Yup.object().shape({
   dateNaissance: Yup.date().required('La date de naissance est requise'),
   telephone: Yup.string().required('Le numéro de téléphone est requis'),
   numeroSecuriteSociale: Yup.string().required('Le numéro de sécurité sociale est requis'),
+  sexe: Yup.string().required('Le sexe est requis'),
+  ville: Yup.string().required('La ville est requise'),
+  codePostal: Yup.string().required('Le code postal est requis'),
   password: Yup.string()
     .required('Le mot de passe est requis')
     .matches(
@@ -25,6 +28,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
+  useEffect(() => {
+    document.title = '(RE) – Inscription';
+  }, []);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -53,6 +60,9 @@ const RegisterForm = () => {
               dateNaissance: '',
               telephone: '',
               numeroSecuriteSociale: '',
+              sexe: '',
+              ville: '',
+              codePostal: '',
               password: '',
               confirmPassword: ''
             }}
@@ -109,6 +119,33 @@ const RegisterForm = () => {
                 </Col>
               </Row>
               <Row>
+                <Col md={6}>
+                  <div className="form-group">
+                    <label htmlFor='sexe'>Sexe</label>
+                    <Field as="select" name="sexe" className="form-control">
+                      <option value="" label="Sélectionnez le sexe" />
+                      <option value="male" label="Homme" />
+                      <option value="female" label="Femme" />
+                    </Field>
+                    <ErrorMessage name="sexe" component="div" className="alert alert-danger mt-2" />
+                  </div>
+                </Col>
+                <Col md={6}>
+                  <div className="form-group">
+                    <label htmlFor='ville'>Ville</label>
+                    <Field name="ville" type="text" className="form-control" />
+                    <ErrorMessage name="ville" component="div" className="alert alert-danger mt-2" />
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={6}>
+                  <div className="form-group">
+                    <label htmlFor='codePostal'>Code Postal</label>
+                    <Field name="codePostal" type="text" className="form-control" />
+                    <ErrorMessage name="codePostal" component="div" className="alert alert-danger mt-2" />
+                  </div>
+                </Col>
                 <Col md={6}>
                   <div className="form-group">
                     <label htmlFor='password'>Mot de passe</label>

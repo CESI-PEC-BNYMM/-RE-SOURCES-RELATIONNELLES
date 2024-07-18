@@ -62,6 +62,7 @@
     padding: 10px;
     border-radius: 5px;
     width: fit-content;
+    margin-bottom: 10px;
 }
 
 .commentContent p {
@@ -85,4 +86,14 @@
 .Comment .profile img {
     height: 20px;
     width: 20px;
+}
+
+.Article div article h1 {
+    font-size: 1.3rem;
+    color: #5f849a;
+}
+
+.Article div article p {
+    font-size: .9rem;
+    color: #5f849a;
 }

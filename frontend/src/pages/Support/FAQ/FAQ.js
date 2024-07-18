@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './FAQ.css';
 
 const FAQ = () => {
+    useEffect(() => {
+        document.title = '(RE) – Foire aux questions';
+    }, []);
+
     const [questions, setQuestions] = useState([
         { question: "Exemple question 1", answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt." },
         { question: "Exemple question 2", answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies tincidunt." },

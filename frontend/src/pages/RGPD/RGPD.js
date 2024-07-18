@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { sanitize } from 'dompurify';
 import './RGPD.css';
 
 const RGPD = () => {
+    useEffect(() => {
+        document.title = '(RE) – Règlement Général de Protection des Données';
+    }, []);
+
     const articles = [
         {
             id: 1,
