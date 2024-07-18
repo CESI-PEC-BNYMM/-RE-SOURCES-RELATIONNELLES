@@ -16,7 +16,7 @@ import com.rr.repository.CitoyenRepository;
 public class pour_bdd {
 
     @Autowired
-    private CitoyenRepository citoyenRepository;
+    private CitoyenRepository utilisateurRepository;
 
     @GetMapping
     public List<Citoyen> getAllCitoyens() {
