@@ -90,11 +90,11 @@
   VALUES
   ('Sport'),
   ('Culture'),
-  ('Environnement')
-  ('Politique')
-  ('Economie')
-  ('Société')
-  ('Technologie')
+  ('Environnement'),
+  ('Politique'),
+  ('Economie'),
+  ('Société'),
+  ('Technologie'),
   ('Sante');
 
   -- -----------------------------------------------------
@@ -267,7 +267,7 @@
 
 
   -- Insérer des données dans la table choix_sondage_citoyen
-  INSERT INTO `ressources_relationnelles`.`choix_sondage_citoyen`
+  INSERT INTO `ressources_relationnelles`.`choixSondageCitoyen`
   (`citoyen_mail`, `ressource_idressource`, `choix_sondage_citoyen`)
   VALUES
   ('jean.dupont@example.com', 1, 'Oui'),
