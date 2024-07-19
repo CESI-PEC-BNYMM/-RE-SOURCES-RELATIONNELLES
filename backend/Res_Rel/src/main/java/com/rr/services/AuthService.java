@@ -1,5 +1,6 @@
 package com.rr.services;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,24 @@ public class AuthService {
 
 
     @Transactional(rollbackFor = Exception.class) // pour dire que si jamais ça marche mal,
-    public String signup(String mail, String motdePasse) {
-        var resu = citoyenRepository.findByMail(mail);
+    public String signup(String mail, String motdePasse, String nom, String prenom, String numTel,
+                            String numSec, Date dateNaissance, char sexe, String codePostal, String ville) {
+        var resu = utilisateurRepository.findByMail(mail);
         if (resu.isPresent()) {
             return "Echec lors de l'inscription. Cet identifiant est déjà utilisé";
         }
         Citoyen nouveauCitoyen = new Citoyen();
         nouveauCitoyen.setMail(mail);
         nouveauCitoyen.setMdp(passwordEncoder.encode(motdePasse));
-        citoyenRepository.save(nouveauCitoyen);
+        nouveauCitoyen.setPrenom(prenom);
+        nouveauCitoyen.setNom(nom);
+        nouveauCitoyen.setNumTel(numTel);
+        nouveauCitoyen.setNumSec(numSec);
+        nouveauCitoyen.setDateNaissance(dateNaissance);
+        nouveauCitoyen.setSexe(sexe);
+        nouveauCitoyen.setCodePostal(codePostal);
+        nouveauCitoyen.setVille(ville);
+        utilisateurRepository.save(nouveauCitoyen);
 
         return "Inscription réussi";
     }

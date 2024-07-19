@@ -34,14 +34,6 @@ public class Ressource {
         this.idRessource = idRessource;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getLien() {
         return lien;
     }
@@ -50,11 +42,4 @@ public class Ressource {
         this.lien = lien;
     }
 
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
-    }
 }

@@ -1,12 +1,20 @@
 package com.rr.entity;
 
-import jakarta.persistence.*;
-import org.hibernate.dialect.function.TruncFunction;
-import org.hibernate.type.descriptor.jdbc.TinyIntAsSmallIntJdbcType;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 
@@ -41,6 +49,10 @@ public class Publication {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citoyen_id") // This column in DemandeAmi table will store the foreign key
     private Citoyen citoyen;
+
+
+
+    public String getCitoyenEmail(){return citoyen.getMail();}
 
     public int getIdPublication() {
         return idPublication;

@@ -1,5 +1,5 @@
 // Importation des hooks nécessaires de React et des librairies externes
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'; // Pour la validation de formulaire
 import { useNavigate, useLocation } from 'react-router-dom'; // Hooks de React Router pour la navigation
@@ -7,6 +7,10 @@ import { AuthContext } from '../../utils/authContext'; // Contexte d'authentific
 
 // Définition du composant LoginForm
 const LoginForm = () => {
+  useEffect(() => {
+    document.title = '(RE) – Connexion';
+  }, []);
+
   // Accès à la fonction login à partir du contexte d'authentification
   const { login } = useContext(AuthContext);
   // Hooks pour la navigation et accès à l'état de la route actuelle
