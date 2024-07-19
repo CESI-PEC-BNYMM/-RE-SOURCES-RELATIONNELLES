@@ -28,7 +28,7 @@
     `sexe` CHAR(1) NULL,
     `actif` TINYINT(1) NULL DEFAULT 1,
     `validaton` TINYINT(1) NULL DEFAULT 1,
-    `codePostal` VARCHAR(5) NULL,
+    `code_postal` VARCHAR(5) NULL,
     `ville` VARCHAR(45) NULL,
     `mdp` VARCHAR(512) NULL,
     `date_derniere_connexion` DATETIME NULL,
@@ -37,7 +37,7 @@
 
   -- Insérer des données dans la table citoyen
   INSERT INTO `ressources_relationnelles`.`citoyen`
-  (`nom`, `prenom`, `mail`, `num_tel`, `num_sec`, `role`, `date_naissance`, `sexe`, `codePostal`, `ville`, `mdp`, `date_derniere_connexion`)
+  (`nom`, `prenom`, `mail`, `num_tel`, `num_sec`, `role`, `date_naissance`, `sexe`, `code_postal`, `ville`, `mdp`, `date_derniere_connexion`)
   VALUES
   ('Dupont', 'Jean', 'jean.dupont@example.com', '0612345678', '1234567890123', 'citoyen', '1990-01-01', 'M', '75000', 'Paris', '$2a$10$dGq2TzQ9rB.RQzZo4FZKeOwYzG6bCXzT2/qrJ5.jc5sMp/TjL7CGC', '2022-01-01 12:00:00'),
   ('Martin', 'Pierre', 'pierre.martin@example.com', '0698765432', '9876543210987', 'citoyen', '1985-05-15', 'M', '69000', 'Lyon', '$2a$10$Z.bMnHrXzGi8DpZgRqLJme3kjN/4YcUdMZpN5yL.jJDqv7Qi2gJq6', '2022-02-01 10:30:00'),

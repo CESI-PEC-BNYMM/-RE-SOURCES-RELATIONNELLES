@@ -14,11 +14,13 @@ public class Commentaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
+    @Column(name = "id_commentaire")
     private int idCommentaire;
+    @Column(name = "tewt_commentaire")
     private String tewtCommentaire;
-
     @Column(name="commentaire_signale")
     private boolean commentaireSignale;
+    @Column(name = "type")
     private boolean type;
 
     // relation 1,n avec citoyen

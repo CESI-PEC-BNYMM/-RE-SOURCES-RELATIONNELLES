@@ -1,0 +1,89 @@
+.Categories {
+    color: black;
+    position: sticky;
+    top: 70px;
+}
+
+.Categories ul {
+    align-self: start;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+}
+
+.Categories li {
+    padding-inline: 0;
+    border-bottom: 1px solid #bcbcbc;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.Categories li:hover {
+    background-color: #f1f1f1;
+}
+
+.Categories a {
+    color: black;
+    text-decoration: none;
+}
+
+.ArticleLink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    min-height: 150px;
+    color: black;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.ArticleLink:hover {
+    background-color: #f1f1f1;
+}
+
+.ArticleLink img {
+    height: 100%;
+    object-fit: cover;
+    padding-inline: 100px;
+}
+
+.commentContent {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    background-color: #ececec;
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+    margin-bottom: 10px;
+}
+
+.commentContent p {
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
+.commentUser {
+    font-size: small;
+}
+
+.commentUser img {
+    height: 5px;
+    width: 5px;
+}
+
+.profile {
+    width: fit-content;
+}
+
+.Comment .profile img {
+    height: 20px;
+    width: 20px;
+}

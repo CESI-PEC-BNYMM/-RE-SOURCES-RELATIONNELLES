@@ -21,14 +21,17 @@ import jakarta.persistence.OneToMany;
 public class Publication {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name = "id_publication")
     private int idPublication;
+    @Column(name = "description")
     private Long description;
-
     @Column(name = "date_pub")
     private Date datePub;
-
+    @Column(name = "pub_validee")
     private boolean PubValidee;
+    @Column(name = "pub_signalee")
     private  boolean PubSignalee;
+    @Column(name = "nbr_vues")
     private int NbrVues;
 
     //relation avec la table catégorie de type N,M (une pub peyt avoir plusieurs catégorie et une catégorie peut avoir plueireus publication
@@ -68,7 +71,7 @@ public class Publication {
     }
 
     public Date getDatePub() {
-        return datePub;
+        return this.datePub;
     }
 
     public void setDatePub(Date datePub) {

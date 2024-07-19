@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.rr.entity.Commentaire;
 import com.rr.repository.CommentaireRepository;
+import com.rr.entity.Citoyen;
 
 @Service
 public class CommentaireService {

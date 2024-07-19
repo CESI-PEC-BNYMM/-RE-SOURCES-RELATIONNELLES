@@ -8,13 +8,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Column;
 
 @Entity
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name = "idcategorie")
     public int idCategorie;
+
+    @Column(name = "libelle")
     public  String libelle;
+
+    @Column(name = "actif")
     public boolean actif;
 
     // relation n,m avec Publication, set est meilleure que list dans le cas
