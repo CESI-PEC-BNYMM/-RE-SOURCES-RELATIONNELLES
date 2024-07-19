@@ -13,11 +13,23 @@ import java.util.Set;
 public class Publication {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name = "id_publication")
     private int idPublication;
+    @Column(name = "description")
     private Long description;
+<<<<<<< Updated upstream
     private Date DatePub;
+=======
+
+    @Column(name = "date_pub")
+    private Date datePub;
+
+    @Column(name = "pub_validee")
+>>>>>>> Stashed changes
     private boolean PubValidee;
+    @Column(name = "pub_signalee")
     private  boolean PubSignalee;
+    @Column(name = "nbr_vues")
     private int NbrVues;
 
     //relation avec la table catégorie de type N,M (une pub peyt avoir plusieurs catégorie et une catégorie peut avoir plueireus publication

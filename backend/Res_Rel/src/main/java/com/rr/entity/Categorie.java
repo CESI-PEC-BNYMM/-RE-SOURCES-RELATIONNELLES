@@ -2,17 +2,32 @@ package com.rr.entity;
 
 import jakarta.persistence.*;
 
+<<<<<<< Updated upstream
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+=======
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+>>>>>>> Stashed changes
 
 @Entity
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_categorie")
     public int idCategorie;
+   
+    @Column(name = "libelle")
     public  String libelle;
+   
+    @Column(name = "actif")
     public boolean actif;
+    
 
     // relation n,m avec Publication, set est meilleure que list dans le cas
     @ManyToMany(mappedBy = "categories")

@@ -4,28 +4,47 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 
 public class Citoyen {
 
-
+    @Column(name = "mdp")
     private String mdp;
+    @Column(name = "nom")
     private String nom;
+    @Column(name = "prenom")
     private String prenom;
+    @Column(name = "mail") // ca sert
     @Id private String mail;
-    //@Column(name = "numTel") // ca sert
+   
+    @Column(name = "num_tel")
     private String numTel;
+
+    @Column(name = "role")
     private String role;
+    @Column(name = "num_sec")
     private String numSec;
+    @Column(name = "date_naissance")
     private Date dateNaissance;
+    @Column(name = "sexe")
     private char sexe;
+    @Column(name = "actif")
     private boolean actif;
+    @Column(name = "validation")
     private int validaton;
+    @Column(name = "code_postal")
     private String codePostal;
+    @Column(name = "ville")
     private String ville;
+    @Column(name = "date_derniere_connexion")
     private Date dateDerniereConnexion;
+    
 
 
 

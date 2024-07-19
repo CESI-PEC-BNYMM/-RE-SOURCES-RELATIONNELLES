@@ -1,13 +1,24 @@
 package com.rr.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Ressource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_ressource")
     public int idRessource;
+<<<<<<< Updated upstream
     public String type;
+=======
+    @Column(name = "lien")
+>>>>>>> Stashed changes
     public String lien;
     public String extension;
 

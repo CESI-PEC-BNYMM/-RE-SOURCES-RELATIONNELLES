@@ -1,6 +1,16 @@
 package com.rr.entity;
 
+<<<<<<< Updated upstream
 import jakarta.persistence.*;
+=======
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+>>>>>>> Stashed changes
 
 @Entity
 public class Ticket {
@@ -8,11 +18,17 @@ public class Ticket {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
 
+    @Column(name = "id_ticket")
     private int idticket;
+    @Column(name = "objet")
     private String objet;
+    @Column(name = "etat")
     private boolean etat;
+    @Column(name = "nom_createur")
     private String nomCreateur;
+    @Column(name = "prenom_createur")
     private String prenomCreateur;
+    @Column(name = "mail_createur")
     private String mail_createur;
 
     // Relation 1,n avec citoyen
