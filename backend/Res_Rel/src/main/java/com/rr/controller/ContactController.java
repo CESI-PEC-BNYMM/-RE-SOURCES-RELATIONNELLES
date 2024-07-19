@@ -19,7 +19,7 @@ public class ContactController {
     @Autowired
     private CitoyenRepository CitoyenRepository;
 
-    @GetMapping("/api/contact")
+    @GetMapping("/contact")
     public String contact(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String mail = authentication.getName();
@@ -29,4 +29,3 @@ public class ContactController {
     }
 
 }
-

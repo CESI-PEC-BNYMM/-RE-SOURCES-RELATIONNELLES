@@ -9,7 +9,7 @@ import com.rr.entity.Commentaire;
 import com.rr.repository.CommentaireRepository;
 import com.rr.services.CommentaireService;
 
-@RequestMapping("/api")
+@RequestMapping("/commentaires")
 public class CommentaireController {
 
         private CommentaireRepository commentaireRepository;
@@ -27,7 +27,7 @@ public class CommentaireController {
          * @param commentaire     The comment to be signaled
          * @param idCommentaire   The id of the comment
          */
-        @PutMapping("/api/commentaires/signale/{idCommentaire}")
+        @PutMapping("/signale/{idCommentaire}")
         public void signaleCommentaire(Commentaire commentaire, @PathVariable int idCommentaire) {
             // Find the comment by id and get the original commentaireSignale value
             boolean originalSignale = commentaireRepository.findById(idCommentaire).get().isCommentaireSignale();
@@ -45,7 +45,7 @@ public class CommentaireController {
          * @param signal The value of the commentaireSignale field to filter by.
          * @return A list of comments that match the specified signal value.
          */
-        @GetMapping("/api/commentaires/signale")
+        @GetMapping("/signale")
         public void findAllByCommentaireSignale(@PathVariable Boolean signal) {
             // Call the service method to retrieve all comments based on the commentaireSignale field
             commentaireService.findAllByCommentaireSignale(signal);
@@ -57,7 +57,7 @@ public class CommentaireController {
          * @param type The value of the type field to filter by.
          * @return A list of comments that match the specified type value.
          */
-        @GetMapping("/api/commentaires/{type}")
+        @GetMapping("/{type}")
         public void findByType(@PathVariable Boolean type) {
             // Call the service method to retrieve all comments based on the type field
             commentaireService.findByType(type);
@@ -70,7 +70,7 @@ public class CommentaireController {
          * @param signal The value of the commentaireSignale field to filter by.
          * @return A list of comments that match the specified type and signal values.
          */
-        @GetMapping("/api/commentaires/{type}/{signal}")
+        @GetMapping("/{type}/{signal}")
         public void findByTypeAndSignal(@PathVariable Boolean type, @PathVariable Boolean signal) {
             // Call the service method to retrieve all comments based on the type and commentaireSignale fields
             commentaireService.findByTypeAndSignal(type, signal);

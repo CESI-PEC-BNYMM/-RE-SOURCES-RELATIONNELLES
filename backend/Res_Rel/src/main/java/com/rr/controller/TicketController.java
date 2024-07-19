@@ -18,7 +18,7 @@ import com.rr.services.TicketService;
 
 @RestController
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/tickets")
 
 public class TicketController {
 
@@ -31,7 +31,7 @@ public class TicketController {
         this.TicketService = TicketService;
     }
 
-    @PutMapping("/api/tickets/ajoutTicket")
+    @PutMapping("/ajoutTicket")
     public ResponseEntity<Ticket> ajouterTicket(
         @RequestParam("Object") String objet,
         @RequestParam("Etat") boolean etat,
@@ -42,7 +42,7 @@ public class TicketController {
             return ResponseEntity.ok(ticket);
         }
 
-    @PutMapping("/api/tickets/modifierTicket")
+    @PutMapping("/modifierTicket")
     public ResponseEntity<Ticket>modifierTicket(
          @PathVariable("id") int id,
          @RequestParam("Object") String objet,
@@ -54,7 +54,7 @@ public class TicketController {
             return ResponseEntity.ok(ticket);
     }
 
-    @DeleteMapping("api/tickets/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable int id) {
         if (!TicketRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
@@ -64,12 +64,12 @@ public class TicketController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/tickets/findByEtat")
+    @GetMapping("/findByEtat")
     public List<Ticket> findByEtat(boolean etat) {
         return TicketService.findByEtat(etat);
     }
 
-    @GetMapping("/api/tickets/findByNomCreateur")
+    @GetMapping("/findByNomCreateur")
     public List<Ticket> findByNomCreateur(String nomCreateur) {
         return TicketService.findByNomCreateur(nomCreateur);
     }

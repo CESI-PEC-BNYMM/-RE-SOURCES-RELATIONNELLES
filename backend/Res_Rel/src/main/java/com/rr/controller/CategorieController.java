@@ -47,24 +47,24 @@ public class CategorieController {
         }
     }
 
-    @GetMapping("/categories/findbyid")
+    @GetMapping("/findbyid")
     public Optional<Categorie> findByCategorie(int idCategorie) {
         return findByCategorie(idCategorie);
     }
 
-    @GetMapping("/categories/findbylibelle")
+    @GetMapping("/findbylibelle")
     public Optional<Categorie> findByLibelle(String libelle) {
         return findByLibelle(libelle);
     }
 
-    @PutMapping("/categories/addCategorie")
+    @PutMapping("/addCategorie")
     public void addCategorie(@RequestParam int idCategorie, @RequestParam String libelle, @RequestParam boolean actif) {
         CategorieService categorieService = new CategorieService(categorieRepository); // create an instance of CategorieService
         categorieService.addCategorie(idCategorie, libelle, actif); // call the addCategorie method on the instance
         System.out.println("Categorie ajouté");
     }
 
-    @GetMapping("/categories/findByActif/@PathVariable{actif}")
+    @GetMapping("/findByActif/@PathVariable{actif}")
     public Optional<Categorie> findByActif(boolean actif) {
         if (actif == true) {
             return categorieRepository.findByActif(true);
@@ -74,4 +74,5 @@ public class CategorieController {
             return Optional.empty();
         }
     }
+    
 }

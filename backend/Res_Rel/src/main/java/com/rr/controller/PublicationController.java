@@ -18,7 +18,7 @@ import com.rr.utils.JwtUtil;
 
 @Controller
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/publications")
 
 public class PublicationController{
     private PublicationService publicationservice;
@@ -29,13 +29,13 @@ public class PublicationController{
         this.publicationservice = publicationservice;
     }
 
-    @GetMapping("/publications/list")
+    @GetMapping("/list")
     public List<Publication> getallpublications(){
 
         return publicationservice.getAllPublications();
     }
 
-    @DeleteMapping("/api/publications/delete/{token}/{id}")
+    @DeleteMapping("/delete/{token}/{id}")
     public ResponseEntity<Void> delete_publication(@PathVariable String token, @PathVariable int idPublication) {
         // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
@@ -58,17 +58,17 @@ public class PublicationController{
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/api/publication/report/{id}")
+    @PostMapping("/report/{id}")
     public void ReportPublication(@PathVariable int idPublication){
         this.publicationservice.reportPublication(idPublication);
     }
 
-    @PostMapping("/api/publications/validate_publi/{idPublication}")
+    @PostMapping("/validate_publi/{idPublication}")
     public void ValidatePublication(@PathVariable int idPublication){
         this.publicationservice.validatePublication(idPublication);
     }
 
-    @PostMapping("/api/publication/publish/{idPublication}")
+    @PostMapping("/publish/{idPublication}")
     public void PublishPublication (@PathVariable Integer idPublication){
 
         this.publicationservice.publishPublication(idPublication);

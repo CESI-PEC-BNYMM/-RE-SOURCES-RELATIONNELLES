@@ -14,7 +14,7 @@ import com.rr.entity.Citoyen;
 import com.rr.services.CitoyenService;
 @Controller
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/citoyen")
 
 public class CitoyenController {
 
@@ -29,19 +29,19 @@ public class CitoyenController {
         return citoyenService.findAll();
     }
 
-    @PostMapping("/api/citoyen/remove/{emailUser}")
+    @PostMapping("/remove/{emailUser}")
     public void removeCitoyen(@PathVariable Citoyen citoyen){
         this.citoyenService.removeCitoyen(citoyen);
     }
 
-    @PostMapping("/api/citoyen/validate_user/{emailUser}")
+    @PostMapping("/validate_user/{emailUser}")
     public void validateCitoyen(@PathVariable Citoyen citoyen){
 
         citoyenService.validateCitoyen(citoyen);
 
     }
 
-    @PostMapping("/api/citoyen/update/{emailUser}")
+    @PostMapping("/update/{emailUser}")
     public void update(@PathVariable Citoyen citoyen, @RequestParam String name, @RequestParam String prenom, @RequestParam String mail, @RequestParam String numTel, @RequestParam String numSec,@RequestParam String role, @RequestParam Date dateNaissance, @RequestParam char sexe, @RequestParam int validaton, @RequestParam String codePostal, @RequestParam String ville, @RequestParam String mdp ){
 
 

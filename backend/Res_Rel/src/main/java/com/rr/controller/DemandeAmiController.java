@@ -16,7 +16,7 @@ import com.rr.services.DemandeAmiService;
 import com.rr.utils.JwtUtil;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/demandeAmi")
 
 public class DemandeAmiController {
 
@@ -32,7 +32,7 @@ public class DemandeAmiController {
      * @param token The authentication token of the user.
      * @return A string representation of the list of friend requests.
      */
-    @GetMapping("/api/demandeAmi/list/{token}")
+    @GetMapping("/list/{token}")
     public String listDemandeAmi(@PathVariable String token) {
         // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
@@ -54,7 +54,7 @@ public class DemandeAmiController {
      * @param idDemandeAmi The ID of the friend request to accept.
      * @return A response indicating the success of the operation.
      */
-    @PostMapping("/api/demande_ami/accept_friend/{token}/{idDemandeAmi}")
+    @PostMapping("/accept_friend/{token}/{idDemandeAmi}")
     public ResponseEntity<Void> accepterDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
@@ -90,7 +90,7 @@ public class DemandeAmiController {
      * @param idDemandeAmi The ID of the friend request to confirm.
      * @return A response indicating the success of the operation.
      */
-    @PutMapping("/api/demande_ami/confirm_demande/{token}/{idDemandeAmi}")
+    @PutMapping("/confirm_demande/{token}/{idDemandeAmi}")
     public ResponseEntity<Void> confirmerDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
@@ -126,7 +126,7 @@ public class DemandeAmiController {
      * @param idDemandeAmi The ID of the friend request to refuse.
      * @return A response indicating the success of the operation.
      */
-    @DeleteMapping("/api/demande_ami/refuse_friend/{token}/{idDemandeAmi}")
+    @DeleteMapping("/refuse_friend/{token}/{idDemandeAmi}")
     public ResponseEntity<Void> refuserDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
@@ -161,7 +161,7 @@ public class DemandeAmiController {
      * @param idDemandeAmi The ID of the friend request to delete.
      * @return A response indicating the success of the operation.
      */
-    @DeleteMapping("/api/demande_ami/delete/{token}/{idDemandeAmi}")
+    @DeleteMapping("/delete/{token}/{idDemandeAmi}")
     public ResponseEntity<Void> deleteDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         // Extract the email from the token
         String emailUser = JwtUtil.getEmailFromToken(token);
@@ -192,5 +192,4 @@ public class DemandeAmiController {
     private DemandeAmiRepository demandeAmiRepository;
 
 }
-
 
