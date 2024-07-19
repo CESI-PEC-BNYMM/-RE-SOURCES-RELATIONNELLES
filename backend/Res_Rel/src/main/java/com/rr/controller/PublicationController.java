@@ -1,4 +1,5 @@
 package com.rr.controller;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,70 +16,134 @@ import com.rr.entity.Publication;
 import com.rr.services.PublicationService;
 import com.rr.utils.JwtUtil;
 
-
 @Controller
 @RestController
 @RequestMapping("/publications")
+public class PublicationController {
 
-public class PublicationController{
-    private PublicationService publicationservice;
+    private final PublicationService publicationService;
 
     @Autowired
-    public PublicationController(PublicationService publicationservice){
-
-        this.publicationservice = publicationservice;
+    public PublicationController(PublicationService publicationService) {
+        this.publicationService = publicationService;
     }
 
+    /**
+     * Retrieves all publications.
+     * 
+     * @return A list of all publications or an error message.
+     * @example GET /publications/list
+     */
     @GetMapping("/list")
-    public List<Publication> getallpublications(){
-
-        return publicationservice.getAllPublications();
-    }
-
-    @DeleteMapping("/delete/{token}/{id}")
-    public ResponseEntity<Void> delete_publication(@PathVariable String token, @PathVariable int idPublication) {
-        // Extract the email from the token
-        String emailUser = JwtUtil.getEmailFromToken(token);
-
-        // Validate the token
-        if (!JwtUtil.validateToken(token)) {
-            // If the token is invalid, return a bad request response
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> getAllPublications() {
+        try {
+            List<Publication> publications = publicationService.getAllPublications();
+            return ResponseEntity.ok(publications);
+        } catch (Exception e) {
+            System.err.println("Error retrieving publications: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error retrieving publications");
         }
-
-      /*  Publication publication = publicationservice.findId(idPublication)
-                .orElseThrow(() -> new ResourceNotFoundException("Answer Not Found"));*/
-
-
-
-        // supprimer la publication
-        publicationservice.deletePublication(idPublication);
-
-        // Return a success response
-        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/report/{id}")
-    public void ReportPublication(@PathVariable int idPublication){
-        this.publicationservice.reportPublication(idPublication);
+    /**
+     * Deletes a publication.
+     * 
+     * @param token The authentication token of the user.
+     * @param idPublication The ID of the publication to delete.
+     * @return A response indicating the success or failure of the operation.
+     * @example DELETE /publications/delete/{token}/{id}
+     */
+    @DeleteMapping("/delete/{token}/{idPublication}")
+    public ResponseEntity<?> deletePublication(@PathVariable String token, @PathVariable int idPublication) {
+        try {
+            // Extract the email from the token
+            String emailUser = JwtUtil.getEmailFromToken(token);
+
+            // Validate the token
+            if (!JwtUtil.validateToken(token)) {
+                return ResponseEntity.badRequest().body("Invalid token");
+            }
+
+            // Delete the publication
+            publicationService.deletePublication(idPublication);
+
+            return ResponseEntity.ok().body("Publication deleted successfully");
+
+        } catch (Exception e) {
+            System.err.println("Error deleting publication: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error deleting publication");
+        }
     }
 
+    /**
+     * Reports a publication.
+     * 
+     * @param idPublication The ID of the publication to report.
+     * @return A response indicating the success of the operation.
+     * @example POST /publications/report/{id}
+     */
+    @PostMapping("/report/{idPublication}")
+    public ResponseEntity<?> reportPublication(@PathVariable int idPublication) {
+        try {
+            publicationService.reportPublication(idPublication);
+            return ResponseEntity.ok().body("Publication reported successfully");
+        } catch (Exception e) {
+            System.err.println("Error reporting publication: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error reporting publication");
+        }
+    }
+
+    /**
+     * Validates a publication.
+     * 
+     * @param idPublication The ID of the publication to validate.
+     * @return A response indicating the success of the operation.
+     * @example POST /publications/validate_publi/{idPublication}
+     */
     @PostMapping("/validate_publi/{idPublication}")
-    public void ValidatePublication(@PathVariable int idPublication){
-        this.publicationservice.validatePublication(idPublication);
+    public ResponseEntity<?> validatePublication(@PathVariable int idPublication) {
+        try {
+            publicationService.validatePublication(idPublication);
+            return ResponseEntity.ok().body("Publication validated successfully");
+        } catch (Exception e) {
+            System.err.println("Error validating publication: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error validating publication");
+        }
     }
 
+    /**
+     * Publishes a publication.
+     * 
+     * @param idPublication The ID of the publication to publish.
+     * @return A response indicating the success of the operation.
+     * @example POST /publications/publish/{idPublication}
+     */
     @PostMapping("/publish/{idPublication}")
-    public void PublishPublication (@PathVariable Integer idPublication){
-
-        this.publicationservice.publishPublication(idPublication);
+    public ResponseEntity<?> publishPublication(@PathVariable Integer idPublication) {
+        try {
+            publicationService.publishPublication(idPublication);
+            return ResponseEntity.ok().body("Publication published successfully");
+        } catch (Exception e) {
+            System.err.println("Error publishing publication: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error publishing publication");
+        }
     }
 
- /*   @GetMapping("/api/publications/{email}")
-    public ResponseEntity<List<Publication>> getPublicationsByCitoyenEmail(@PathVariable String email) {
-        CitoyenService citoyenService = new CitoyenService();
-
-        Citoyen citoyen =  citoyenService.findbymail(email);
-        return (ResponseEntity<List<Publication>>) getallpublications(citoyen);
-    }*/
+    /*
+     * 
+     * @GetMapping("/api/publications/{email}")
+     * public ResponseEntity<List<Publication>> getPublicationsByCitoyenEmail(@PathVariable String email) {
+     *     try {
+     *         Citoyen citoyen = citoyenService.findbymail(email);
+     *         if (citoyen == null) {
+     *             return ResponseEntity.notFound().build();
+     *         }
+     *         List<Publication> publications = publicationService.getPublicationsByCitoyen(citoyen);
+     *         return ResponseEntity.ok(publications);
+     *     } catch (Exception e) {
+     *         System.err.println("Error retrieving publications by email: " + e.getMessage());
+     *         return ResponseEntity.status(500).body("Error retrieving publications by email");
+     *     }
+     * }
+     */
 }
