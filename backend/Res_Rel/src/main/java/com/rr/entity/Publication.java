@@ -17,15 +17,9 @@ public class Publication {
     private int idPublication;
     @Column(name = "description")
     private Long description;
-<<<<<<< Updated upstream
-    private Date DatePub;
-=======
-
     @Column(name = "date_pub")
     private Date datePub;
-
     @Column(name = "pub_validee")
->>>>>>> Stashed changes
     private boolean PubValidee;
     @Column(name = "pub_signalee")
     private  boolean PubSignalee;
@@ -65,11 +59,11 @@ public class Publication {
     }
 
     public Date getDatePub() {
-        return DatePub;
+        return this.datePub;
     }
 
     public void setDatePub(Date datePub) {
-        DatePub = datePub;
+        this.datePub = datePub;
     }
 
     public boolean isPubValidee() {

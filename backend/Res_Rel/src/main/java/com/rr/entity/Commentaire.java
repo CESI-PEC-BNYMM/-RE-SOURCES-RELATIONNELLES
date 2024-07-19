@@ -12,12 +12,7 @@ public class Commentaire {
     private int idCommentaire;
     @Column(name = "tewt_commentaire")
     private String tewtCommentaire;
-<<<<<<< Updated upstream
-=======
-    
-
     @Column(name="commentaire_signale")
->>>>>>> Stashed changes
     private boolean commentaireSignale;
     @Column(name = "type")
     private boolean type;

@@ -14,12 +14,11 @@ public class Ressource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ressource")
     public int idRessource;
-<<<<<<< Updated upstream
+    @Column(name = "type")
     public String type;
-=======
     @Column(name = "lien")
->>>>>>> Stashed changes
     public String lien;
+    @Column(name = "extension")
     public String extension;
 
     // relation 1,n avec Publication
