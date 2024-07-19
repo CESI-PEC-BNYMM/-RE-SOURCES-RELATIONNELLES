@@ -8,14 +8,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.rr.entity.Categorie;
 import com.rr.repository.CategorieRepository;
 import com.rr.services.CategorieService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/categories")
 
 public class CategorieController {
 
@@ -25,9 +33,18 @@ public class CategorieController {
         this.categorieRepository = categorieRepository;
     }
 
-    @GetMapping("/categories/list")
-    public List<Categorie> getAllCategorie() {
-        return categorieRepository.findAll();
+    @GetMapping("/list")
+    public ResponseEntity<?> getAllCategorie() {
+        try {
+            List<Categorie> categories = categorieRepository.findAll();
+            return new ResponseEntity<>(categories, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error retrieving categories: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error retrieving categories");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/categories/findbyid")
@@ -57,5 +74,4 @@ public class CategorieController {
             return Optional.empty();
         }
     }
-    
 }
