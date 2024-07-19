@@ -190,18 +190,29 @@ public class CitoyenService {
         return findbymail(emailcitoyen);
     }
 
+    public Citoyen findByEmail(String email) {
+        return utilisateurRepository.findByMail(email)
+            .orElseThrow(() -> new RuntimeException("Citoyen with email " + email + " not found"));
+    }
+
     public List<Citoyen> findAll(){
-        return utilisateurRepository.findAll();}
-
-    public void removeCitoyen(Citoyen citoyen){
-        utilisateurRepository.deleteByMail(citoyen.getMail()).orElseThrow(() -> new RuntimeException("le citoyen que vous essayez de supprimer n'existe pas"));
+        return utilisateurRepository.findAll();
     }
 
-    public void validateCitoyen(Citoyen citoyen){
-        if(citoyen.getValidaton() != 1)
+    public void removeCitoyen(Citoyen citoyen) {
+        utilisateurRepository.deleteByMail(citoyen.getMail())
+            .orElseThrow(() -> new RuntimeException("Le citoyen que vous essayez de supprimer n'existe pas"));
+    }
+
+
+    public void validateCitoyen(Citoyen citoyen) {
+        if (citoyen.getValidaton() != 1) {
             citoyen.setValidaton(1);
+            utilisateurRepository.save(citoyen);
+        }
     }
-    public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, int validaton, String codePostal, String ville, String mdp ){
+
+    public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, int validaton, String codePostal, String ville, String mdp) {
         citoyen.setNom(name);
         citoyen.setPrenom(prenom);
         citoyen.setNumTel(numTel);
@@ -213,16 +224,11 @@ public class CitoyenService {
         citoyen.setValidaton(validaton);
         citoyen.setCodePostal(codePostal);
         citoyen.setVille(ville);
-        if(!Objects.equals(mdp, ""))
+        if (!Objects.equals(mdp, "")) {
             citoyen.setMdp(mdp);
-        else
-            citoyen.setMdp(citoyen.getMdp());
-
-
-
+        }
+        utilisateurRepository.save(citoyen);
     }
-
-
 
     // public boolean removeCitoyen(Citoyen citoyen){
     //     utilisateurRepository.deleteByMail(citoyen.getMail());

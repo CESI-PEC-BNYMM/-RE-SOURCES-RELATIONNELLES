@@ -15,14 +15,14 @@ import com.rr.repository.CitoyenRepository;
 public class AuthService {
 
     @Autowired
-    private CitoyenRepository citoyenRepository;
+    private CitoyenRepository utilisateurRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true) // pour spécifier que la requete ne sert qu'à lire les informations
     public String login(String mail, String motdePasse) {
-        Optional<Citoyen> citoyen = citoyenRepository.findByMail(mail);
+        Optional<Citoyen> citoyen = utilisateurRepository.findByMail(mail);
         if (citoyen.isPresent() && passwordEncoder.matches(motdePasse, citoyen.get().getMdp())) {
             return "Connexion reussie";
         } else {
