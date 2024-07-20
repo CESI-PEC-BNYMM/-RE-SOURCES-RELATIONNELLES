@@ -43,7 +43,7 @@ public class PublicationController {
             return ResponseEntity.ok(publications);
         } catch (Exception e) {
             System.err.println("Error retrieving publications: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error retrieving publications");
+            return ResponseEntity.status(500).body("Error retrieving publications : " + e.getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ public class PublicationController {
 
         } catch (Exception e) {
             System.err.println("Error deleting publication: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error deleting publication");
+            return ResponseEntity.status(500).body("Error deleting publication" + e.getMessage());
         }
     }
 
@@ -93,7 +93,7 @@ public class PublicationController {
             return ResponseEntity.ok().body("Publication reported successfully");
         } catch (Exception e) {
             System.err.println("Error reporting publication: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error reporting publication");
+            return ResponseEntity.status(500).body("Error reporting publication" + e.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ public class PublicationController {
             return ResponseEntity.ok().body("Publication validated successfully");
         } catch (Exception e) {
             System.err.println("Error validating publication: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error validating publication");
+            return ResponseEntity.status(500).body("Error validating publication" + e.getMessage());
         }
     }
 
@@ -131,7 +131,7 @@ public class PublicationController {
             return ResponseEntity.ok().body("Publication published successfully");
         } catch (Exception e) {
             System.err.println("Error publishing publication: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error publishing publication");
+            return ResponseEntity.status(500).body("Error publishing publication" + e.getMessage());
         }
     }
 

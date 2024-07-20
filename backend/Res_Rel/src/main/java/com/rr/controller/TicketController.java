@@ -52,7 +52,7 @@ public class TicketController {
             return ResponseEntity.ok(ticket);
         } catch (Exception e) {
             System.err.println("Error adding ticket: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error adding ticket");
+            return ResponseEntity.status(500).body("Error adding ticket" + e.getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ public class TicketController {
             return ResponseEntity.ok(ticket);
         } catch (Exception e) {
             System.err.println("Error modifying ticket: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error modifying ticket");
+            return ResponseEntity.status(500).body("Error modifying ticket" + e.getMessage());
         }
     }
 
@@ -107,7 +107,7 @@ public class TicketController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.err.println("Error deleting ticket: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error deleting ticket");
+            return ResponseEntity.status(500).body("Error deleting ticket" + e.getMessage());
         }
     }
 
@@ -126,7 +126,7 @@ public class TicketController {
             return ResponseEntity.ok(tickets);
         } catch (Exception e) {
             System.err.println("Error finding tickets by state: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error finding tickets by state");
+            return ResponseEntity.status(500).body("Error finding tickets by state" + e.getMessage());
         }
     }
 
@@ -145,7 +145,7 @@ public class TicketController {
             return ResponseEntity.ok(tickets);
         } catch (Exception e) {
             System.err.println("Error finding tickets by creator's name: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error finding tickets by creator's name");
+            return ResponseEntity.status(500).body("Error finding tickets by creator's name" + e.getMessage());
         }
     }
 }

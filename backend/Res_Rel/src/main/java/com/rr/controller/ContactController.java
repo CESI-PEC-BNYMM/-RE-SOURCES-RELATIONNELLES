@@ -48,7 +48,7 @@ public class ContactController {
             return "contact";
         } catch (Exception e) {
             System.err.println("Error retrieving user information: " + e.getMessage());
-            model.addAttribute("error", "An error occurred while retrieving user information");
+            model.addAttribute("error", "An error occurred while retrieving user information" + e.getMessage());
             return "contact"; // Return the view name with an error message
         }
     }

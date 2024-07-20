@@ -53,7 +53,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error retrieving friend requests: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error retrieving friend requests");
+            return ResponseEntity.status(500).body("Error retrieving friend requests" + e.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error accepting friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error accepting friend request");
+            return ResponseEntity.status(500).body("Error accepting friend request" + e.getMessage());
         }
     }
 
@@ -135,7 +135,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error confirming friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error confirming friend request");
+            return ResponseEntity.status(500).body("Error confirming friend request" + e.getMessage());
         }
     }
 
@@ -175,7 +175,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error refusing friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error refusing friend request");
+            return ResponseEntity.status(500).body("Error refusing friend request" + e.getMessage());
         }
     }
 
@@ -215,7 +215,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error deleting friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error deleting friend request");
+            return ResponseEntity.status(500).body("Error deleting friend request" + e.getMessage());
         }
     }
 }
