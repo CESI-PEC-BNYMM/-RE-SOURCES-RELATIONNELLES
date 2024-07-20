@@ -36,7 +36,7 @@ public class Citoyen {
     private char sexe;
     @Column(name = "actif")
     private boolean actif;
-    @Column(name = "validation")
+    @Column(name = "validaton")
     private int validaton;
     @Column(name = "code_postal")
     private String codePostal;
