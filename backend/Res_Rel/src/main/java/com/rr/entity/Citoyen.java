@@ -22,10 +22,8 @@ public class Citoyen {
     private String prenom;
     @Column(name = "mail") // ca sert
     @Id private String mail;
-   
     @Column(name = "num_tel")
     private String numTel;
-
     @Column(name = "role")
     private String role;
     @Column(name = "num_sec")

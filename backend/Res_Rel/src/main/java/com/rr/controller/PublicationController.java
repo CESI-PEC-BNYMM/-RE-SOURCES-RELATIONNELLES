@@ -13,19 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rr.entity.Publication;
+import com.rr.repository.PublicationRepository;
 import com.rr.services.PublicationService;
 import com.rr.utils.JwtUtil;
 
 @Controller
 @RestController
 @RequestMapping("/publications")
-public class PublicationController {
 
-    private final PublicationService publicationService;
+public class PublicationController {
+    private final PublicationRepository publicationRepository;
+    
 
     @Autowired
-    public PublicationController(PublicationService publicationService) {
-        this.publicationService = publicationService;
+    public PublicationController(PublicationRepository publicationRepository) {
+        this.publicationRepository = publicationRepository;
     }
 
     /**
@@ -37,7 +39,7 @@ public class PublicationController {
     @GetMapping("/list")
     public ResponseEntity<?> getAllPublications() {
         try {
-            List<Publication> publications = publicationService.getAllPublications();
+            List<Publication> publications = publicationRepository.findAll();
             return ResponseEntity.ok(publications);
         } catch (Exception e) {
             System.err.println("Error retrieving publications: " + e.getMessage());
@@ -65,6 +67,7 @@ public class PublicationController {
             }
 
             // Delete the publication
+            PublicationService publicationService = new PublicationService(publicationRepository);
             publicationService.deletePublication(idPublication);
 
             return ResponseEntity.ok().body("Publication deleted successfully");
@@ -85,6 +88,7 @@ public class PublicationController {
     @PostMapping("/report/{idPublication}")
     public ResponseEntity<?> reportPublication(@PathVariable int idPublication) {
         try {
+            PublicationService publicationService = new PublicationService(publicationRepository);
             publicationService.reportPublication(idPublication);
             return ResponseEntity.ok().body("Publication reported successfully");
         } catch (Exception e) {
@@ -103,6 +107,7 @@ public class PublicationController {
     @PostMapping("/validate_publi/{idPublication}")
     public ResponseEntity<?> validatePublication(@PathVariable int idPublication) {
         try {
+            PublicationService publicationService = new PublicationService(publicationRepository);
             publicationService.validatePublication(idPublication);
             return ResponseEntity.ok().body("Publication validated successfully");
         } catch (Exception e) {
@@ -121,6 +126,7 @@ public class PublicationController {
     @PostMapping("/publish/{idPublication}")
     public ResponseEntity<?> publishPublication(@PathVariable Integer idPublication) {
         try {
+            PublicationService publicationService = new PublicationService(publicationRepository);
             publicationService.publishPublication(idPublication);
             return ResponseEntity.ok().body("Publication published successfully");
         } catch (Exception e) {

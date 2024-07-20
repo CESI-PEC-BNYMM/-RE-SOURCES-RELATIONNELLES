@@ -14,7 +14,7 @@ import com.rr.repository.PublicationRepository;
 @Service
 public class PublicationService {
 
-    private final boolean vrai = true;
+    
     private final PublicationRepository publicationRepository;
 
     @Autowired
@@ -22,9 +22,9 @@ public class PublicationService {
         this.publicationRepository = publicationRepository;
     }
 
-    public List<Publication> getAllPublications() {
+     /*public List<Publication> findAll() {
         return publicationRepository.findAll();
-    }
+    }*/
 
     public List<Publication> findByCitoyen(Citoyen citoyen) {
         return publicationRepository.findByCitoyen(citoyen);
@@ -36,13 +36,13 @@ public class PublicationService {
 
     public Publication reportPublication(Integer idPublication) {
         Publication publication = publicationRepository.findById(idPublication).orElseThrow();
-        publication.isPubSignalee();
+        publication.setPubSignalee(true);
         return publicationRepository.save(publication);
     }
 
     public void validatePublication(Integer idPublication) {
         Publication publication = publicationRepository.findById(idPublication).orElseThrow();
-        publication.setPubSignalee(vrai);
+        publication.setPubValidee(true);
         publicationRepository.save(publication);  // Save the updated publication
     }
 

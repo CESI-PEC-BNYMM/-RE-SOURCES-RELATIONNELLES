@@ -21,10 +21,10 @@ import jakarta.persistence.OneToMany;
 public class Publication {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column(name = "id_publication")
+    @Column(name = "idpublication")
     private int idPublication;
     @Column(name = "description")
-    private Long description;
+    private String description;
     @Column(name = "date_pub")
     private Date datePub;
     @Column(name = "pub_validee")
@@ -32,7 +32,7 @@ public class Publication {
     @Column(name = "pub_signalee")
     private  boolean PubSignalee;
     @Column(name = "nbr_vues")
-    private int NbrVues;
+    private Integer NbrVues;
 
     //relation avec la table catégorie de type N,M (une pub peyt avoir plusieurs catégorie et une catégorie peut avoir plueireus publication
     @ManyToMany
@@ -47,7 +47,7 @@ public class Publication {
 
     // relation avec la table citoyen où publication contient la clé étrangère de citoyen
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "citoyen_id") // This column in DemandeAmi table will store the foreign key
+    @JoinColumn(name = "citoyen_mail") // This column in DemandeAmi table will store the foreign key
     private Citoyen citoyen;
 
 
@@ -62,11 +62,11 @@ public class Publication {
         this.idPublication = idPublication;
     }
 
-    public Long getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Long description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -94,11 +94,11 @@ public class Publication {
         PubSignalee = pubSignalee;
     }
 
-    public int getNbrVues() {
+    public Integer getNbrVues() {
         return NbrVues;
     }
 
-    public void setNbrVues(int nbrVues) {
+    public void setNbrVues(Integer nbrVues) {
         NbrVues = nbrVues;
     }
 }

@@ -199,8 +199,8 @@ public class CitoyenService {
         return utilisateurRepository.findAll();
     }
 
-    public void removeCitoyen(Citoyen citoyen) {
-        utilisateurRepository.deleteByMail(citoyen.getMail())
+    public void removeCitoyen(String mailcitoyen) {
+        utilisateurRepository.deleteByMail(mailcitoyen)
             .orElseThrow(() -> new RuntimeException("Le citoyen que vous essayez de supprimer n'existe pas"));
     }
 
