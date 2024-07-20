@@ -4,72 +4,75 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 @Entity
 
 public class Citoyen {
 
+    @Id
+    @Column(name = "mail")
+    private String mail;
+
     @Column(name = "mdp")
     private String mdp;
+
     @Column(name = "nom")
     private String nom;
+
     @Column(name = "prenom")
     private String prenom;
-    @Column(name = "mail") // ca sert
-    @Id private String mail;
-   
+
     @Column(name = "num_tel")
     private String numTel;
 
     @Column(name = "role")
     private String role;
+
     @Column(name = "num_sec")
     private String numSec;
+
     @Column(name = "date_naissance")
     private Date dateNaissance;
+
     @Column(name = "sexe")
     private char sexe;
+
     @Column(name = "actif")
     private boolean actif;
+
     @Column(name = "validaton")
     private int validaton;
+
     @Column(name = "code_postal")
     private String codePostal;
+
     @Column(name = "ville")
     private String ville;
+
     @Column(name = "date_derniere_connexion")
     private Date dateDerniereConnexion;
-    
 
-
-
-    // relation 1,N avec DemandeAmi
     @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
     private List<DemandeAmi> demandeenvoyee;
 
     @OneToMany(mappedBy = "citoyenreceveur")
-    private List<DemandeAmi> demandesAmiRecues; // Liste des demandes d'ami reçues par le citoyen
+    private List<DemandeAmi> demandesAmiRecues;
 
-    // relation 1,N avec Publication
     @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
     private List<Publication> pub;
 
-    // relation 1,N avec Publication
     @OneToMany(mappedBy = "citoyen")
     private List<Commentaire> commentaires;
 
-    // relation 1,N avec ticket
-    @OneToMany(mappedBy = "citoyen")
+    @OneToMany(mappedBy = "citoyen", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
-
-
-
-
 
     public String getMdp() {
         return mdp;
@@ -103,7 +106,7 @@ public class Citoyen {
         this.mail = mail;
     }
 
-    public String getnumTel() {
+    public String getNumTel() {
         return numTel;
     }
 
@@ -171,14 +174,9 @@ public class Citoyen {
         this.dateDerniereConnexion = dateDerniereConnexion;
     }
 
-    public Set<DemandeAmi> getDemandeenvoyee() {
-        return (Set<DemandeAmi>) demandeenvoyee;
+    public List<DemandeAmi> getDemandeenvoyee() {
+        return demandeenvoyee;
     }
-
-    public void setDemandeenvoyee(Set<DemandeAmi> demandeenvoyee) {
-        this.demandeenvoyee = (List<DemandeAmi>) demandeenvoyee;
-    }
-
 
     public void setNumTel(String numTel) {
         this.numTel = numTel;
@@ -227,6 +225,7 @@ public class Citoyen {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
 
 //Getter et setters
 

@@ -43,12 +43,13 @@ public class TicketController {
     @PutMapping("/ajoutTicket")
     public ResponseEntity<?> ajouterTicket(
         @RequestParam("Object") String objet,
+        @RequestParam("Description") String description,
         @RequestParam("Etat") boolean etat,
         @RequestParam("NomCreateur") String nomCreateur,
         @RequestParam("PrenomCreateur") String prenomCreateur,
         @RequestParam("Mail_createur") String mail_createur) {
         try {
-            Ticket ticket = ticketService.ajouterTicket(objet, etat, nomCreateur, prenomCreateur, mail_createur);
+            Ticket ticket = ticketService.ajouterTicket(objet, description, etat, nomCreateur, prenomCreateur, mail_createur);
             return ResponseEntity.ok(ticket);
         } catch (Exception e) {
             System.err.println("Error adding ticket: " + e.getMessage());
@@ -73,12 +74,13 @@ public class TicketController {
     public ResponseEntity<?> modifierTicket(
         @PathVariable("id") int id,
         @RequestParam("Object") String objet,
+        @RequestParam("Description") String description,
         @RequestParam("Etat") boolean etat,
         @RequestParam("NomCreateur") String nomCreateur,
         @RequestParam("PrenomCreateur") String prenomCreateur,
         @RequestParam("Mail_createur") String mail_createur) {
         try {
-            Ticket ticket = ticketService.modifierTicket(id, objet, etat, nomCreateur, prenomCreateur, mail_createur);
+            Ticket ticket = ticketService.modifierTicket(id, description, objet, etat, nomCreateur, prenomCreateur, mail_createur);
             if (ticket == null) {
                 return ResponseEntity.notFound().build();
             }

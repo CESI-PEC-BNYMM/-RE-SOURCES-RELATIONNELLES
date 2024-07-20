@@ -70,8 +70,7 @@
   VALUES
   ('Ma première publication', '2022-01-01 12:00:00', 'jean.dupont@example.com'),
   ('Une nouvelle publication', '2022-02-01 10:30:00', 'pierre.martin@example.com'),
-  ('Publi
-  ication intéressante', '2022-03-01 09:45:00', 'marie.durand@example.com');
+  ('Publication intéressante', '2022-03-01 09:45:00', 'marie.durand@example.com');
 
 
   -- -----------------------------------------------------
