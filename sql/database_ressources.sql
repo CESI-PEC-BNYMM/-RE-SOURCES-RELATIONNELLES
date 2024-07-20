@@ -17,14 +17,14 @@
   -- -----------------------------------------------------
   -- Table `ressources_relationnelles`.`citoyen`
   -- -----------------------------------------------------
-  CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`citoyen` (
+   CREATE TABLE IF NOT EXISTS `ressources_relationnelles`.`citoyen` (
     `nom` VARCHAR(45) NULL,
     `prenom` VARCHAR(45) NULL,
     `mail` VARCHAR(45) NOT NULL,
     `num_tel` VARCHAR(10) NULL,
     `num_sec` VARCHAR(13) NULL,
     `role` VARCHAR(45) NULL,
-    `date_naissance` DATE NULL,
+    `date_naissance` VARCHAR(45) NULL,
     `sexe` CHAR(1) NULL,
     `actif` TINYINT(1) NULL DEFAULT 1,
     `validaton` TINYINT(1) NULL DEFAULT 1,
@@ -42,7 +42,6 @@
   ('Dupont', 'Jean', 'jean.dupont@example.com', '0612345678', '1234567890123', 'citoyen', '1990-01-01', 'M', '75000', 'Paris', '$2a$10$dGq2TzQ9rB.RQzZo4FZKeOwYzG6bCXzT2/qrJ5.jc5sMp/TjL7CGC', '2022-01-01 12:00:00'),
   ('Martin', 'Pierre', 'pierre.martin@example.com', '0698765432', '9876543210987', 'citoyen', '1985-05-15', 'M', '69000', 'Lyon', '$2a$10$Z.bMnHrXzGi8DpZgRqLJme3kjN/4YcUdMZpN5yL.jJDqv7Qi2gJq6', '2022-02-01 10:30:00'),
   ('Durand', 'Marie', 'marie.durand@example.com', '0789456123', '4561237890126', 'citoyen', '1992-11-22', 'F', '33000', 'Bordeaux', '$2a$10$oU/x1bYeTKHX5f5qBxXvGeG.DlP2vSJ1QrkdgR9V4vqrTg6IwX6ZK', '2022-03-01 09:45:00');
-
 
   -- -----------------------------------------------------
   -- Table `ressources_relationnelles`.`publication`
