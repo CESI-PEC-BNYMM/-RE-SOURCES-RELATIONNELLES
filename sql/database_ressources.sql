@@ -27,7 +27,7 @@
     `date_naissance` VARCHAR(45) NULL,
     `sexe` CHAR(1) NULL,
     `actif` TINYINT(1) NULL DEFAULT 1,
-    `validaton` TINYINT(1) NULL DEFAULT 1,
+    `validation` TINYINT(1) NULL DEFAULT 1,
     `code_postal` VARCHAR(5) NULL,
     `ville` VARCHAR(45) NULL,
     `mdp` VARCHAR(512) NULL,
