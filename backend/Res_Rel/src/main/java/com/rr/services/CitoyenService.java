@@ -4,199 +4,40 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rr.entity.Citoyen;
+import com.rr.entity.Ticket;
 import com.rr.repository.CitoyenRepository;
 
 @Service
 public class CitoyenService {
 
-    public CitoyenRepository utilisateurRepository;
-  /*  private CitoyenRepository utilisateurRepository = new CitoyenRepository() {
-        @Override
-        public Optional<Citoyen> findByMail(String mail) {
-            return Optional.empty();
-        }
+    @Autowired
+    private final CitoyenRepository citoyenRepository;
 
-        @Override
-        public Optional<Citoyen> getallpub(List<Publication> pub) {
-            return Optional.empty();
-        }
-
-        @Override
-        public void flush() {
-
-        }
-
-        @Override
-        public <S extends Citoyen> S saveAndFlush(S entity) {
-            return null;
-        }
-
-        @Override
-        public <S extends Citoyen> List<S> saveAllAndFlush(Iterable<S> entities) {
-            return List.of();
-        }
-
-        @Override
-        public void deleteAllInBatch(Iterable<Citoyen> entities) {
-
-        }
-
-        @Override
-        public void deleteAllByIdInBatch(Iterable<String> strings) {
-
-        }
-
-        @Override
-        public void deleteAllInBatch() {
-
-        }
-
-        @Override
-        public Citoyen getOne(String s) {
-            return null;
-        }
-
-        @Override
-        public Citoyen getById(String s) {
-            return null;
-        }
-
-        @Override
-        public Citoyen getReferenceById(String s) {
-            return null;
-        }
-
-        @Override
-        public <S extends Citoyen> List<S> findAll(Example<S> example) {
-            return List.of();
-        }
-
-        @Override
-        public <S extends Citoyen> List<S> findAll(Example<S> example, Sort sort) {
-            return List.of();
-        }
-
-        @Override
-        public <S extends Citoyen> List<S> saveAll(Iterable<S> entities) {
-            return List.of();
-        }
-
-        @Override
-        public List<Citoyen> findAll() {
-            return List.of();
-        }
-
-        @Override
-        public List<Citoyen> findAllById(Iterable<String> strings) {
-            return List.of();
-        }
-
-        @Override
-        public <S extends Citoyen> S save(S entity) {
-            return null;
-        }
-
-        @Override
-        public Optional<Citoyen> findById(String s) {
-            return Optional.empty();
-        }
-
-        @Override
-        public boolean existsById(String s) {
-            return false;
-        }
-
-        @Override
-        public long count() {
-            return 0;
-        }
-
-        @Override
-        public void deleteById(String s) {
-
-        }
-
-        @Override
-        public void delete(Citoyen entity) {
-
-        }
-
-        @Override
-        public void deleteAllById(Iterable<? extends String> strings) {
-
-        }
-
-        @Override
-        public void deleteAll(Iterable<? extends Citoyen> entities) {
-
-        }
-
-        @Override
-        public void deleteAll() {
-
-        }
-
-        @Override
-        public List<Citoyen> findAll(Sort sort) {
-            return List.of();
-        }
-
-        @Override
-        public Page<Citoyen> findAll(Pageable pageable) {
-            return null;
-        }
-
-        @Override
-        public <S extends Citoyen> Optional<S> findOne(Example<S> example) {
-            return Optional.empty();
-        }
-
-        @Override
-        public <S extends Citoyen> Page<S> findAll(Example<S> example, Pageable pageable) {
-            return null;
-        }
-
-        @Override
-        public <S extends Citoyen> long count(Example<S> example) {
-            return 0;
-        }
-
-        @Override
-        public <S extends Citoyen> boolean exists(Example<S> example) {
-            return false;
-        }
-
-        @Override
-        public <S extends Citoyen, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-            return null;
-        }
-    };*/
-
-    public CitoyenService (CitoyenRepository citoyenRepository){
-        this.utilisateurRepository = citoyenRepository;
+    public CitoyenService(CitoyenRepository citoyenRepository) {
+        this.citoyenRepository = citoyenRepository;
     }
-    public CitoyenService(){}
 
     public Citoyen save(Citoyen citoyen) {
 
-        return utilisateurRepository.save(citoyen);
+        return citoyenRepository.save(citoyen);
     }
 
-    public Citoyen findbymail(String emailcitoyen){
+    public Citoyen findbyMail(String emailcitoyen){
 
-        return findbymail(emailcitoyen);
+        return findbyMail(emailcitoyen);
     }
 
     public Citoyen findByEmail(String email) {
-        return utilisateurRepository.findByMail(email)
+        return citoyenRepository.findByMail(email)
             .orElseThrow(() -> new RuntimeException("Citoyen with email " + email + " not found"));
     }
 
-    public List<Citoyen> findAll(){
-        return utilisateurRepository.findAll();
+    public List<Citoyen> findAll() {
+        return citoyenRepository.findAll();
     }
 
     public void removeCitoyen(String mailcitoyen) {
@@ -204,19 +45,20 @@ public class CitoyenService {
             .orElseThrow(() -> new RuntimeException("Le citoyen que vous essayez de supprimer n'existe pas"));
     }
 
-
     public void validateCitoyen(Citoyen citoyen) {
         if (citoyen.getValidaton() != 1) {
             citoyen.setValidaton(1);
-            utilisateurRepository.save(citoyen);
+            citoyenRepository.save(citoyen);
         }
     }
 
     public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, int validaton, String codePostal, String ville, String mdp) {
         citoyen.setNom(name);
         citoyen.setPrenom(prenom);
-        citoyen.setNumTel(numTel);
         citoyen.setMail(mail);
+        if (numTel != null && !numTel.isEmpty()) {
+            citoyen.setNumTel(numTel);
+        }
         citoyen.setNumSec(numSec);
         citoyen.setRole(role);
         citoyen.setDateNaissance(dateNaissance);
@@ -227,10 +69,11 @@ public class CitoyenService {
         if (!Objects.equals(mdp, "")) {
             citoyen.setMdp(mdp);
         }
-        utilisateurRepository.save(citoyen);
+        citoyenRepository.save(citoyen);
     }
 
-    // public boolean removeCitoyen(Citoyen citoyen){
-    //     utilisateurRepository.deleteByMail(citoyen.getMail());
-    // }
+    public List<Ticket> getTicketsByCitoyenMail(String mail) {
+        Citoyen citoyen = citoyenRepository.findById(mail).orElse(null);
+        return citoyen != null ? citoyen.getTickets() : null;
+    }
 }

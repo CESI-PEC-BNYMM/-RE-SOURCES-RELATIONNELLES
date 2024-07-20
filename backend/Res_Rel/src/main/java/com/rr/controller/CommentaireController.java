@@ -1,5 +1,6 @@
 package com.rr.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,6 +40,7 @@ public class CommentaireController {
      * Request Body: { "commentaireSignale": true }
      * Response: HTTP 200 OK with success message or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/signale/{idCommentaire}")
     public ResponseEntity<?> signaleCommentaire(@PathVariable int idCommentaire, @RequestParam boolean commentaireSignale) {
         try {
@@ -66,6 +68,7 @@ public class CommentaireController {
      * @example GET /commentaires/signale?signal=true
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/signale")
     public ResponseEntity<?> findAllByCommentaireSignale(@RequestParam Boolean signal) {
         try {
@@ -88,6 +91,7 @@ public class CommentaireController {
      * @example GET /commentaires/type?type=1
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/type")
     public ResponseEntity<?> findByType(@RequestParam Boolean type) {
         try {
@@ -111,6 +115,7 @@ public class CommentaireController {
      * @example GET /commentaires/type/1/signale?signal=true
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/type/{type}/signale/{signal}")
     public ResponseEntity<?> findByTypeAndSignal(@PathVariable Boolean type, @PathVariable Boolean signal) {
         try {
@@ -134,6 +139,7 @@ public class CommentaireController {
      * @example GET /commentaires/citoyen/{idCitoyen}/signale?signal=true
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
+    // @CrossOrigin(origins = "http://localhost:3000")
     // @GetMapping("/citoyen/{idCitoyen}/signale")
     // public ResponseEntity<?> findByCitoyenAndSignal(@PathVariable int idCitoyen, @RequestParam Boolean signal) {
     //     try {

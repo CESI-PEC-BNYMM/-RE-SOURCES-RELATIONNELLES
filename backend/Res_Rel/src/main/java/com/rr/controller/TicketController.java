@@ -3,6 +3,7 @@ package com.rr.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,19 +39,21 @@ public class TicketController {
      * @return The created ticket or an error message.
      * @example PUT /tickets/ajoutTicket
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/ajoutTicket")
     public ResponseEntity<?> ajouterTicket(
         @RequestParam("Object") String objet,
+        @RequestParam("Description") String description,
         @RequestParam("Etat") boolean etat,
         @RequestParam("NomCreateur") String nomCreateur,
         @RequestParam("PrenomCreateur") String prenomCreateur,
         @RequestParam("Mail_createur") String mail_createur) {
         try {
-            Ticket ticket = ticketService.ajouterTicket(objet, etat, nomCreateur, prenomCreateur, mail_createur);
+            Ticket ticket = ticketService.ajouterTicket(objet, description, etat, nomCreateur, prenomCreateur, mail_createur);
             return ResponseEntity.ok(ticket);
         } catch (Exception e) {
             System.err.println("Error adding ticket: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error adding ticket");
+            return ResponseEntity.status(500).body("Error adding ticket" + e.getMessage());
         }
     }
 
@@ -66,23 +69,25 @@ public class TicketController {
      * @return The updated ticket or an error message.
      * @example PUT /tickets/modifierTicket/{id}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/modifierTicket/{id}")
     public ResponseEntity<?> modifierTicket(
         @PathVariable("id") int id,
         @RequestParam("Object") String objet,
+        @RequestParam("Description") String description,
         @RequestParam("Etat") boolean etat,
         @RequestParam("NomCreateur") String nomCreateur,
         @RequestParam("PrenomCreateur") String prenomCreateur,
         @RequestParam("Mail_createur") String mail_createur) {
         try {
-            Ticket ticket = ticketService.modifierTicket(id, objet, etat, nomCreateur, prenomCreateur, mail_createur);
+            Ticket ticket = ticketService.modifierTicket(id, description, objet, etat, nomCreateur, prenomCreateur, mail_createur);
             if (ticket == null) {
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(ticket);
         } catch (Exception e) {
             System.err.println("Error modifying ticket: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error modifying ticket");
+            return ResponseEntity.status(500).body("Error modifying ticket" + e.getMessage());
         }
     }
 
@@ -93,6 +98,7 @@ public class TicketController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /tickets/{id}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable int id) {
         try {
@@ -103,7 +109,7 @@ public class TicketController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.err.println("Error deleting ticket: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error deleting ticket");
+            return ResponseEntity.status(500).body("Error deleting ticket" + e.getMessage());
         }
     }
 
@@ -114,6 +120,7 @@ public class TicketController {
      * @return A list of tickets with the specified state or an error message.
      * @example GET /tickets/findByEtat?etat=true
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findByEtat")
     public ResponseEntity<?> findByEtat(@RequestParam("etat") boolean etat) {
         try {
@@ -121,7 +128,7 @@ public class TicketController {
             return ResponseEntity.ok(tickets);
         } catch (Exception e) {
             System.err.println("Error finding tickets by state: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error finding tickets by state");
+            return ResponseEntity.status(500).body("Error finding tickets by state" + e.getMessage());
         }
     }
 
@@ -132,6 +139,7 @@ public class TicketController {
      * @return A list of tickets created by the specified first name or an error message.
      * @example GET /tickets/findByNomCreateur?nomCreateur=John
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findByNomCreateur")
     public ResponseEntity<?> findByNomCreateur(@RequestParam("nomCreateur") String nomCreateur) {
         try {
@@ -139,7 +147,7 @@ public class TicketController {
             return ResponseEntity.ok(tickets);
         } catch (Exception e) {
             System.err.println("Error finding tickets by creator's name: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error finding tickets by creator's name");
+            return ResponseEntity.status(500).body("Error finding tickets by creator's name" + e.getMessage());
         }
     }
 }

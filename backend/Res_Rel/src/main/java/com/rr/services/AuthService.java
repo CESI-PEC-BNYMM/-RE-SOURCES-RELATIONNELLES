@@ -1,9 +1,14 @@
 package com.rr.services;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +27,15 @@ public class AuthService {
 
     @Transactional(readOnly = true) // pour spécifier que la requete ne sert qu'à lire les informations
     public String login(String mail, String motdePasse) {
-        Optional<Citoyen> citoyen = utilisateurRepository.findByMail(mail);
-        if (citoyen.isPresent() && passwordEncoder.matches(motdePasse, citoyen.get().getMdp())) {
-            return "Connexion reussie";
-        } else {
-            return "Identifiant ou mot de passe incorrect";
+        var resu = utilisateurRepository.findByMail(mail);
+        if (resu.isEmpty()) {
+            throw new BadCredentialsException("Email ou mot de passe incorrect");
         }
+        Citoyen citoyen = resu.get();
+        if (!passwordEncoder.matches(motdePasse, citoyen.getMdp())) {
+            throw new BadCredentialsException("Email ou mot de passe incorrect");
+        }
+        return "Connexion réussie";
     }
 
 

@@ -3,11 +3,33 @@ import ManageModeration from '../../../components/ModerationManage/ModerationMan
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
+// import ErrorModal from '../../../components/ErrorModal/ErrorModal';
+// import SuccessModal from '../../../components/SuccessModal/SuccessModal';
+// import axios from 'axios';
 
 const ManageArticles = () => {
     useEffect(() => {
         document.title = '(RE) – Gestion des articles';
+        // fetchArticles();
     }, []);
+
+    // const api_url = process.env.REACT_APP_API_URI + '/api/publications';
+    // const [showErrorModal, setShowErrorModal] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState('');
+    // const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(null);
+    const [tbodyData, setTbodyData] = useState([]);
+
+    // const fetchArticles = async () => {
+    //     try {
+    //         const response = await axios.get(`${api_url}/list`);
+    //         setTbodyData(response.data);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la récupération des articles : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    // };
 
     const handleModalEditArticleOpen = (row) => {
         setIsEditing(row);
@@ -22,15 +44,45 @@ const ManageArticles = () => {
         setIsDeleting(null);
     };
 
-    const handleSave = (data) => {
-        setTbodyData(tbodyData.map(item => item.idpublication === data.idpublication ? data : item));
-        handleCloseModal();
-    };
+    // const handleSave = async (data) => {
+    //     try {
+    //         const queryParams = new URLSearchParams({
+    //             idPublication: data.idpublication,
+    //             category: data.category,
+    //             description: data.description,
+    //             lien: data.lien,
+    //             citoyen_mail: data.citoyen_mail,
+    //             author: data.author,
+    //             date_pub: data.date_pub,
+    //             pub_validee: data.pub_validee,
+    //             pub_signalee: data.pub_signalee,
+    //             nbr_vues: data.nbr_vues
+    //         }).toString();
+    //         await axios.post(`${api_url}/publish?${queryParams}`, null, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         fetchArticles();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la sauvegarde de l\'article : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
-    const handleDelete = (id) => {
-        setTbodyData(tbodyData.filter(item => item.idpublication !== id));
-        handleCloseModal();
-    };
+    // const handleDelete = async (id) => {
+    //     try {
+    //         await axios.delete(`${api_url}/delete/${token}/${id}`);
+    //         fetchArticles();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la suppression de l\'article : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
     const theadData = [
         { key: "idpublication", label: "ID", edit: false },
@@ -60,49 +112,6 @@ const ManageArticles = () => {
         }
     ];
 
-    const initialTbodyData = [
-        {
-            "idpublication": 1,
-            "category": "Politique",
-            "description": "Contenu de l'article 1",
-            "lien": "https://lequipe.fr",
-            "citoyen_mail": "mail@mail.com",
-            "author": "Auteur 1",
-            "date_pub": "01/01/2021",
-            "pub_validee": "En attente",
-            "pub_signalee": "Non",
-            "nbr_vues": 3000
-        },
-        {
-            "idpublication": 2,
-            "category": "Sport",
-            "description": "Contenu de l'article 2",
-            "lien": "https://lemonde.fr",
-            "citoyen_mail": "mail@mail.com",
-            "author": "Auteur 2",
-            "date_pub": "02/01/2021",
-            "pub_validee": "Validé",
-            "pub_signalee": "Oui",
-            "nbr_vues": 5
-        },
-        {
-            "idpublication": 3,
-            "category": "Culture",
-            "description": "Contenu de l'article 3",
-            "lien": "https://lefigaro.fr",
-            "citoyen_mail": "mail@mail.com",
-            "author": "Auteur 3",
-            "date_pub": "03/01/2021",
-            "pub_validee": "Refusé",
-            "pub_signalee": "Non",
-            "nbr_vues": 10
-        },
-    ];
-
-    const [isEditing, setIsEditing] = useState(null);
-    const [isDeleting, setIsDeleting] = useState(null);
-    const [tbodyData, setTbodyData] = useState(initialTbodyData);
-
     return (
         <>
             <ManageModeration
@@ -119,7 +128,7 @@ const ManageArticles = () => {
                     onHide={handleCloseModal}
                     data={isEditing}
                     theadData={theadData}
-                    onSave={handleSave}
+                    // onSave={handleSave}
                     entityName="article"
                     masculine={true}
                 />
@@ -128,13 +137,25 @@ const ManageArticles = () => {
                 <DeleteModal
                     show={isDeleting !== null}
                     onHide={handleCloseModal}
-                    onDelete={() => handleDelete(isDeleting)}
+                    // onDelete={() => handleDelete(isDeleting)}
                     id={isDeleting}
                     entityName="article"
                     masculine={true}
                     rowTitle={"ID " + tbodyData.find(item => item.idpublication === isDeleting)?.idpublication}
                 />
             )}
+            {/* <ErrorModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Erreur"
+                message={errorMessage}
+            />
+            <SuccessModal
+                show={showSuccessModal}
+                onHide={() => setShowSuccessModal(false)}
+                title="Succès"
+                message="Opération réussie"
+            /> */}
         </>
     );
 };

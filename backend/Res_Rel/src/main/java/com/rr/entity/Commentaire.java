@@ -14,9 +14,9 @@ public class Commentaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "id_commentaire")
+    @Column(name = "idcommentaire")
     private int idCommentaire;
-    @Column(name = "tewt_commentaire")
+    @Column(name = "text_commentaire")
     private String tewtCommentaire;
     @Column(name="commentaire_signale")
     private boolean commentaireSignale;

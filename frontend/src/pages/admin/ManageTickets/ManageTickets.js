@@ -3,14 +3,23 @@ import ManageModeration from '../../../components/ModerationManage/ModerationMan
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
+// import ErrorModal from '../../../components/ErrorModal/ErrorModal';
+// import SuccessModal from '../../../components/SuccessModal/SuccessModal';
+// import axios from 'axios';
 
 const ManageTickets = () => {
     useEffect(() => {
         document.title = '(RE) – Gestion des tickets';
+        // fetchTickets();
     }, []);
 
+    // const api_url = process.env.REACT_APP_API_URI + '/api/tickets';
     const [isEditing, setIsEditing] = useState(null);
     const [isDeleting, setIsDeleting] = useState(null);
+    // const [showErrorModal, setShowErrorModal] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState('');
+    // const [showSuccessModal, setShowSuccessModal] = useState(false);
+    // const [token, setToken] = useState('token');
 
     const [tbodyData, setTbodyData] = useState([
         {
@@ -42,6 +51,16 @@ const ManageTickets = () => {
         }
     ]);
 
+    // const fetchTickets = async () => {
+    //     try {
+    //         const response = await axios.get(`${api_url}/list`);
+    //         setTbodyData(response.data);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la récupération des tickets : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    // };
+
     const handleModalEditTicket = (id) => {
         setIsEditing(id);
     };
@@ -55,15 +74,42 @@ const ManageTickets = () => {
         setIsDeleting(null);
     };
 
-    const handleSave = (data) => {
-        setTbodyData(tbodyData.map(item => item.idticket === data.idticket ? data : item));
-        handleCloseModal();
-    };
+    // const handleSave = async (data) => {
+    //     try {
+    //         const queryParams = new URLSearchParams({
+    //             idTicket: data.idticket,
+    //             objet: data.objet,
+    //             description: data.description,
+    //             etat: data.etat,
+    //             nomCreateur: data.nom_createur,
+    //             prenomCreateur: data.prenom_createur,
+    //             citoyenMail: data.citoyen_mail
+    //         }).toString();
+    //         await axios.post(`${api_url}/publish?${queryParams}`, null, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         fetchTickets();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la sauvegarde du ticket : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
-    const handleDelete = (id) => {
-        setTbodyData(tbodyData.filter(item => item.idticket !== id));
-        handleCloseModal();
-    };
+    // const handleDelete = async (id) => {
+    //     try {
+    //         await axios.delete(`${api_url}/delete/${token}/${id}`);
+    //         fetchTickets();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la suppression du ticket : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
     const theadData = [
         {
@@ -135,7 +181,7 @@ const ManageTickets = () => {
                     onHide={handleCloseModal}
                     data={tbodyData.find(item => item.idticket === isEditing)}
                     theadData={theadData}
-                    onSave={handleSave}
+                    // onSave={handleSave}
                     entityName="ticket"
                     masculine={true}
                 />
@@ -144,15 +190,27 @@ const ManageTickets = () => {
                 <DeleteModal
                     show={isDeleting !== null}
                     onHide={handleCloseModal}
-                    onDelete={() => handleDelete(isDeleting)}
+                    // onDelete={() => handleDelete(isDeleting)}
                     id={isDeleting}
                     entityName="ticket"
                     masculine={true}
-                    rowTitle={"ID " + isDeleting}
+                    rowTitle={"ID " + tbodyData.find(item => item.idticket === isDeleting)?.idticket}
                 />
             )}
+            {/* <ErrorModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Erreur"
+                message={errorMessage}
+            />
+            <SuccessModal
+                show={showSuccessModal}
+                onHide={() => setShowSuccessModal(false)}
+                title="Succès"
+                message="Opération réussie"
+            /> */}
         </>
     );
-}
+};
 
 export default ManageTickets;

@@ -12,14 +12,10 @@ import jakarta.persistence.ManyToOne;
 public class Ressource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ressource")
+    @Column(name = "idressource")
     public int idRessource;
-    @Column(name = "type")
-    public String type;
     @Column(name = "lien")
     public String lien;
-    @Column(name = "extension")
-    public String extension;
 
     // relation 1,n avec Publication
     @ManyToOne

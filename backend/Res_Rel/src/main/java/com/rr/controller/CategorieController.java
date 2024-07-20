@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,7 @@ public class CategorieController {
      *   { "idCategorie": 2, "libelle": "Electronics", "actif": false }
      * ]
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list")
     public ResponseEntity<?> getAllCategorie() {
         try {
@@ -65,6 +67,7 @@ public class CategorieController {
      * Response: HTTP 200 OK
      * { "idCategorie": 1, "libelle": "Books", "actif": true }
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findbyid")
     public ResponseEntity<?> findByCategorie(@RequestParam int idCategorie) {
         try {
@@ -88,6 +91,7 @@ public class CategorieController {
      * Response: HTTP 200 OK
      * { "idCategorie": 1, "libelle": "Books", "actif": true }
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findbylibelle")
     public ResponseEntity<?> findByLibelle(@RequestParam String libelle) {
         try {
@@ -113,6 +117,7 @@ public class CategorieController {
      * Response: HTTP 200 OK
      * "Categorie ajouté"
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/addCategorie")
     public ResponseEntity<?> addCategorie(@RequestParam int idCategorie, @RequestParam String libelle,
                                           @RequestParam boolean actif) {
@@ -141,6 +146,7 @@ public class CategorieController {
      *   { "idCategorie": 1, "libelle": "Books", "actif": true }
      * ]
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findByActif/{actif}")
     public ResponseEntity<?> findByActif(@PathVariable boolean actif) {
         try {

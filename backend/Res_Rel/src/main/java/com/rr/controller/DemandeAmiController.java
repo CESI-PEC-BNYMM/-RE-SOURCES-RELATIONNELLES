@@ -1,6 +1,7 @@
 package com.rr.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class DemandeAmiController {
      * @return A list of friend requests or an error message.
      * @example GET /demandeAmi/list/{token}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list/{token}")
     public ResponseEntity<?> listDemandeAmi(@PathVariable String token) {
         try {
@@ -51,7 +53,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error retrieving friend requests: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error retrieving friend requests");
+            return ResponseEntity.status(500).body("Error retrieving friend requests" + e.getMessage());
         }
     }
 
@@ -63,6 +65,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example POST /demandeAmi/accept_friend/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/accept_friend/{token}/{idDemandeAmi}")
     public ResponseEntity<?> accepterDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -91,7 +94,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error accepting friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error accepting friend request");
+            return ResponseEntity.status(500).body("Error accepting friend request" + e.getMessage());
         }
     }
 
@@ -103,6 +106,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example PUT /demandeAmi/confirm_demande/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/confirm_demande/{token}/{idDemandeAmi}")
     public ResponseEntity<?> confirmerDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -131,7 +135,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error confirming friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error confirming friend request");
+            return ResponseEntity.status(500).body("Error confirming friend request" + e.getMessage());
         }
     }
 
@@ -143,6 +147,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /demandeAmi/refuse_friend/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/refuse_friend/{token}/{idDemandeAmi}")
     public ResponseEntity<?> refuserDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -170,7 +175,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error refusing friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error refusing friend request");
+            return ResponseEntity.status(500).body("Error refusing friend request" + e.getMessage());
         }
     }
 
@@ -182,6 +187,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /demandeAmi/delete/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/delete/{token}/{idDemandeAmi}")
     public ResponseEntity<?> deleteDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -209,7 +215,7 @@ public class DemandeAmiController {
 
         } catch (Exception e) {
             System.err.println("Error deleting friend request: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error deleting friend request");
+            return ResponseEntity.status(500).body("Error deleting friend request" + e.getMessage());
         }
     }
 }
