@@ -25,6 +25,10 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    public AuthService(CitoyenRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
     @Transactional(readOnly = true) // pour spécifier que la requete ne sert qu'à lire les informations
     public String login(String mail, String motdePasse) {
         var resu = utilisateurRepository.findByMail(mail);

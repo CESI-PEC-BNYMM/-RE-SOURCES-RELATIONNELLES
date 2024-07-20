@@ -41,7 +41,7 @@ public class CitoyenService {
     }
 
     public void removeCitoyen(String mailcitoyen) {
-        utilisateurRepository.deleteByMail(mailcitoyen)
+        citoyenRepository.deleteByMail(mailcitoyen)
             .orElseThrow(() -> new RuntimeException("Le citoyen que vous essayez de supprimer n'existe pas"));
     }
 
