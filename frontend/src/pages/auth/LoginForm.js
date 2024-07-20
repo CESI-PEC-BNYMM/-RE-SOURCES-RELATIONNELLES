@@ -4,6 +4,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'; // Pour la validation de formulaire
 import { useNavigate, useLocation } from 'react-router-dom'; // Hooks de React Router pour la navigation
 import { AuthContext } from '../../utils/authContext'; // Contexte d'authentification
+import axios from 'axios'; // Pour les requêtes HTTP
+import ErrorModal from '../../components/ErrorModal/ErrorModal';
 
 // Définition du composant LoginForm
 const LoginForm = () => {
@@ -16,15 +18,36 @@ const LoginForm = () => {
   // Hooks pour la navigation et accès à l'état de la route actuelle
   const navigate = useNavigate();
   const location = useLocation();
+  const api_url = process.env.REACT_APP_API_URI + '/api';
+  const [showErrorModal, setShowErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   // Fonction de soumission du formulaire
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Appel à la fonction login avec les valeurs du formulaire
-    login(values.email, values.password);
-    // Fin de l'indication de soumission
-    setSubmitting(false);
-    // Redirection vers la page de profil après connexion
-    navigate('/fil-d-actualite');
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const queryParams = new URLSearchParams({
+        mail: values.email,
+        motDePasse: values.password
+      }).toString();
+      const response = await axios.post(`${api_url}/auth/login?${queryParams}`);
+      console.log(response);
+      if (response.status === 200 && !response.data.includes('incorrect')) {
+        login(response.data.token); // Connexion de l'utilisateur avec le token reçu
+        const { from } = location.state || { from: { pathname: '/' } };
+        navigate(from); // Redirection vers la page précédente
+      }
+
+      //TODO : Temporaire, à remplacer par une gestion d'erreur plus propre
+      if (response.data.includes('incorrect')) {
+        setErrorMessage('Informations : ' + response.data + ' (Code erreur : ' + response.status + ')');
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setErrorMessage('Informations : ' + error.response.data.error + ' (Code erreur : ' + error.response.data.status + ')');
+      setShowErrorModal(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Rendu du composant, structure du formulaire avec Formik
@@ -59,6 +82,14 @@ const LoginForm = () => {
           </Formik>
         </div>
       </div>
+
+      <ErrorModal
+        show={showErrorModal}
+        onHide={() => setShowErrorModal(false)}
+        title="Erreur de connexion"
+        message={errorMessage}
+      />
+
     </div>
   );
 };
