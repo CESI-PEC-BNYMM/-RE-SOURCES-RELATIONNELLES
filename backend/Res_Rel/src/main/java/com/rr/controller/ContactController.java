@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.rr.entity.Citoyen;
@@ -27,6 +28,7 @@ public class ContactController {
      * @example GET /contact
      * Response: Renders the "contact" view with the user's information or an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/contact")
     public String contact(Model model) {
         try {

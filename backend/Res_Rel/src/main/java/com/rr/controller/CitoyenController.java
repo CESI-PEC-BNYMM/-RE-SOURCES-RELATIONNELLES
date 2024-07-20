@@ -3,6 +3,7 @@ package com.rr.controller;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ public class CitoyenController {
      * @example GET /citoyen/list
      * Response: HTTP 200 OK with a list of citizens.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list")
     public ResponseEntity<?> getAllCitoyen() {
         try {
@@ -56,6 +58,7 @@ public class CitoyenController {
      * @example POST /citoyen/remove/user@example.com
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/remove/{emailUser}")
     public ResponseEntity<?> removeCitoyen(@PathVariable String emailUser) {
         try {
@@ -79,6 +82,7 @@ public class CitoyenController {
      * @example POST /citoyen/validate_user/user@example.com
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/validate_user/{emailUser}")
     public ResponseEntity<?> validateCitoyen(@PathVariable String emailUser) {
         try {
@@ -114,6 +118,7 @@ public class CitoyenController {
      * @example POST /citoyen/update/user@example.com?name=John&prenom=Doe&mail=user@example.com&numTel=1234567890&numSec=123-45-6789&role=User&dateNaissance=2000-01-01&sexe=M&validaton=1&codePostal=12345&ville=SomeCity&mdp=newpassword
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/update/{emailUser}")
     public ResponseEntity<?> update(@PathVariable String emailUser, 
                                      @RequestParam String name, @RequestParam String prenom, 

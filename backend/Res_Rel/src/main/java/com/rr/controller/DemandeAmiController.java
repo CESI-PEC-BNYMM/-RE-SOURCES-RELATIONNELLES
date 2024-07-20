@@ -1,6 +1,7 @@
 package com.rr.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class DemandeAmiController {
      * @return A list of friend requests or an error message.
      * @example GET /demandeAmi/list/{token}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list/{token}")
     public ResponseEntity<?> listDemandeAmi(@PathVariable String token) {
         try {
@@ -63,6 +65,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example POST /demandeAmi/accept_friend/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/accept_friend/{token}/{idDemandeAmi}")
     public ResponseEntity<?> accepterDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -103,6 +106,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example PUT /demandeAmi/confirm_demande/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/confirm_demande/{token}/{idDemandeAmi}")
     public ResponseEntity<?> confirmerDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -143,6 +147,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /demandeAmi/refuse_friend/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/refuse_friend/{token}/{idDemandeAmi}")
     public ResponseEntity<?> refuserDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {
@@ -182,6 +187,7 @@ public class DemandeAmiController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /demandeAmi/delete/{token}/{idDemandeAmi}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/delete/{token}/{idDemandeAmi}")
     public ResponseEntity<?> deleteDemandeAmi(@PathVariable String token, @PathVariable int idDemandeAmi) {
         try {

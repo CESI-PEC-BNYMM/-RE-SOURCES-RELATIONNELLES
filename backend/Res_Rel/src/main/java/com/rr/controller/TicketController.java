@@ -3,6 +3,7 @@ package com.rr.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class TicketController {
      * @return The created ticket or an error message.
      * @example PUT /tickets/ajoutTicket
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/ajoutTicket")
     public ResponseEntity<?> ajouterTicket(
         @RequestParam("Object") String objet,
@@ -66,6 +68,7 @@ public class TicketController {
      * @return The updated ticket or an error message.
      * @example PUT /tickets/modifierTicket/{id}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/modifierTicket/{id}")
     public ResponseEntity<?> modifierTicket(
         @PathVariable("id") int id,
@@ -93,6 +96,7 @@ public class TicketController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /tickets/{id}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable int id) {
         try {
@@ -114,6 +118,7 @@ public class TicketController {
      * @return A list of tickets with the specified state or an error message.
      * @example GET /tickets/findByEtat?etat=true
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findByEtat")
     public ResponseEntity<?> findByEtat(@RequestParam("etat") boolean etat) {
         try {
@@ -132,6 +137,7 @@ public class TicketController {
      * @return A list of tickets created by the specified first name or an error message.
      * @example GET /tickets/findByNomCreateur?nomCreateur=John
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findByNomCreateur")
     public ResponseEntity<?> findByNomCreateur(@RequestParam("nomCreateur") String nomCreateur) {
         try {

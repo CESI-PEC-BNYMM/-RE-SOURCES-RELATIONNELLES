@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class PublicationController {
      * @return A list of all publications or an error message.
      * @example GET /publications/list
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list")
     public ResponseEntity<?> getAllPublications() {
         try {
@@ -53,6 +55,7 @@ public class PublicationController {
      * @return A response indicating the success or failure of the operation.
      * @example DELETE /publications/delete/{token}/{id}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/delete/{token}/{idPublication}")
     public ResponseEntity<?> deletePublication(@PathVariable String token, @PathVariable int idPublication) {
         try {
@@ -82,6 +85,7 @@ public class PublicationController {
      * @return A response indicating the success of the operation.
      * @example POST /publications/report/{id}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/report/{idPublication}")
     public ResponseEntity<?> reportPublication(@PathVariable int idPublication) {
         try {
@@ -100,6 +104,7 @@ public class PublicationController {
      * @return A response indicating the success of the operation.
      * @example POST /publications/validate_publi/{idPublication}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/validate_publi/{idPublication}")
     public ResponseEntity<?> validatePublication(@PathVariable int idPublication) {
         try {
@@ -118,6 +123,7 @@ public class PublicationController {
      * @return A response indicating the success of the operation.
      * @example POST /publications/publish/{idPublication}
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/publish/{idPublication}")
     public ResponseEntity<?> publishPublication(@PathVariable Integer idPublication) {
         try {
