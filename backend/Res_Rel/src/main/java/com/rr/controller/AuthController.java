@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+
 import com.rr.services.AuthService;
 import java.util.Map;
 import java.util.HashMap;
@@ -36,6 +38,12 @@ public class AuthController {
         try {
             String token = authService.login(mail, motDePasse);
             return new ResponseEntity<>(token, HttpStatus.OK);
+        } catch (BadCredentialsException e) {
+            System.err.println("Invalid credentials: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Invalid credentials");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             System.err.println("Error during login: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();
