@@ -3,17 +3,24 @@ import ManageModeration from '../../../components/ModerationManage/ModerationMan
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
+// import ErrorModal from '../../../components/ErrorModal/ErrorModal';
+// import SuccessModal from '../../../components/SuccessModal/SuccessModal';
+// import axios from 'axios';
 
 const ManageCommentaires = () => {
     useEffect(() => {
         document.title = '(RE) – Gestion des commentaires';
+        // fetchCommentaires();
     }, []);
 
+    // const api_url = process.env.REACT_APP_API_URI + '/api/commentaires';
     const [isEditing, setIsEditing] = useState(null);
     const [isDeleting, setIsDeleting] = useState(null);
+    // const [showErrorModal, setShowErrorModal] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState('');
+    // const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const [tbodyData, setTbodyData] = useState([
-
         {
             "idcommentaire": 1,
             "idpublication": 1,
@@ -52,6 +59,16 @@ const ManageCommentaires = () => {
         }
     ]);
 
+    // const fetchCommentaires = async () => {
+    //     try {
+    //         const response = await axios.get(`${api_url}/list`);
+    //         setTbodyData(response.data);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la récupération des commentaires : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    // };
+
     const handleModalEditCommentaire = (id) => {
         setIsEditing(id);
     };
@@ -65,15 +82,42 @@ const ManageCommentaires = () => {
         setIsDeleting(null);
     };
 
-    const handleSave = (data) => {
-        setTbodyData(tbodyData.map(item => item.idcommentaire === data.idcommentaire ? data : item));
-        handleCloseModal();
-    };
+    // const handleSave = async (data) => {
+    //     try {
+    //         const queryParams = new URLSearchParams({
+    //             idCommentaire: data.idcommentaire,
+    //             idPublication: data.idpublication,
+    //             textCommentaire: data.text_commentaire,
+    //             commentaireSignale: data.commentaire_signale,
+    //             type: data.type,
+    //             citoyenMail: data.citoyen_mail,
+    //             nomPrenom: data.nom_prenom
+    //         }).toString();
+    //         await axios.post(`${api_url}/publish?${queryParams}`, null, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         fetchCommentaires();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la sauvegarde du commentaire : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
-    const handleDelete = (id) => {
-        setTbodyData(tbodyData.filter(item => item.idcommentaire !== id));
-        handleCloseModal();
-    };
+    // const handleDelete = async (id) => {
+    //     try {
+    //         await axios.delete(`${api_url}/delete/${token}/${id}`);
+    //         fetchCommentaires();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la suppression du commentaire : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
     const theadData = [
         {
@@ -150,7 +194,7 @@ const ManageCommentaires = () => {
                     onHide={handleCloseModal}
                     data={tbodyData.find(item => item.idcommentaire === isEditing)}
                     theadData={theadData}
-                    onSave={handleSave}
+                    // onSave={handleSave}
                     entityName="commentaire"
                     masculine={true}
                 />
@@ -159,13 +203,25 @@ const ManageCommentaires = () => {
                 <DeleteModal
                     show={isDeleting !== null}
                     onHide={handleCloseModal}
-                    onDelete={() => handleDelete(isDeleting)}
+                    // onDelete={() => handleDelete(isDeleting)}
                     id={isDeleting}
                     entityName="commentaire"
                     masculine={true}
                     rowTitle={"ID " + tbodyData.find(item => item.idcommentaire === isDeleting)?.idcommentaire}
                 />
             )}
+            {/* <ErrorModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Erreur"
+                message={errorMessage}
+            />
+            <SuccessModal
+                show={showSuccessModal}
+                onHide={() => setShowSuccessModal(false)}
+                title="Succès"
+                message="Opération réussie"
+            /> */}
         </>
     );
 };
