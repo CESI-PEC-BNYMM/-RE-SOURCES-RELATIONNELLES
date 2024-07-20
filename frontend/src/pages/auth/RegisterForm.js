@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import ErrorModal from '../../components/ErrorModal/ErrorModal';
+import SuccessModal from '../../components/SuccessModal/SuccessModal';
+import axios from 'axios';
 
 // Schéma de validation pour le formulaire d'inscription avec Yup
 const validationSchema = Yup.object().shape({
@@ -33,19 +36,40 @@ const RegisterForm = () => {
   }, []);
 
   const navigate = useNavigate();
+  const api_url = process.env.REACT_APP_API_URI + '/api';
+  const [showErrorModal, setShowErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const newUser = { ...values, id: users.length + 1, role: 'user' };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-
-      toast.success('Inscription réussie. Veuillez-vous connecter !');
-      navigate('/login');
+    try {
+      const queryParams = new URLSearchParams({
+        mail: values.email,
+        motDePasse: values.password,
+        nom: values.name,
+        prenom: values.prenom,
+        numTel: values.telephone,
+        numSec: values.numeroSecuriteSociale,
+        dateNaissance: new Date(values.dateNaissance).toLocaleDateString('fr-FR'),
+        sexe: values.sexe,
+        codePostal: values.codePostal,
+        ville: values.ville
+      }).toString();
+      const response = await axios.post(`${api_url}/auth/signup?${queryParams}`);
+      if (response.status === 201) {
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          setShowSuccessModal(false);
+          navigate('/login');
+        }, 3000);
+      }
+    } catch (error) {
+      setErrorMessage('Informations : ' + error.response.data.error + ' (Code erreur : ' + error.response.data.status + ')');
+      setShowErrorModal(true);
+    } finally {
       setSubmitting(false);
-    }, 400);
-  };
+    }
+  }
 
   return (
     <div className='Content mt-5'>
@@ -124,8 +148,8 @@ const RegisterForm = () => {
                     <label htmlFor='sexe'>Sexe</label>
                     <Field as="select" name="sexe" className="form-control">
                       <option value="" label="Sélectionnez le sexe" />
-                      <option value="male" label="Homme" />
-                      <option value="female" label="Femme" />
+                      <option value="H" label="Homme" />
+                      <option value="F" label="Femme" />
                     </Field>
                     <ErrorMessage name="sexe" component="div" className="alert alert-danger mt-2" />
                   </div>
@@ -166,6 +190,8 @@ const RegisterForm = () => {
           </Formik>
         </div>
       </div>
+      <ErrorModal show={showErrorModal} onHide={() => setShowErrorModal(false)} message={'Une erreur est survenue lors de l\'inscription'} title={'Erreur'} details={errorMessage} />
+      <SuccessModal show={showSuccessModal} onHide={() => navigate('/login')} message={'Inscription réussie. Vous allez être redirigé vers la page de connexion'} title={'Inscription réussie'} />
     </div>
   );
 };

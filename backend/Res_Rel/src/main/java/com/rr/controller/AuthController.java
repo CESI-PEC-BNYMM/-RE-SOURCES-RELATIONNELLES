@@ -2,6 +2,7 @@ package com.rr.controller;
 
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,7 @@ public class AuthController {
      * @example POST /auth/login?mail=user@example.com&motDePasse=password
      * Response: HTTP 200 OK with the login token or HTTP 401 UNAUTHORIZED with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String mail, @RequestParam String motDePasse) {
         try {
@@ -60,6 +62,7 @@ public class AuthController {
      * @example POST /auth/signup?mail=user@example.com&motDePasse=password&nom=Doe&prenom=John&numTel=1234567890&numSec=123-45-6789&dateNaissance=2000-01-01&sexe=M&codePostal=12345&ville=SomeCity
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestParam String mail, @RequestParam String motDePasse,
                                      @RequestParam String nom, @RequestParam String prenom,
