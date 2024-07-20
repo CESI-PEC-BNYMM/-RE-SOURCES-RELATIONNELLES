@@ -21,7 +21,7 @@ import jakarta.persistence.OneToMany;
 public class Publication {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column(name = "id_publication")
+    @Column(name = "idpublication")
     private int idPublication;
     @Column(name = "description")
     private Long description;
@@ -47,7 +47,7 @@ public class Publication {
 
     // relation avec la table citoyen où publication contient la clé étrangère de citoyen
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "citoyen_id") // This column in DemandeAmi table will store the foreign key
+    @JoinColumn(name = "citoyen_mail") // This column in DemandeAmi table will store the foreign key
     private Citoyen citoyen;
 
 

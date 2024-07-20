@@ -14,7 +14,6 @@ import jakarta.persistence.Column;
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "idcategorie")
     public int idCategorie;
 

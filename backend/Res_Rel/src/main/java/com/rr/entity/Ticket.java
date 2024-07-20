@@ -15,10 +15,12 @@ public class Ticket {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
 
-    @Column(name = "id_ticket")
+    @Column(name = "idticket")
     private int idticket;
     @Column(name = "objet")
     private String objet;
+    @Column(name = "description")
+    private String description;
     @Column(name = "etat")
     private boolean etat;
     @Column(name = "nom_createur")
@@ -47,6 +49,14 @@ public class Ticket {
 
     public void setObjet(String objet) {
         this.objet = objet;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isEtat() {
