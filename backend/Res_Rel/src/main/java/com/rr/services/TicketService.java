@@ -8,9 +8,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.rr.entity.Ticket;
-import com.rr.entity.Citoyen;
-import com.rr.repository.TicketRepository;
 import com.rr.repository.CitoyenRepository;
+import com.rr.repository.TicketRepository;
 
 @Service
 public class TicketService {

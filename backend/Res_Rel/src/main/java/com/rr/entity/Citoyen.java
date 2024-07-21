@@ -52,7 +52,7 @@ public class Citoyen {
     @Column(name = "validaton")
     private boolean validaton;
 
-    @Column(name = "codepostal")
+    @Column(name = "code_postal")
     private String codePostal;
 
     @Column(name = "ville")
