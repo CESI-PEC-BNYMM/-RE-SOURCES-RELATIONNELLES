@@ -2,15 +2,13 @@ package com.rr.entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
 
 @Entity
 
@@ -49,7 +47,7 @@ public class Citoyen {
     @Column(name = "validaton")
     private int validaton;
 
-    @Column(name = "code_postal")
+    @Column(name = "codepostal")
     private String codePostal;
 
     @Column(name = "ville")
