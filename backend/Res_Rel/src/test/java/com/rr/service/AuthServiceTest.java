@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.Date;
 import java.util.Optional;
 
+import org.hibernate.mapping.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import com.rr.services.AuthService;
 @SpringBootTest
 class AuthServiceTest {
 
-        private AuthService authService;
+    private AuthService authService;
     private CitoyenRepository utilisateurRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -63,7 +64,7 @@ class AuthServiceTest {
 
         try {
             // Act
-            String result = authService.login(mail, mdp); // Call the login method with valid credentials
+            java.util.Map<String, String>result = authService.login(mail, mdp); // Call the login method with valid credentials
 
             // Assert
             assertNotNull(result); // Verify that the result is not null
@@ -198,12 +199,12 @@ class AuthServiceTest {
 
         // Act
         try {
-            String result = authService.login(mail, motdePasse);
+            java.util.Map<String, String> result = this.authService.login(mail, motdePasse);
         } catch (BadCredentialsException e) {
             String result = e.getMessage();
 
             // Assert
-            assertEquals("mail ou mot de passe incorrect", result);
+            assertEquals("Email ou mot de passe incorrect", result);
         }
     }
 
