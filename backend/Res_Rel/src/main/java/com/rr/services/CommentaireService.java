@@ -28,11 +28,11 @@ public class CommentaireService {
         return commentaireRepository.findByType(type);
     }
 
-    public List<Commentaire> findByTypeAndSignal(Boolean type, Boolean signal) {
-        return commentaireRepository.findByTypeAndSignal(type, signal);
+    public List<Commentaire> findByTypeAndCommentaireSignale(Boolean type, Boolean commentaireSignale) {
+        return commentaireRepository.findByTypeAndCommentaireSignale(type, commentaireSignale);
     }
 
-    // public List<Commentaire> findByCitoyenAndSignal(Citoyen citoyen, Boolean signal) {
+    // public List<Commentaire> findByCitoyenAndSignal(Citoyen citoyen, Boolean commentaireSignale) {
     //     return commentaireRepository.findByCitoyenAndSignal(citoyen, signal);
     // }
 

@@ -14,7 +14,5 @@ public interface CitoyenRepository extends JpaRepository<Citoyen, String> {
 
     Optional<Citoyen> findByMail(String mail);
     Optional<Citoyen> deleteByMail(String mail);
-
-
-
+    List<Citoyen> findAll();
 }

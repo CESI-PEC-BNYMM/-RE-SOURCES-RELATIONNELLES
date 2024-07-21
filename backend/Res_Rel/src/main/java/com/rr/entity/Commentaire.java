@@ -33,8 +33,6 @@ public class Commentaire {
     @JoinColumn(name = "publication_idpublication")
     private Publication publication;
 
-    private boolean signal;
-
 
     public int getIdCommentaire() {
         return idCommentaire;

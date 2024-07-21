@@ -4,38 +4,41 @@ import java.security.Key;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
-
 import org.springframework.stereotype.Component;
-
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-    private static final int KEY_LENGTH = 256;
-    private static final String SECRET_KEY;
-    private static final long EXPIRATION_TIME = 3600000; // 1 heure d'expiration
 
-    static {
-        SecureRandom random = new SecureRandom();
-        byte[] keyBytes = new byte[KEY_LENGTH];
-        random.nextBytes(keyBytes);
-        SECRET_KEY = Base64.getEncoder().encodeToString(keyBytes);
+    private static final long EXPIRATION_TIME = 3600000; // 1 hour
+    private static Key key;
+
+    @jakarta.annotation.PostConstruct
+    public void init() {
+        byte[] keyBytes = Base64.getDecoder().decode(generateSecretKey());
+        key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email) {
-        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    private static String generateSecretKey() {
+        byte[] keyBytes = new byte[256];
+        new SecureRandom().nextBytes(keyBytes);
+        return Base64.getEncoder().encodeToString(keyBytes);
+    }
+
+    public static String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public static String getEmailFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -44,11 +47,10 @@ public class JwtUtil {
 
     public static boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 }
-

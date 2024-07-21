@@ -65,6 +65,7 @@
 //         citoyen.setMdp(passwordEncoder.encode("wrongPassword"));
 
 //         // Act
+
 //         when(this.utilisateurRepository.findByMail(mail)).thenReturn(Optional.of(citoyen));
         
 //         String result = authService.login(mail, motdePasse);
@@ -80,12 +81,14 @@
 //     String motdePasse = "password";
 
 //     // Créer un mock de l'utilisateurRepository
+
 //         CitoyenRepository citoyenRepositoryMock = Mockito.mock(CitoyenRepository.class);
 
 //     // Stubber la méthode findByMail pour renvoyer une valeur vide
 //     when(citoyenRepositoryMock.findByMail(mail)).thenReturn(Optional.empty());
 
 //     // Injecter le mock dans le service à tester
+
 //     // AuthService authService = new AuthService(citoyenRepositoryMock);
 
 //     // Act

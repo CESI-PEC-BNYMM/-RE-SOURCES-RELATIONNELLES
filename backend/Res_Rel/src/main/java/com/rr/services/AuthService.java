@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rr.entity.Citoyen;
 import com.rr.repository.CitoyenRepository;
+import com.rr.utils.JwtUtil;
 
 @Service
 public class AuthService {
@@ -32,7 +33,7 @@ public class AuthService {
      * @return A success message if authentication is successful, or an error message.
      * @throws BadCredentialsException If the email or password is incorrect.
      */
-    @Transactional(readOnly = true) // Specifies that the query is only for reading information
+    @Transactional(readOnly = false) // Specifies that the query is only for reading information
     public String login(String mail, String motdePasse) {
         // Find the user by their email
         var resu = utilisateurRepository.findByMail(mail);
@@ -49,9 +50,21 @@ public class AuthService {
         if (!passwordEncoder.matches(motdePasse, citoyen.getMdp())) {
             throw new BadCredentialsException("Email ou mot de passe incorrect");
         }
-
-        // Return a success message if authentication is successful
-        return "Connexion réussie";
+        if (citoyen.getValidaton() == false) {
+            throw new BadCredentialsException("Votre compte n'a pas encore été validé");
+        }
+        if (citoyen.getActif() == false) {
+            throw new BadCredentialsException("Votre compte a été désactivé");
+        }
+        citoyen.setDateDerniereConnexion(new Date());
+        utilisateurRepository.save(citoyen);
+        Map<String, String> userInfos = new HashMap<>();
+        userInfos.put("token", JwtUtil.generateToken(mail));
+        userInfos.put("prenom", citoyen.getPrenom());
+        userInfos.put("nom", citoyen.getNom());
+        userInfos.put("mail", citoyen.getMail());
+        userInfos.put("role", citoyen.getRole());
+        return userInfos.toString();
     }
 
 
@@ -73,6 +86,7 @@ public class AuthService {
         nouveauCitoyen.setSexe(sexe);
         nouveauCitoyen.setCodePostal(codePostal);
         nouveauCitoyen.setVille(ville);
+        nouveauCitoyen.setRole("citoyen");
         utilisateurRepository.save(nouveauCitoyen);
 
         return "Inscription réussi";
