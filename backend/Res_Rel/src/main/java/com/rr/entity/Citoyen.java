@@ -48,7 +48,7 @@ public class Citoyen {
     private boolean actif;
 
     @Column(name = "validaton")
-    private int validaton;
+    private boolean validaton;
 
     @Column(name = "code_postal")
     private String codePostal;
@@ -134,7 +134,7 @@ public class Citoyen {
         this.sexe = sexe;
     }
 
-    public boolean isActif() {
+    public boolean getActif() {
         return actif;
     }
 
@@ -142,12 +142,13 @@ public class Citoyen {
         this.actif = actif;
     }
 
-    public int getValidaton() {
+    public boolean getValidaton() {
         return validaton;
     }
 
-    public void setValidaton(int validaton) {
+    public void setValidaton(boolean validaton) {
         this.validaton = validaton;
+        this.actif = true;
     }
 
     public String getCodePostal() {

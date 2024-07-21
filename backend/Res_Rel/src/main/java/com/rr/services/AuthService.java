@@ -25,7 +25,7 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Transactional(readOnly = true) // pour spécifier que la requete ne sert qu'à lire les informations
+    @Transactional(readOnly = false) // pour spécifier que la requete ne sert qu'à lire les informations
     public String login(String mail, String motdePasse) {
         var resu = utilisateurRepository.findByMail(mail);
         if (resu.isEmpty()) {
@@ -35,6 +35,14 @@ public class AuthService {
         if (!passwordEncoder.matches(motdePasse, citoyen.getMdp())) {
             throw new BadCredentialsException("Email ou mot de passe incorrect");
         }
+        if (citoyen.getValidaton() == false) {
+            throw new BadCredentialsException("Votre compte n'a pas encore été validé");
+        }
+        if (citoyen.getActif() == false) {
+            throw new BadCredentialsException("Votre compte a été désactivé");
+        }
+        citoyen.setDateDerniereConnexion(new Date());
+        utilisateurRepository.save(citoyen);
         return "Connexion réussie";
     }
 
@@ -57,6 +65,7 @@ public class AuthService {
         nouveauCitoyen.setSexe(sexe);
         nouveauCitoyen.setCodePostal(codePostal);
         nouveauCitoyen.setVille(ville);
+        nouveauCitoyen.setRole("citoyen");
         utilisateurRepository.save(nouveauCitoyen);
 
         return "Inscription réussi";
