@@ -1,13 +1,8 @@
 package com.rr.services;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,13 +21,32 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Transactional(readOnly = false) // pour spécifier que la requete ne sert qu'à lire les informations
+    public AuthService(CitoyenRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
+    /**
+     * Authenticates a user by checking their email and password against the database.
+     *
+     * @param mail The email address of the user.
+     * @param motdePasse The password of the user.
+     * @return A success message if authentication is successful, or an error message.
+     * @throws BadCredentialsException If the email or password is incorrect.
+     */
+    @Transactional(readOnly = false) // Specifies that the query is only for reading information
     public String login(String mail, String motdePasse) {
+        // Find the user by their email
         var resu = utilisateurRepository.findByMail(mail);
+
+        // If the user does not exist, throw an exception
         if (resu.isEmpty()) {
             throw new BadCredentialsException("Email ou mot de passe incorrect");
         }
+
+        // Retrieve the user object from the result
         Citoyen citoyen = resu.get();
+
+        // Check if the password matches the stored hashed password
         if (!passwordEncoder.matches(motdePasse, citoyen.getMdp())) {
             throw new BadCredentialsException("Email ou mot de passe incorrect");
         }
@@ -59,7 +73,7 @@ public class AuthService {
                             String numSec, Date dateNaissance, char sexe, String codePostal, String ville) {
         var resu = utilisateurRepository.findByMail(mail);
         if (resu.isPresent()) {
-            return "Echec lors de l'inscription. Cet identifiant est déjà utilisé";
+            throw new BadCredentialsException("Cet identifiant est déjà utilisé");
         }
         Citoyen nouveauCitoyen = new Citoyen();
         nouveauCitoyen.setMail(mail);

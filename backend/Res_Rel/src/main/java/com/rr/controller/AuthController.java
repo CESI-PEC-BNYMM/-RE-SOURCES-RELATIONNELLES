@@ -1,19 +1,20 @@
 package com.rr.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 
 import com.rr.services.AuthService;
-import java.util.Map;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/auth")
@@ -79,7 +80,15 @@ public class AuthController {
         try {
             String responseMessage = authService.signup(mail, motDePasse, nom, prenom, numTel, numSec, dateNaissance, sexe, codePostal, ville);
             return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
-        } catch (Exception e) {
+        } catch (BadCredentialsException e) {
+            System.err.println("Invalid credentials: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Invalid credentials");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+        
+        catch (Exception e) {
             System.err.println("Error during signup: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Error during signup");

@@ -21,11 +21,11 @@
 // @SpringBootTest
 // class AuthServiceTest {
 
-//     @Autowired
+//     /*@Autowired
 //     private CitoyenRepository utilisateurRepository;
 
-//     public AuthServiceTest(CitoyenRepository utilisateurRepository) {
-//         this.utilisateurRepository = utilisateurRepository;
+//     public AuthServiceTest() {
+//         this.utilisateurRepository = Mockito.mock(CitoyenRepository.class);
 //     }
 
 //     @Autowired
@@ -65,7 +65,8 @@
 //         citoyen.setMdp(passwordEncoder.encode("wrongPassword"));
 
 //         // Act
-//         when(utilisateurRepository.findByMail(mail)).thenReturn(Optional.of(citoyen));
+
+//         when(this.utilisateurRepository.findByMail(mail)).thenReturn(Optional.of(citoyen));
         
 //         String result = authService.login(mail, motdePasse);
         
@@ -80,13 +81,15 @@
 //     String motdePasse = "password";
 
 //     // Créer un mock de l'utilisateurRepository
-//         CitoyenRepository citoyenRepositoryMock = Mockito.mock(utilisateurRepository.class);
+
+//         CitoyenRepository citoyenRepositoryMock = Mockito.mock(CitoyenRepository.class);
 
 //     // Stubber la méthode findByMail pour renvoyer une valeur vide
 //     when(citoyenRepositoryMock.findByMail(mail)).thenReturn(Optional.empty());
 
 //     // Injecter le mock dans le service à tester
-//     AuthService authService = new AuthService(citoyenRepositoryMock);
+
+//     // AuthService authService = new AuthService(citoyenRepositoryMock);
 
 //     // Act
 //     String result = authService.login(mail, motdePasse);
@@ -102,9 +105,9 @@
 //         String motdePasse = "password";
 //         String prenom = "John";
 //         String nom = "Doe";
-//         String num_Tel = "0612457863";
-//         String num_Sec = "123456789";
-//         String date_Naissance = "1990-01-01";
+//         String num_tel = "0612457863";
+//         String num_sec = "123456789";
+//         Date date_Naissance = new Date("01/01/1970" );
 //         char sexe = 'M';
 //         String code_postal = "75000";
 //         String ville = "Paris";
