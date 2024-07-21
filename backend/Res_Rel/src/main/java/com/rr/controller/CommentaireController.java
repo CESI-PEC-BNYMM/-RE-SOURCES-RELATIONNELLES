@@ -1,5 +1,11 @@
 package com.rr.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,16 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.rr.entity.Commentaire;
 import com.rr.repository.CommentaireRepository;
 import com.rr.services.CommentaireService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/commentaires")
@@ -40,6 +40,26 @@ public class CommentaireController {
      * Request Body: { "commentaireSignale": true }
      * Response: HTTP 200 OK with success message or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
+    
+
+     @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/addCommentaire")
+    public ResponseEntity<?> addCommentaire(@RequestParam int idCommentaire, @RequestParam String tewtCommentaire, Boolean type) {
+        try {
+            CommentaireService commentaireService = new CommentaireService(commentaireRepository);
+            commentaireService.addCommentaire(idCommentaire, tewtCommentaire, type);
+            return new ResponseEntity<>("Commentaire add successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error adding commentaire: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error adding commentaire");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+    }
+
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/signale/{idCommentaire}")
     public ResponseEntity<?> signaleCommentaire(@PathVariable int idCommentaire, @RequestParam boolean commentaireSignale) {

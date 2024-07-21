@@ -33,6 +33,10 @@ public class Commentaire {
     @JoinColumn(name = "publication_idpublication")
     private Publication publication;
 
+    public Commentaire() {
+        // Auto-generated constructor
+    }
+
 
     public int getIdCommentaire() {
         return idCommentaire;

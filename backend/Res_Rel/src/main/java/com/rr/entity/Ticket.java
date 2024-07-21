@@ -1,7 +1,12 @@
 package com.rr.entity;
 
-import java.util.Date;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Ticket {
@@ -33,6 +38,19 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "citoyen_mail", referencedColumnName = "mail", insertable = false, updatable = false)
     private Citoyen citoyen;
+
+    public Ticket(int idticket, String objet, String description, boolean etat, String nomCreateur, String prenomCreateur, String citoyenMail) {
+        this.idticket = idticket;
+        this.objet = objet;
+        this.description = description;
+        this.etat = etat;
+        this.nomCreateur = nomCreateur;
+        this.prenomCreateur = prenomCreateur;
+        this.citoyenMail = citoyenMail;
+    }
+
+    public Ticket() {
+    }
 
     public int getIdticket() {
         return idticket;
