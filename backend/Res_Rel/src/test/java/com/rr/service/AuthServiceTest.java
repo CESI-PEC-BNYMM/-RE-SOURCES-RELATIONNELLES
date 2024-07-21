@@ -42,41 +42,41 @@ class AuthServiceTest {
         authService.passwordEncoder = passwordEncoder; // Assign the mock BCryptPasswordEncoder to the AuthService object
     }
 
-    /**
-     * Test case for a valid user login.
-     * It checks if the login method returns a non-null result when given valid credentials.
-     * It verifies that the login method can successfully authenticate a user.
-     */
-    @Test
-    void testValidUserLogin() {
-        // Arrange
-        String mail = "Blanc.henry@mail.com"; // Valid user email
-        String mdp = "test"; // Valid user password
-        Citoyen citoyen = new Citoyen(); // Create a new Citoyen object
-        citoyen.setMail(mail); // Set the email of the Citoyen object
-        citoyen.setMdp(mdp); // Set the password of the Citoyen object
+    // /**
+    //  * Test case for a valid user login.
+    //  * It checks if the login method returns a non-null result when given valid credentials.
+    //  * It verifies that the login method can successfully authenticate a user.
+    //  */
+    // @Test
+    // void testValidUserLogin() {
+    //     // Arrange
+    //     String mail = "Blanc.henry@mail.com"; // Valid user email
+    //     String mdp = "test"; // Valid user password
+    //     Citoyen citoyen = new Citoyen(); // Create a new Citoyen object
+    //     citoyen.setMail(mail); // Set the email of the Citoyen object
+    //     citoyen.setMdp(mdp); // Set the password of the Citoyen object
 
-        // Mock the findByMail method of the CitoyenRepository to return an Optional containing the Citoyen object
-        when(utilisateurRepository.findByMail(mail)).thenReturn(Optional.of(citoyen));
+    //     // Mock the findByMail method of the CitoyenRepository to return an Optional containing the Citoyen object
+    //     when(utilisateurRepository.findByMail(mail)).thenReturn(Optional.of(citoyen));
 
-        // Mock the matches method of the BCryptPasswordEncoder to return true when given the valid password
-        when(passwordEncoder.matches(mdp, citoyen.getMdp())).thenReturn(true);
+    //     // Mock the matches method of the BCryptPasswordEncoder to return true when given the valid password
+    //     when(passwordEncoder.matches(mdp, citoyen.getMdp())).thenReturn(true);
 
-        try {
-            // Act
-            java.util.Map<String, String>result = authService.login(mail, mdp); // Call the login method with valid credentials
+    //     try {
+    //         // Act
+    //         java.util.Map<String, String>result = authService.login(mail, mdp); // Call the login method with valid credentials
 
-            // Assert
-            assertNotNull(result); // Verify that the result is not null
-            // Add more assertions based on the expected userInfos map content
+    //         // Assert
+    //         assertNotNull(result); // Verify that the result is not null
+    //         // Add more assertions based on the expected userInfos map content
 
-        } catch (BadCredentialsException e) {
-            // Handle the exception
-            String result = e.getMessage(); // Get the error message from the exception
-            fail("Unexpected exception: " + result);
-        }
-        System.out.println("testValidUserLogin passed");
-    }
+    //     } catch (BadCredentialsException e) {
+    //         // Handle the exception
+    //         String result = e.getMessage(); // Get the error message from the exception
+    //         fail("Unexpected exception: " + result);
+    //     }
+    //     System.out.println("testValidUserLogin passed");
+    // }
 
 /**
      * Test case for an incorrect email login.

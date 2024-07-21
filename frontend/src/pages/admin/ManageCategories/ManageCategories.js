@@ -124,7 +124,7 @@ const ManageCategories = () => {
                     onHide={handleCloseModal}
                     data={isEditing}
                     theadData={theadData}
-                    onSave={handleSave}
+                    // onSave={handleSave}
                     entityName="catégorie"
                     masculine={false}
                 />
@@ -134,7 +134,7 @@ const ManageCategories = () => {
                     show={isAdding}
                     onHide={handleCloseModal}
                     theadData={theadData}
-                    onSave={handleSave}
+                    // onSave={handleSave}
                     entityName="catégorie"
                     masculine={false}
                 />
@@ -143,7 +143,7 @@ const ManageCategories = () => {
                 <DeleteModal
                     show={isDeleting !== null}
                     onHide={handleCloseModal}
-                    onDelete={handleDelete}
+                    // onDelete={handleDelete}
                     id={isDeleting.idcategorie}
                     entityName="catégorie"
                     masculine={false}

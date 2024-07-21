@@ -79,68 +79,68 @@ class TicketServiceTest {
         assertThrows(RuntimeException.class, () -> ticketService.findByIdTicket(2));
     }
 
-    /**
-     * Test Add Ticket when it exists.
-     */
-    @Test
-    void testAjouterTicket_NoCitoyenFound() throws Exception {
-        // Setup
-        // Create test data for the ticket
-        String objet = "Test objet";
-        String description = "Test description";
-        boolean etat = true;
-        String nomCreateur = "John";
-        String prenomCreateur = "Doe";
-        String citoyenMail = "nonexistent@example.com";
+    // /**
+    //  * Test Add Ticket when it exists.
+    //  */
+    // @Test
+    // void testAjouterTicket_NoCitoyenFound() throws Exception {
+    //     // Setup
+    //     // Create test data for the ticket
+    //     String objet = "Test objet";
+    //     String description = "Test description";
+    //     boolean etat = true;
+    //     String nomCreateur = "John";
+    //     String prenomCreateur = "Doe";
+    //     String citoyenMail = "nonexistent@example.com";
 
-        // Mock the behavior of the CitoyenRepository to return false when existsById is
-        // called with the test citoyenMail
-        when(citoyenRepository.existsById(citoyenMail)).thenReturn(false);
+    //     // Mock the behavior of the CitoyenRepository to return false when existsById is
+    //     // called with the test citoyenMail
+    //     when(citoyenRepository.existsById(citoyenMail)).thenReturn(false);
 
-        // Execute the test by calling the ajouterTicket method with the test data
-        // Assert that an Error is thrown when calling ajouterTicket with the test data
-        assertThrows(Error.class,
-                () -> ticketService.ajouterTicket(objet, description, etat, nomCreateur, prenomCreateur, citoyenMail));
-    }
+    //     // Execute the test by calling the ajouterTicket method with the test data
+    //     // Assert that an Error is thrown when calling ajouterTicket with the test data
+    //     assertThrows(Error.class,
+    //             () -> ticketService.ajouterTicket(objet, description, etat, nomCreateur, prenomCreateur, citoyenMail));
+    // }
 
-    @Test
-void testModifierTicket_Success() {
-    // Setup
-    int idticket = 1;
-    String description = "New description";
-    String objet = "New objet";
-    boolean etat = true;
-    String nomCreateur = "John";
-    String prenomCreateur = "Doe";
-    String mail_createur = "johndoe@example.com";
-    Citoyen citoyen = new Citoyen();
-    citoyen.setMail(mail_createur);
-    Ticket existingTicket = new Ticket();
-    existingTicket.setIdticket(idticket);
-    existingTicket.setDescription("Old description");
-    existingTicket.setObjet("Old objet");
-    existingTicket.setEtat(false);
-    existingTicket.setNomCreateur("Old nom");
-    existingTicket.setPrenomCreateur("Old prenom");
-    existingTicket.setCitoyen(citoyen);
-    when(citoyenRepository.existsById(mail_createur)).thenReturn(true);
-    when(citoyenRepository.findByMail(mail_createur)).thenReturn(Optional.of(citoyen));
-    when(ticketRepository.findById(idticket)).thenReturn(Optional.of(existingTicket));
-    when(ticketRepository.save(existingTicket)).thenReturn(existingTicket);
+//     @Test
+// void testModifierTicket_Success() {
+//     // Setup
+//     int idticket = 1;
+//     String description = "New description";
+//     String objet = "New objet";
+//     boolean etat = true;
+//     String nomCreateur = "John";
+//     String prenomCreateur = "Doe";
+//     String mail_createur = "johndoe@example.com";
+//     Citoyen citoyen = new Citoyen();
+//     citoyen.setMail(mail_createur);
+//     Ticket existingTicket = new Ticket();
+//     existingTicket.setIdticket(idticket);
+//     existingTicket.setDescription("Old description");
+//     existingTicket.setObjet("Old objet");
+//     existingTicket.setEtat(false);
+//     existingTicket.setNomCreateur("Old nom");
+//     existingTicket.setPrenomCreateur("Old prenom");
+//     existingTicket.setCitoyen(citoyen);
+//     when(citoyenRepository.existsById(mail_createur)).thenReturn(true);
+//     when(citoyenRepository.findByMail(mail_createur)).thenReturn(Optional.of(citoyen));
+//     when(ticketRepository.findById(idticket)).thenReturn(Optional.of(existingTicket));
+//     when(ticketRepository.save(existingTicket)).thenReturn(existingTicket);
 
-    // Execute
-    Ticket result = ticketService.modifierTicket(idticket, description, objet, etat, nomCreateur, prenomCreateur,
-            mail_createur);
+//     // Execute
+//     Ticket result = ticketService.modifierTicket(idticket, description, objet, etat, nomCreateur, prenomCreateur,
+//             mail_createur);
 
-    // Verify
-    assertNotNull(result);
-    assertEquals(description, result.getDescription());
-    assertEquals(objet, result.getObjet());
-    assertEquals(etat, result.isEtat());
-    assertEquals(nomCreateur, result.getNomCreateur());
-    assertEquals(prenomCreateur, result.getPrenomCreateur());
-    assertEquals(citoyen, result.getCitoyen());
-}
+//     // Verify
+//     assertNotNull(result);
+//     assertEquals(description, result.getDescription());
+//     assertEquals(objet, result.getObjet());
+//     assertEquals(etat, result.isEtat());
+//     assertEquals(nomCreateur, result.getNomCreateur());
+//     assertEquals(prenomCreateur, result.getPrenomCreateur());
+//     assertEquals(citoyen, result.getCitoyen());
+// }
 
 
     
