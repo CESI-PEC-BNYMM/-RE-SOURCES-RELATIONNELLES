@@ -130,7 +130,7 @@ public class CitoyenController {
      * @param ville The new city of the citizen.
      * @param mdp The new password of the citizen.
      * @return A success message if the update is successful, or an error message.
-     * @example POST /citoyen/update/user@example.com?name=John&prenom=Doe&mail=user@example.com&numTel=1234567890&numSec=123-45-6789&role=User&dateNaissance=2000-01-01&sexe=M&validaton=1&codePostal=12345&ville=SomeCity&mdp=newpassword
+     * @example POST /citoyen/update/user@example.com?name=John&prenom=Doe&mail=user@example.com&numTel=1234567890&numSec=123-45-6789&role=User&dateNaissance=2000-01-01&sexe=M&validaton=true&codePostal=12345&ville=SomeCity&mdp=newpassword
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
     @CrossOrigin(origins = "http://localhost:3000")
@@ -140,7 +140,7 @@ public class CitoyenController {
                                      @RequestParam String mail, @RequestParam String numTel, 
                                      @RequestParam String numSec, @RequestParam String role, 
                                      @RequestParam Date dateNaissance, @RequestParam char sexe, 
-                                     @RequestParam int validaton, @RequestParam String codePostal, 
+                                     @RequestParam boolean validaton, @RequestParam String codePostal, 
                                      @RequestParam String ville, @RequestParam String mdp) {
         try {
             Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);

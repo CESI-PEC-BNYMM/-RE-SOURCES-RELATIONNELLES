@@ -15,7 +15,6 @@ import com.rr.services.AuthService;
 import java.util.Map;
 import java.util.HashMap;
 
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -36,8 +35,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String mail, @RequestParam String motDePasse) {
         try {
-            String token = authService.login(mail, motDePasse);
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            String userInfos = authService.login(mail, motDePasse);
+            return new ResponseEntity<>(userInfos, HttpStatus.OK);
         } catch (BadCredentialsException e) {
             System.err.println("Invalid credentials: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();

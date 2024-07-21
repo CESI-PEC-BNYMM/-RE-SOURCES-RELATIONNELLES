@@ -41,18 +41,18 @@ public class CitoyenService {
     }
 
     public void removeCitoyen(String mailcitoyen) {
-        utilisateurRepository.deleteByMail(mailcitoyen)
+        citoyenRepository.deleteByMail(mailcitoyen)
             .orElseThrow(() -> new RuntimeException("Le citoyen que vous essayez de supprimer n'existe pas"));
     }
 
     public void validateCitoyen(Citoyen citoyen) {
-        if (citoyen.getValidaton() != 1) {
-            citoyen.setValidaton(1);
+        if (citoyen.getValidaton() != true) {
+            citoyen.setValidaton(true);
             citoyenRepository.save(citoyen);
         }
     }
 
-    public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, int validaton, String codePostal, String ville, String mdp) {
+    public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, boolean validaton, String codePostal, String ville, String mdp) {
         citoyen.setNom(name);
         citoyen.setPrenom(prenom);
         citoyen.setMail(mail);

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rr.entity.Citoyen;
 import com.rr.repository.CitoyenRepository;
+import com.rr.utils.JwtUtil;
 
 @Service
 public class AuthService {
@@ -43,7 +44,13 @@ public class AuthService {
         }
         citoyen.setDateDerniereConnexion(new Date());
         utilisateurRepository.save(citoyen);
-        return "Connexion réussie";
+        Map<String, String> userInfos = new HashMap<>();
+        userInfos.put("token", JwtUtil.generateToken(mail));
+        userInfos.put("prenom", citoyen.getPrenom());
+        userInfos.put("nom", citoyen.getNom());
+        userInfos.put("mail", citoyen.getMail());
+        userInfos.put("role", citoyen.getRole());
+        return userInfos.toString();
     }
 
 
