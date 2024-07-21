@@ -5,17 +5,25 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rr.entity.Citoyen;
 import com.rr.entity.Ticket;
 import com.rr.repository.CitoyenRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 @Service
 public class CitoyenService {
 
     @Autowired
     private final CitoyenRepository citoyenRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
 
     public CitoyenService(CitoyenRepository citoyenRepository) {
         this.citoyenRepository = citoyenRepository;
@@ -40,36 +48,47 @@ public class CitoyenService {
         return citoyenRepository.findAll();
     }
 
+    @Transactional
     public void removeCitoyen(String mailcitoyen) {
-        citoyenRepository.deleteByMail(mailcitoyen)
-            .orElseThrow(() -> new RuntimeException("Le citoyen que vous essayez de supprimer n'existe pas"));
+        citoyenRepository.deleteByMail(mailcitoyen);
     }
 
     public void validateCitoyen(Citoyen citoyen) {
-        if (citoyen.getValidaton() != 1) {
-            citoyen.setValidaton(1);
+        if (citoyen.getValidaton() != true) {
+            citoyen.setValidaton(true);
             citoyenRepository.save(citoyen);
         }
     }
 
-    public void update(Citoyen citoyen, String name, String prenom, String mail, String numTel, String numSec, String role, Date dateNaissance, char sexe, int validaton, String codePostal, String ville, String mdp) {
-        citoyen.setNom(name);
-        citoyen.setPrenom(prenom);
-        citoyen.setMail(mail);
-        if (numTel != null && !numTel.isEmpty()) {
-            citoyen.setNumTel(numTel);
+    @Transactional
+    public void updateCitoyen(String oldMail, String newMail, String name, String prenom, String numTel, String numSec, String role, Date dateNaissance, char sexe, boolean validaton, boolean actif, String codePostal, String ville, String mdp) {
+        // Optional<Citoyen> optionalCitoyen = citoyenRepository.findByMail(oldMail);
+        Citoyen optionalCitoyen = citoyenRepository.findById(oldMail).orElse(null);
+        if (optionalCitoyen != null) {
+            Citoyen oldCitoyen = optionalCitoyen;
+            citoyenRepository.delete(oldCitoyen);
+
+            Citoyen newCitoyen = new Citoyen();
+            newCitoyen.setMail(newMail);
+            newCitoyen.setNom(name);
+            newCitoyen.setPrenom(prenom);
+            newCitoyen.setNumTel(numTel);
+            newCitoyen.setNumSec(numSec);
+            newCitoyen.setRole(role);
+            newCitoyen.setDateNaissance(dateNaissance);
+            newCitoyen.setSexe(sexe);
+            newCitoyen.setValidaton(validaton);
+            newCitoyen.setActif(actif);
+            newCitoyen.setCodePostal(codePostal);
+            newCitoyen.setVille(ville);
+            if (mdp != null && !mdp.isEmpty()) {
+                newCitoyen.setMdp(passwordEncoder.encode(mdp));
+            }
+
+            citoyenRepository.save(newCitoyen);
+        } else {
+            throw new EntityNotFoundException("Citizen not found with email: " + oldMail);
         }
-        citoyen.setNumSec(numSec);
-        citoyen.setRole(role);
-        citoyen.setDateNaissance(dateNaissance);
-        citoyen.setSexe(sexe);
-        citoyen.setValidaton(validaton);
-        citoyen.setCodePostal(codePostal);
-        citoyen.setVille(ville);
-        if (!Objects.equals(mdp, "")) {
-            citoyen.setMdp(mdp);
-        }
-        citoyenRepository.save(citoyen);
     }
 
     public List<Ticket> getTicketsByCitoyenMail(String mail) {

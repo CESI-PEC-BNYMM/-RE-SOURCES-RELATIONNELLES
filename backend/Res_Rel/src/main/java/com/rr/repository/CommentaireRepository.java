@@ -22,7 +22,7 @@ public interface CommentaireRepository extends JpaRepository<Commentaire, Intege
 
     List<Commentaire> findByType(Boolean type);
 
-    List<Commentaire> findByTypeAndSignal(Boolean type, Boolean signal);
+    List<Commentaire> findByTypeAndCommentaireSignale(Boolean type, Boolean commentaireSignale);
 
-    // List<Commentaire> findByCitoyenAndSignal(int idCitoyen, Boolean signal);
+    // List<Commentaire> findByCitoyenAndSignal(int idCitoyen, Boolean commentaireSignale);
 }

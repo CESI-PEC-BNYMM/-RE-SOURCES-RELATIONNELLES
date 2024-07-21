@@ -100,7 +100,7 @@ public class Ticket {
         citoyen.setNumSec(this.citoyen.getNumSec());
         citoyen.setDateNaissance(this.citoyen.getDateNaissance());
         citoyen.setSexe(this.citoyen.getSexe());
-        citoyen.setActif(this.citoyen.isActif());
+        citoyen.setActif(this.citoyen.getActif());
         citoyen.setValidaton(this.citoyen.getValidaton());
         citoyen.setCodePostal(this.citoyen.getCodePostal());
         citoyen.setVille(this.citoyen.getVille());

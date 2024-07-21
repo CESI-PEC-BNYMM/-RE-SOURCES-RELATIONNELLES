@@ -150,8 +150,8 @@ public class CategorieController {
     @GetMapping("/findByActif/{actif}")
     public ResponseEntity<?> findByActif(@PathVariable boolean actif) {
         try {
-            Optional<Categorie> categorie = categorieRepository.findByActif(actif);
-            return new ResponseEntity<>(categorie, HttpStatus.OK);
+            List<Categorie> categories = categorieRepository.findByActif(actif);
+            return new ResponseEntity<>(categories, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error finding category by actif status: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();

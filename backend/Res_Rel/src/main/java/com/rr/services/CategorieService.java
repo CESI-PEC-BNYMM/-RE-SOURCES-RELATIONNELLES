@@ -1,5 +1,6 @@
 package com.rr.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -34,13 +35,13 @@ public class CategorieService {
         .orElseThrow(() -> new RuntimeException("Aucune Categorie n'existe avec ce libelle"));
     }
 
-    public Optional<Categorie> findByActif(boolean actif) {
+    public List<Categorie> findByActif(boolean actif) {
         if (actif == true) {
             return categorieRepository.findByActif(true);
         } else if (actif == false) {
             return categorieRepository.findByActif(false);
         } else {
-            return Optional.empty();
+            throw new RuntimeException("Aucune Categorie n'existe avec cet etat");
         }
     }
 

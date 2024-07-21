@@ -1,5 +1,6 @@
 package com.rr.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,6 @@ public interface CategorieRepository extends JpaRepository<Categorie, Integer> {
 
     Optional<Categorie> findByLibelle(String libelle);
 
-    Optional<Categorie> findByActif(boolean actif);
+    List<Categorie> findByActif(boolean actif);
 
 }
