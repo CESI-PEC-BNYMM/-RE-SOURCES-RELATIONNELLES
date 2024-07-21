@@ -63,16 +63,16 @@ public class CommentaireController {
     /**
      * Retrieves all comments based on the commentaireSignale field.
      *
-     * @param signal The value of the commentaireSignale field to filter by.
+     * @param commentaireSignale The value of the commentaireSignale field to filter by.
      * @return A list of comments that match the specified signal value.
-     * @example GET /commentaires/signale?signal=true
+     * @example GET /commentaires/signale?commentaireSignale=true
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/signale")
-    public ResponseEntity<?> findAllByCommentaireSignale(@RequestParam Boolean signal) {
+    public ResponseEntity<?> findAllByCommentaireSignale(@RequestParam Boolean commentaireSignale) {
         try {
-            List<Commentaire> commentaires = commentaireService.findAllByCommentaireSignale(signal);
+            List<Commentaire> commentaires = commentaireService.findAllByCommentaireSignale(commentaireSignale);
             return new ResponseEntity<>(commentaires, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error retrieving commentaires by signal: " + e.getMessage());
@@ -110,16 +110,16 @@ public class CommentaireController {
      * Retrieves all comments based on the type and commentaireSignale fields.
      *
      * @param type   The value of the type field to filter by.
-     * @param signal The value of the commentaireSignale field to filter by.
+     * @param commentaireSignale The value of the commentaireSignale field to filter by.
      * @return A list of comments that match the specified type and signal values.
-     * @example GET /commentaires/type/1/signale?signal=true
+     * @example GET /commentaires/type/1/signale?commentaireSignale=true
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/type/{type}/signale/{signal}")
-    public ResponseEntity<?> findByTypeAndSignal(@PathVariable Boolean type, @PathVariable Boolean signal) {
+    public ResponseEntity<?> findByTypeAndSignal(@PathVariable Boolean type, @PathVariable Boolean commentaireSignale) {
         try {
-            List<Commentaire> commentaires = commentaireService.findByTypeAndSignal(type, signal);
+            List<Commentaire> commentaires = commentaireService.findByTypeAndCommentaireSignale(type, commentaireSignale);
             return new ResponseEntity<>(commentaires, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error retrieving commentaires by type and signal: " + e.getMessage());
@@ -134,14 +134,14 @@ public class CommentaireController {
      * Retrieves all comments based on the citoyen field and the signal field.
      *
      * @param idCitoyen The value of the citoyen field to filter by.
-     * @param signal The value of the signal field to filter by.
+     * @param commentaireSignale The value of the signal field to filter by.
      * @return A list of comments that match the specified citoyen and signal values.
-     * @example GET /commentaires/citoyen/{idCitoyen}/signale?signal=true
+     * @example GET /commentaires/citoyen/{idCitoyen}/signale?commentaireSignale=true
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
     // @CrossOrigin(origins = "http://localhost:3000")
     // @GetMapping("/citoyen/{idCitoyen}/signale")
-    // public ResponseEntity<?> findByCitoyenAndSignal(@PathVariable int idCitoyen, @RequestParam Boolean signal) {
+    // public ResponseEntity<?> findByCitoyenAndSignal(@PathVariable int idCitoyen, @RequestParam Boolean commentaireSignale) {
     //     try {
     //         List<Commentaire> commentaires = commentaireService.findByCitoyenAndSignal(idCitoyen, signal);
     //         return new ResponseEntity<>(commentaires, HttpStatus.OK);

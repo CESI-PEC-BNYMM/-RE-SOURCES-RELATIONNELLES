@@ -4,16 +4,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.rr.utils.JwtUtil;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
 
 @Entity
-
+@Table(name = "citoyen")
 public class Citoyen {
 
     @Id
@@ -58,19 +61,21 @@ public class Citoyen {
     @Column(name = "date_derniere_connexion")
     private Date dateDerniereConnexion;
 
-    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<DemandeAmi> demandeenvoyee;
 
-    @OneToMany(mappedBy = "citoyenreceveur")
+    @OneToMany(mappedBy = "citoyenreceveur", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<DemandeAmi> demandesAmiRecues;
 
-    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Publication> pub;
 
-    @OneToMany(mappedBy = "citoyen")
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentaire> commentaires;
 
-    @OneToMany(mappedBy = "citoyen", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
     public String getMdp() {
