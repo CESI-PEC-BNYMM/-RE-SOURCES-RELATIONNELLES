@@ -20,6 +20,21 @@ public class CommentaireService {
         return commentaireRepository.findAllByCommentaireSignale(commentaireSignale);
     }
 
+    public void addCommentaire(int idCommentaire, String tewtCommentaire, Boolean type) {
+        if (idCommentaire < 0) {
+            throw new IllegalArgumentException("idPublication must be positive");
+        }
+        if (tewtCommentaire == null || tewtCommentaire.isEmpty()) {
+            throw new IllegalArgumentException("tewtCommentaire cannot be null or empty");
+        }
+
+        Commentaire commentaire = new Commentaire();
+        commentaire.setTewtCommentaire(tewtCommentaire);
+        commentaire.setIdCommentaire(idCommentaire);
+        commentaire.setType(type);
+        commentaireRepository.save(commentaire);
+    }
+
     public List<Commentaire> findByPublicationIdPublication(int idPublication) {
         return commentaireRepository.findByPublicationIdPublication(idPublication);
     }
