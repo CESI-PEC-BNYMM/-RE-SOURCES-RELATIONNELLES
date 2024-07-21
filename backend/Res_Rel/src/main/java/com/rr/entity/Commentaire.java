@@ -65,4 +65,12 @@ public class Commentaire {
     public void setType(boolean type) {
         this.type = type;
     }
+
+    public Citoyen getCitoyen() {
+        return citoyen;
+    }
+
+    public void setCitoyen(Citoyen citoyen) {
+        this.citoyen = citoyen;
+    }
 }
