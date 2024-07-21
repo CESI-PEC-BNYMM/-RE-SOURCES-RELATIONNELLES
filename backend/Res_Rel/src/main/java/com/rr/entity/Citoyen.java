@@ -2,74 +2,81 @@ package com.rr.entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-
+@Table(name = "citoyen")
 public class Citoyen {
 
+    @Id
+    @Column(name = "mail")
+    private String mail;
+
+    @JsonBackReference
     @Column(name = "mdp")
     private String mdp;
+
     @Column(name = "nom")
     private String nom;
+
     @Column(name = "prenom")
     private String prenom;
-    @Column(name = "mail") // ca sert
-    @Id private String mail;
-   
+
     @Column(name = "num_tel")
     private String numTel;
-
     @Column(name = "role")
     private String role;
+
     @Column(name = "num_sec")
     private String numSec;
+
     @Column(name = "date_naissance")
     private Date dateNaissance;
+
     @Column(name = "sexe")
     private char sexe;
+
     @Column(name = "actif")
     private boolean actif;
-    @Column(name = "validation")
-    private int validaton;
+
+    @Column(name = "validaton")
+    private boolean validaton;
+
     @Column(name = "code_postal")
     private String codePostal;
+
     @Column(name = "ville")
     private String ville;
+
     @Column(name = "date_derniere_connexion")
     private Date dateDerniereConnexion;
-    
 
-
-
-    // relation 1,N avec DemandeAmi
-    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<DemandeAmi> demandeenvoyee;
 
-    @OneToMany(mappedBy = "citoyenreceveur")
-    private List<DemandeAmi> demandesAmiRecues; // Liste des demandes d'ami reçues par le citoyen
+    @OneToMany(mappedBy = "citoyenreceveur", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<DemandeAmi> demandesAmiRecues;
 
-    // relation 1,N avec Publication
-    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Publication> pub;
 
-    // relation 1,N avec Publication
-    @OneToMany(mappedBy = "citoyen")
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentaire> commentaires;
 
-    // relation 1,N avec ticket
-    @OneToMany(mappedBy = "citoyen")
+    @OneToMany(mappedBy = "citoyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
-
-
-
-
 
     public String getMdp() {
         return mdp;
@@ -103,7 +110,7 @@ public class Citoyen {
         this.mail = mail;
     }
 
-    public String getnumTel() {
+    public String getNumTel() {
         return numTel;
     }
 
@@ -131,7 +138,7 @@ public class Citoyen {
         this.sexe = sexe;
     }
 
-    public boolean isActif() {
+    public boolean getActif() {
         return actif;
     }
 
@@ -139,12 +146,13 @@ public class Citoyen {
         this.actif = actif;
     }
 
-    public int getValidaton() {
+    public boolean getValidaton() {
         return validaton;
     }
 
-    public void setValidaton(int validaton) {
+    public void setValidaton(boolean validaton) {
         this.validaton = validaton;
+        this.actif = true;
     }
 
     public String getCodePostal() {
@@ -171,14 +179,9 @@ public class Citoyen {
         this.dateDerniereConnexion = dateDerniereConnexion;
     }
 
-    public Set<DemandeAmi> getDemandeenvoyee() {
-        return (Set<DemandeAmi>) demandeenvoyee;
+    public List<DemandeAmi> getDemandeenvoyee() {
+        return demandeenvoyee;
     }
-
-    public void setDemandeenvoyee(Set<DemandeAmi> demandeenvoyee) {
-        this.demandeenvoyee = (List<DemandeAmi>) demandeenvoyee;
-    }
-
 
     public void setNumTel(String numTel) {
         this.numTel = numTel;
@@ -227,6 +230,7 @@ public class Citoyen {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
 
 //Getter et setters
 

@@ -1,6 +1,5 @@
 package com.rr.entity;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,25 +12,45 @@ import jakarta.persistence.ManyToOne;
 public class Ticket {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-
-    @Column(name = "id_ticket")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idticket")
     private int idticket;
+
     @Column(name = "objet")
     private String objet;
+
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "etat")
     private boolean etat;
+
     @Column(name = "nom_createur")
     private String nomCreateur;
+
     @Column(name = "prenom_createur")
     private String prenomCreateur;
-    @Column(name = "mail_createur")
-    private String mail_createur;
+
+    @Column(name = "citoyen_mail")
+    private String citoyenMail;
 
     // Relation 1,n avec citoyen
     @ManyToOne
-    @JoinColumn(name = "citoyen_mail")
+    @JoinColumn(name = "citoyen_mail", referencedColumnName = "mail", insertable = false, updatable = false)
     private Citoyen citoyen;
+
+    public Ticket(int idticket, String objet, String description, boolean etat, String nomCreateur, String prenomCreateur, String citoyenMail) {
+        this.idticket = idticket;
+        this.objet = objet;
+        this.description = description;
+        this.etat = etat;
+        this.nomCreateur = nomCreateur;
+        this.prenomCreateur = prenomCreateur;
+        this.citoyenMail = citoyenMail;
+    }
+
+    public Ticket() {
+    }
 
     public int getIdticket() {
         return idticket;
@@ -47,6 +66,14 @@ public class Ticket {
 
     public void setObjet(String objet) {
         this.objet = objet;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isEtat() {
@@ -73,11 +100,34 @@ public class Ticket {
         this.prenomCreateur = prenomCreateur;
     }
 
-    public String getMail_createur() {
-        return mail_createur;
+    public String getCitoyenMail() {
+        return citoyenMail;
     }
 
-    public void setMail_createur(String mail_createur) {
-        this.mail_createur = mail_createur;
+    public void setCitoyenMail(String citoyenMail) {
+        this.citoyenMail = citoyenMail;
+    }
+
+    public Citoyen getCitoyen() {
+        Citoyen citoyen = new Citoyen();
+        citoyen.setMail(this.citoyen.getMail());
+        citoyen.setNom(this.citoyen.getNom());
+        citoyen.setPrenom(this.citoyen.getPrenom());
+        citoyen.setNumTel(this.citoyen.getNumTel());
+        citoyen.setRole(this.citoyen.getRole());
+        citoyen.setNumSec(this.citoyen.getNumSec());
+        citoyen.setDateNaissance(this.citoyen.getDateNaissance());
+        citoyen.setSexe(this.citoyen.getSexe());
+        citoyen.setActif(this.citoyen.getActif());
+        citoyen.setValidaton(this.citoyen.getValidaton());
+        citoyen.setCodePostal(this.citoyen.getCodePostal());
+        citoyen.setVille(this.citoyen.getVille());
+        citoyen.setDateDerniereConnexion(this.citoyen.getDateDerniereConnexion());
+        return citoyen;
+    }
+
+    public void setCitoyen(Citoyen citoyen) {
+        this.citoyenMail = citoyen.getMail();
+        this.citoyen = citoyen;
     }
 }

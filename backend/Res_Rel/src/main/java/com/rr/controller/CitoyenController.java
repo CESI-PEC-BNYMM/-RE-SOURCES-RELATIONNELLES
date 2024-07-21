@@ -1,29 +1,38 @@
 package com.rr.controller;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import org.springframework.stereotype.Controller;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import com.rr.entity.Citoyen;
-import com.rr.services.CitoyenService;
-import java.util.HashMap;
-import java.util.Map;
 
-@Controller
+import com.rr.dto.CitoyenDTO;
+import com.rr.entity.Citoyen;
+import com.rr.repository.CitoyenRepository;
+import com.rr.services.CitoyenService;
+
 @RestController
 @RequestMapping("/citoyen")
 public class CitoyenController {
 
+    private final CitoyenRepository citoyenRepository;
     private final CitoyenService citoyenService;
 
-    public CitoyenController(CitoyenService citoyenService) {
+    @Autowired
+    public CitoyenController(CitoyenRepository citoyenRepository, CitoyenService citoyenService) {
+        this.citoyenRepository = citoyenRepository;
         this.citoyenService = citoyenService;
     }
 
@@ -34,15 +43,48 @@ public class CitoyenController {
      * @example GET /citoyen/list
      * Response: HTTP 200 OK with a list of citizens.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list")
     public ResponseEntity<?> getAllCitoyen() {
         try {
-            List<Citoyen> citoyens = citoyenService.findAll();
+            List<Citoyen> citoyens = citoyenRepository.findAll();
             return new ResponseEntity<>(citoyens, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error retrieving citizens: " + e.getMessage());
+            e.printStackTrace(); // This will print the full stack trace to the logs
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Error retrieving citizens");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Search for a citizen by their name or first name.
+     * 
+     * @param query The name or first name to search for.
+     * @return A list of citizens that match the search query.
+     * @example GET /citoyen/search?query=John
+     * Response: HTTP 200 OK with a list of citizens.
+     */
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchCitoyen(@RequestParam String query) {
+        try {
+            List<Citoyen> citoyens = citoyenRepository.findByNomOrPrenom(query);
+            List<CitoyenDTO> citoyenDTOs = new ArrayList<>();
+            for (Citoyen citoyen : citoyens) {
+                CitoyenDTO citoyenDTO = new CitoyenDTO();
+                citoyenDTO.setMail(citoyen.getMail());
+                citoyenDTO.setNom(citoyen.getNom());
+                citoyenDTO.setPrenom(citoyen.getPrenom());
+                citoyenDTOs.add(citoyenDTO);
+            }
+            return new ResponseEntity<>(citoyenDTOs, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error searching for citizens: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error searching for citizens");
             errorResponse.put("error", e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,11 +98,15 @@ public class CitoyenController {
      * @example POST /citoyen/remove/user@example.com
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/remove/{emailUser}")
     public ResponseEntity<?> removeCitoyen(@PathVariable String emailUser) {
         try {
-            Citoyen citoyen = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
-            citoyenService.removeCitoyen(citoyen);
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            if (citoyen.isEmpty()) {
+                return new ResponseEntity<>("Citizen not found", HttpStatus.NOT_FOUND);
+            }
+            citoyenService.removeCitoyen(emailUser);
             return new ResponseEntity<>("Citizen removed successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error removing citizen: " + e.getMessage());
@@ -79,11 +125,17 @@ public class CitoyenController {
      * @example POST /citoyen/validate_user/user@example.com
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/validate_user/{emailUser}")
     public ResponseEntity<?> validateCitoyen(@PathVariable String emailUser) {
         try {
-            Citoyen citoyen = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
-            citoyenService.validateCitoyen(citoyen);
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            if (citoyen.isEmpty()) {
+                return new ResponseEntity<>("Citizen not found", HttpStatus.NOT_FOUND);
+            }
+            CitoyenService citoyenService = new CitoyenService(citoyenRepository); // Fetch the Citoyen object
+           //Citoyen citoyen1 = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
+            citoyenService.validateCitoyen(citoyen.get());
             return new ResponseEntity<>("Citizen validated successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error validating citizen: " + e.getMessage());
@@ -93,7 +145,21 @@ public class CitoyenController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
-
+        @CrossOrigin(origins = "http://localhost:3000")
+        @GetMapping("/getcitoyen/{emailUser}")
+        public ResponseEntity<?> getcitoyen(@PathVariable String emailUser) {
+            try{
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            return new ResponseEntity<>(citoyen, HttpStatus.OK);
+            }catch (Exception e) {
+                System.err.println("Error getting citizen: " + e.getMessage());
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "Error getting citizen");
+                errorResponse.put("error", e.getMessage());
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            }
+        }
+        
     /**
      * Update a citizen's details.
      *
@@ -111,20 +177,25 @@ public class CitoyenController {
      * @param ville The new city of the citizen.
      * @param mdp The new password of the citizen.
      * @return A success message if the update is successful, or an error message.
-     * @example POST /citoyen/update/user@example.com?name=John&prenom=Doe&mail=user@example.com&numTel=1234567890&numSec=123-45-6789&role=User&dateNaissance=2000-01-01&sexe=M&validaton=1&codePostal=12345&ville=SomeCity&mdp=newpassword
+     * @example POST /citoyen/update/user@example.com?name=John&prenom=Doe&mail=user@example.com&numTel=1234567890&numSec=123-45-6789&role=User&dateNaissance=2000-01-01&sexe=M&validaton=true&codePostal=12345&ville=SomeCity&mdp=newpassword
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/update/{emailUser}")
     public ResponseEntity<?> update(@PathVariable String emailUser, 
                                      @RequestParam String name, @RequestParam String prenom, 
                                      @RequestParam String mail, @RequestParam String numTel, 
                                      @RequestParam String numSec, @RequestParam String role, 
                                      @RequestParam Date dateNaissance, @RequestParam char sexe, 
-                                     @RequestParam int validaton, @RequestParam String codePostal, 
-                                     @RequestParam String ville, @RequestParam String mdp) {
+                                     @RequestParam boolean validaton, @RequestParam boolean actif,
+                                     @RequestParam String codePostal, @RequestParam String ville,
+                                     @RequestParam String mdp) {
         try {
-            Citoyen citoyen = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
-            citoyenService.update(citoyen, name, prenom, mail, numTel, numSec, role, dateNaissance, sexe, validaton, codePostal, ville, mdp);
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            if (citoyen.isEmpty()) {
+                return new ResponseEntity<>("Citizen not found", HttpStatus.NOT_FOUND);
+            }
+            citoyenService.updateCitoyen(emailUser, mail, name, prenom, numTel, numSec, role, dateNaissance, sexe, validaton, actif, codePostal, ville, mdp);
             return new ResponseEntity<>("Citizen updated successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error updating citizen: " + e.getMessage());

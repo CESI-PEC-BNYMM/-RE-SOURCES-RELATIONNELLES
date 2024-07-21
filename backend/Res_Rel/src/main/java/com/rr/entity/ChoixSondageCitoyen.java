@@ -11,7 +11,6 @@ public class ChoixSondageCitoyen {
     @Id
     private String choixSondageCitoyen;
 
-
     @OneToMany(mappedBy = "ChoixSondageCitoyen")
     public String getChoixSondageCitoyen() {
         return choixSondageCitoyen;

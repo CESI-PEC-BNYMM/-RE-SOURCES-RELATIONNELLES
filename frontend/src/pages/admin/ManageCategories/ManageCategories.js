@@ -4,6 +4,9 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditModal from '../../../components/EditModal/EditModal';
 import AddModal from '../../../components/AddModal/AddModal';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
+import ErrorModal from '../../../components/ErrorModal/ErrorModal';
+import SuccessModal from '../../../components/SuccessModal/SuccessModal';
+import axios from 'axios';
 
 const ManageCategories = () => {
     useEffect(() => {
@@ -43,6 +46,20 @@ const ManageCategories = () => {
     const [isEditing, setIsEditing] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
     const [isDeleting, setIsDeleting] = useState(null);
+    // const [showErrorModal, setShowErrorModal] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState('');
+    // const [showSuccessModal, setShowSuccessModal] = useState(false);
+    // const api_url = process.env.REACT_APP_API_URI + '/api';
+
+    // const fetchCategories = async () => {
+    //     try {
+    //         const response = await axios.get(`${api_url}/categories/list`);
+    //         setTbodyData(response.data);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la récupération des catégories : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    // };
 
     const handleModalEdit = (row) => {
         setIsEditing(row);
@@ -62,19 +79,34 @@ const ManageCategories = () => {
         setIsDeleting(null);
     };
 
-    const handleSave = (data) => {
-        if (isAdding) {
-            setTbodyData([...tbodyData, { ...data, idcategorie: Math.max(...tbodyData.map(item => item.idcategorie)) + 1 }]);
-        } else if (isEditing) {
-            setTbodyData(tbodyData.map(item => item.idcategorie === data.idcategorie ? data : item));
-        }
-        handleCloseModal();
-    };
+    // const handleSave = async (data) => {
+    //     try {
+    //         const queryParams = new URLSearchParams({
+    //             idCategorie: data.idcategorie,
+    //             libelle: data.libelle,
+    //             actif: data.actif === "Oui"
+    //         }).toString();
+    //         await axios.put(`${api_url}/categories/addCategorie?${queryParams}`);
+    //         fetchCategories();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la sauvegarde de la catégorie : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
-    const handleDelete = (id) => {
-        setTbodyData(tbodyData.filter(item => item.idcategorie !== id));
-        handleCloseModal();
-    };
+    // const handleDelete = async (id) => {
+    //     try {
+    //         await axios.delete(`${api_url}/categories/deleteCategorie?idCategorie=${id}`);
+    //         fetchCategories();
+    //         setShowSuccessModal(true);
+    //     } catch (error) {
+    //         setErrorMessage('Erreur lors de la suppression de la catégorie : ' + error.message);
+    //         setShowErrorModal(true);
+    //     }
+    //     handleCloseModal();
+    // };
 
     return (
         <>
@@ -118,6 +150,18 @@ const ManageCategories = () => {
                     rowTitle={isDeleting.libelle}
                 />
             )}
+            {/* <ErrorModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Erreur"
+                message={errorMessage}
+            />
+            <SuccessModal
+                show={showSuccessModal}
+                onHide={() => setShowSuccessModal(false)}
+                title="Succès"
+                message="Opération réussie"
+            /> */}
         </>
     );
 };

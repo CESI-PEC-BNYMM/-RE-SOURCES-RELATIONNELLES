@@ -14,9 +14,9 @@ public class Commentaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "id_commentaire")
+    @Column(name = "idcommentaire")
     private int idCommentaire;
-    @Column(name = "tewt_commentaire")
+    @Column(name = "text_commentaire")
     private String tewtCommentaire;
     @Column(name="commentaire_signale")
     private boolean commentaireSignale;
@@ -33,7 +33,9 @@ public class Commentaire {
     @JoinColumn(name = "publication_idpublication")
     private Publication publication;
 
-    private boolean signal;
+    public Commentaire() {
+        // Auto-generated constructor
+    }
 
 
     public int getIdCommentaire() {
@@ -66,5 +68,13 @@ public class Commentaire {
 
     public void setType(boolean type) {
         this.type = type;
+    }
+
+    public Citoyen getCitoyen() {
+        return citoyen;
+    }
+
+    public void setCitoyen(Citoyen citoyen) {
+        this.citoyen = citoyen;
     }
 }

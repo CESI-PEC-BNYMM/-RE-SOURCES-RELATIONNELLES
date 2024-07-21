@@ -1,17 +1,20 @@
 package com.rr.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import com.rr.services.AuthService;
-import java.util.Map;
-import java.util.HashMap;
 
+import com.rr.services.AuthService;
 
 @RestController
 @RequestMapping("/auth")
@@ -29,11 +32,18 @@ public class AuthController {
      * @example POST /auth/login?mail=user@example.com&motDePasse=password
      * Response: HTTP 200 OK with the login token or HTTP 401 UNAUTHORIZED with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String mail, @RequestParam String motDePasse) {
         try {
-            String token = authService.login(mail, motDePasse);
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            Map<String, String> userInfos = authService.login(mail, motDePasse);
+            return new ResponseEntity<>(userInfos, HttpStatus.OK);
+        } catch (BadCredentialsException e) {
+            System.err.println("Invalid credentials: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Invalid credentials");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             System.err.println("Error during login: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();
@@ -60,6 +70,7 @@ public class AuthController {
      * @example POST /auth/signup?mail=user@example.com&motDePasse=password&nom=Doe&prenom=John&numTel=1234567890&numSec=123-45-6789&dateNaissance=2000-01-01&sexe=M&codePostal=12345&ville=SomeCity
      * Response: HTTP 200 OK with a success message or HTTP 400 BAD REQUEST with an error message.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestParam String mail, @RequestParam String motDePasse,
                                      @RequestParam String nom, @RequestParam String prenom,
@@ -69,7 +80,15 @@ public class AuthController {
         try {
             String responseMessage = authService.signup(mail, motDePasse, nom, prenom, numTel, numSec, dateNaissance, sexe, codePostal, ville);
             return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
-        } catch (Exception e) {
+        } catch (BadCredentialsException e) {
+            System.err.println("Invalid credentials: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Invalid credentials");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+        
+        catch (Exception e) {
             System.err.println("Error during signup: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Error during signup");

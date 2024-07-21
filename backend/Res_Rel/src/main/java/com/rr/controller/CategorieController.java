@@ -1,24 +1,24 @@
 package com.rr.controller;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.rr.entity.Categorie;
 import com.rr.repository.CategorieRepository;
 import com.rr.services.CategorieService;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/categories")
@@ -42,6 +42,7 @@ public class CategorieController {
      *   { "idCategorie": 2, "libelle": "Electronics", "actif": false }
      * ]
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/list")
     public ResponseEntity<?> getAllCategorie() {
         try {
@@ -65,6 +66,7 @@ public class CategorieController {
      * Response: HTTP 200 OK
      * { "idCategorie": 1, "libelle": "Books", "actif": true }
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findbyid")
     public ResponseEntity<?> findByCategorie(@RequestParam int idCategorie) {
         try {
@@ -88,6 +90,7 @@ public class CategorieController {
      * Response: HTTP 200 OK
      * { "idCategorie": 1, "libelle": "Books", "actif": true }
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findbylibelle")
     public ResponseEntity<?> findByLibelle(@RequestParam String libelle) {
         try {
@@ -113,6 +116,7 @@ public class CategorieController {
      * Response: HTTP 200 OK
      * "Categorie ajouté"
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/addCategorie")
     public ResponseEntity<?> addCategorie(@RequestParam int idCategorie, @RequestParam String libelle,
                                           @RequestParam boolean actif) {
@@ -141,11 +145,12 @@ public class CategorieController {
      *   { "idCategorie": 1, "libelle": "Books", "actif": true }
      * ]
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findByActif/{actif}")
     public ResponseEntity<?> findByActif(@PathVariable boolean actif) {
         try {
-            Optional<Categorie> categorie = categorieRepository.findByActif(actif);
-            return new ResponseEntity<>(categorie, HttpStatus.OK);
+            List<Categorie> categories = categorieRepository.findByActif(actif);
+            return new ResponseEntity<>(categories, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error finding category by actif status: " + e.getMessage());
             Map<String, String> errorResponse = new HashMap<>();

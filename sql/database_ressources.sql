@@ -70,8 +70,7 @@
   VALUES
   ('Ma première publication', '2022-01-01 12:00:00', 'jean.dupont@example.com'),
   ('Une nouvelle publication', '2022-02-01 10:30:00', 'pierre.martin@example.com'),
-  ('Publi
-  ication intéressante', '2022-03-01 09:45:00', 'marie.durand@example.com');
+  ('Publication intéressante', '2022-03-01 09:45:00', 'marie.durand@example.com');
 
 
   -- -----------------------------------------------------
@@ -90,11 +89,11 @@
   VALUES
   ('Sport'),
   ('Culture'),
-  ('Environnement')
-  ('Politique')
-  ('Economie')
-  ('Société')
-  ('Technologie')
+  ('Environnement'),
+  ('Politique'),
+  ('Economie'),
+  ('Société'),
+  ('Technologie'),
   ('Sante');
 
   -- -----------------------------------------------------
@@ -190,7 +189,7 @@
     `demande_validee` TINYINT(1) NULL DEFAULT 0,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     `citoyen_mail1` VARCHAR(45) NOT NULL,
-    `id_demande_ami` VARCHAR(45) NOT NULL,
+    `id_demande_ami` INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`id_demande_ami`),
     INDEX `fk_demande_ami_citoyen1_idx` (`citoyen_mail` ASC) ,
     INDEX `fk_demande_ami_citoyen2_idx` (`citoyen_mail1` ASC) ,
@@ -267,7 +266,7 @@
 
 
   -- Insérer des données dans la table choix_sondage_citoyen
-  INSERT INTO `ressources_relationnelles`.`choix_sondage_citoyen`
+  INSERT INTO `ressources_relationnelles`.`choixSondageCitoyen`
   (`citoyen_mail`, `ressource_idressource`, `choix_sondage_citoyen`)
   VALUES
   ('jean.dupont@example.com', 1, 'Oui'),

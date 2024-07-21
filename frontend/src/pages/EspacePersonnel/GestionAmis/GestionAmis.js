@@ -1,83 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import ErrorModal from '../../../components/ErrorModal/ErrorModal';
+import axios from 'axios';
 
 const GestionAmis = () => {
     useEffect(() => {
         document.title = '(RE) – Gestion d\'amis';
     }, []);
 
-    const [amis, setAmis] = useState([
-        { nom: 'Jean Dupont'},
-        { nom: 'Marie Durand'},
-        { nom: 'Paul Martin'},
-        { nom: 'Sophie Lefevre'},
-        { nom: 'Jacques Lemoine'},
-        { nom: 'Jeanne Lefevre'},
-        { nom: 'Pierre Lemoine'},
-        { nom: 'Julie Dupont'},
-        { nom: 'Lucie Durand'},
-        { nom: 'Marc Martin'},
-        { nom: 'Hélène Lefevre'},
-        { nom: 'Philippe Lemoine'},
-        { nom: 'Marie Dupont'},
-        { nom: 'Paul Durand'},
-        { nom: 'Sophie Martin'},
-        { nom: 'Jacques Lefevre'},
-        { nom: 'Jeanne Lemoine'},
-        { nom: 'Pierre Dupont'},
-        { nom: 'Julie Durand'},
-        { nom: 'Lucie Martin'},
-        { nom: 'Marc Lefevre'},
-        { nom: 'Hélène Lemoine'},
-        { nom: 'Philippe Dupont'},
-        { nom: 'Marie Durand'},
-        { nom: 'Paul Martin'},
-        { nom: 'Sophie Lefevre'},
-        { nom: 'Jacques Lemoine'},
-        { nom: 'Jeanne Lefevre'},
-        { nom: 'Pierre Lemoine'}
-    ]);
-    const [amisShown, setAmisShown] = useState([...amis.slice(0, 10)]);
-    const [demandes, setDemandes] = useState([
-        { nom: 'Jeanne Lefevre'},
-        { nom: 'Pierre Lemoine'},
-        { nom: 'Julie Dupont'},
-        { nom: 'Lucie Durand'},
-        { nom: 'Marc Martin'},
-        { nom: 'Hélène Lefevre'},
-        { nom: 'Philippe Lemoine'},
-        { nom: 'Marie Dupont'},
-        { nom: 'Paul Durand'},
-        { nom: 'Sophie Martin'},
-        { nom: 'Jacques Lefevre'},
-        { nom: 'Jeanne Lemoine'},
-        { nom: 'Pierre Dupont'},
-        { nom: 'Julie Durand'},
-        { nom: 'Lucie Martin'},
-        { nom: 'Marc Lefevre'},
-        { nom: 'Hélène Lemoine'},
-        { nom: 'Philippe Dupont'},
-        { nom: 'Marie Durand'},
-        { nom: 'Paul Martin'},
-        { nom: 'Sophie Lefevre'},
-        { nom: 'Jacques Lemoine'}
-    ]);
-    const [demandesShown, setDemandesShown] = useState([...demandes.slice(0, 10)]);
+    const [amis, setAmis] = useState([]);
+    const [amisShown, setAmisShown] = useState([]);
+    const [demandes, setDemandes] = useState([]);
+    const [demandesShown, setDemandesShown] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [options, setOptions] = useState([]);
     const filterBy = () => true;
     const [selection, setSelection] = useState([]);
 
-    const handleSearch = (query) => {
-        setIsLoading(true);
+    const api_url = process.env.REACT_APP_API_URI + '/api';
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-        fetch(`${process.env.REACT_APP_SEARCH_USERS_URI}?q=${query}+in:login&page=1&per_page=50`)
-            .then((resp) => resp.json())
-            .then(({ items }) => {
-                setOptions(items);
-                setIsLoading(false);
-            });
+    useEffect(() => {
+        fetchFriends();
+    }, []);
+
+    useEffect(() => {
+        setAmisShown([...amis.slice(0, 10)]);
+    }, [amis]);
+
+    useEffect(() => {
+        setDemandesShown([...demandes.slice(0, 10)]);
+    }, [demandes]);
+
+    const fetchFriends = async () => {
+        try {
+            const headers = {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            };
+            const response = await axios.get(`${api_url}/demandeAmi/list/`, { headers: headers });
+            console.log(response.data);
+            const requests = response.data.map((d) => ({ nom: d.prenom + ' ' + d.nom, idDemandeAmi: d.idDemandeAmi }));
+            setDemandes(requests);
+            const friends = response.data.filter((d) => d.demandeValidee).map((d) => ({ nom: d.prenom + ' ' + d.nom, idDemandeAmi: d.idDemandeAmi }));
+            setAmis(friends);
+        } catch (error) {
+            setErrorMessage('Informations : ' + error.response.data + ' (Code erreur : ' + error.response.status + ')');
+            setShowErrorModal(true);
+            console.log(error);
+        }
+    };
+
+    const handleSearch = async (query) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(`${api_url}/citoyen/search?query=${query}`);
+            console.log(response.data);
+
+            const formattedOptions = response.data.map((citoyen) => ({
+                id: citoyen.mail, // or a unique identifier
+                login: `${citoyen.prenom} ${citoyen.nom}`,
+                avatar_url: 'https://randomuser.me/api/portraits/thumb/men/1.jpg', // placeholder or actual image URL
+            }));
+
+            setOptions(formattedOptions);
+            setIsLoading(false);
+        } catch (error) {
+            setErrorMessage(`Informations : ${error.response.data.error} (Code erreur : ${error.response.data.status})`);
+            setShowErrorModal(true);
+            console.log(error);
+            setIsLoading(false);
+        }
     };
 
     const addProfiles = (profiles, profilesShown, setProfilesShown) => {
@@ -207,6 +201,13 @@ const GestionAmis = () => {
                     {demandes.length !== demandesShown.length ? <button className="btn btn-primary btn-sm" onClick={() => addProfiles(demandes, demandesShown, setDemandesShown)}>Voir plus</button> : null}
                 </div>
             </div>
+
+            <ErrorModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Erreur"
+                message={errorMessage}
+            />
         </div>
     );
 }
