@@ -1,6 +1,7 @@
 package com.rr.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rr.dto.CitoyenDTO;
 import com.rr.entity.Citoyen;
 import com.rr.repository.CitoyenRepository;
 import com.rr.services.CitoyenService;
@@ -52,6 +54,37 @@ public class CitoyenController {
             e.printStackTrace(); // This will print the full stack trace to the logs
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Error retrieving citizens");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Search for a citizen by their name or first name.
+     * 
+     * @param query The name or first name to search for.
+     * @return A list of citizens that match the search query.
+     * @example GET /citoyen/search?query=John
+     * Response: HTTP 200 OK with a list of citizens.
+     */
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchCitoyen(@RequestParam String query) {
+        try {
+            List<Citoyen> citoyens = citoyenRepository.findByNomOrPrenom(query);
+            List<CitoyenDTO> citoyenDTOs = new ArrayList<>();
+            for (Citoyen citoyen : citoyens) {
+                CitoyenDTO citoyenDTO = new CitoyenDTO();
+                citoyenDTO.setMail(citoyen.getMail());
+                citoyenDTO.setNom(citoyen.getNom());
+                citoyenDTO.setPrenom(citoyen.getPrenom());
+                citoyenDTOs.add(citoyenDTO);
+            }
+            return new ResponseEntity<>(citoyenDTOs, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error searching for citizens: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error searching for citizens");
             errorResponse.put("error", e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
