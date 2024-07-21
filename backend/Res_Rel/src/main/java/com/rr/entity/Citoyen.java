@@ -31,7 +31,6 @@ public class Citoyen {
 
     @Column(name = "num_tel")
     private String numTel;
-
     @Column(name = "role")
     private String role;
 

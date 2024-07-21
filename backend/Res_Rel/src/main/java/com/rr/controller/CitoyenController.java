@@ -1,7 +1,13 @@
 package com.rr.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,22 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import com.rr.entity.Citoyen;
+import com.rr.repository.CitoyenRepository;
 import com.rr.services.CitoyenService;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RestController
 @RequestMapping("/citoyen")
 public class CitoyenController {
 
-    private final CitoyenService citoyenService;
+    private final CitoyenRepository citoyenRepository;
 
-    public CitoyenController(CitoyenService citoyenService) {
-        this.citoyenService = citoyenService;
+    public CitoyenController(CitoyenRepository citoyenRepository) {
+        this.citoyenRepository = citoyenRepository;
     }
 
     /**
@@ -39,7 +43,8 @@ public class CitoyenController {
     @GetMapping("/list")
     public ResponseEntity<?> getAllCitoyen() {
         try {
-            List<Citoyen> citoyens = citoyenService.findAll();
+
+            List<Citoyen> citoyens = citoyenRepository.findAll();
             return new ResponseEntity<>(citoyens, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error retrieving citizens: " + e.getMessage());
@@ -62,8 +67,13 @@ public class CitoyenController {
     @PostMapping("/remove/{emailUser}")
     public ResponseEntity<?> removeCitoyen(@PathVariable String emailUser) {
         try {
-            Citoyen citoyen = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
-            citoyenService.removeCitoyen(citoyen);
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            if (citoyen.isEmpty()) {
+                return new ResponseEntity<>("Citizen not found", HttpStatus.NOT_FOUND);
+            }
+            CitoyenService citoyenService = new CitoyenService(citoyenRepository); // Fetch the Citoyen object
+            
+            citoyenService.removeCitoyen(emailUser);
             return new ResponseEntity<>("Citizen removed successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error removing citizen: " + e.getMessage());
@@ -86,8 +96,13 @@ public class CitoyenController {
     @PostMapping("/validate_user/{emailUser}")
     public ResponseEntity<?> validateCitoyen(@PathVariable String emailUser) {
         try {
-            Citoyen citoyen = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
-            citoyenService.validateCitoyen(citoyen);
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            if (citoyen.isEmpty()) {
+                return new ResponseEntity<>("Citizen not found", HttpStatus.NOT_FOUND);
+            }
+            CitoyenService citoyenService = new CitoyenService(citoyenRepository); // Fetch the Citoyen object
+           //Citoyen citoyen1 = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
+            citoyenService.validateCitoyen(citoyen.get());
             return new ResponseEntity<>("Citizen validated successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error validating citizen: " + e.getMessage());
@@ -128,8 +143,12 @@ public class CitoyenController {
                                      @RequestParam int validaton, @RequestParam String codePostal, 
                                      @RequestParam String ville, @RequestParam String mdp) {
         try {
-            Citoyen citoyen = citoyenService.findByEmail(emailUser); // Fetch the Citoyen object
-            citoyenService.update(citoyen, name, prenom, mail, numTel, numSec, role, dateNaissance, sexe, validaton, codePostal, ville, mdp);
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            if (citoyen.isEmpty()) {
+                return new ResponseEntity<>("Citizen not found", HttpStatus.NOT_FOUND);
+            }
+            CitoyenService citoyenService = new CitoyenService(citoyenRepository);
+            citoyenService.update(citoyen.get(), name, prenom, mail, numTel, numSec, role, dateNaissance, sexe, validaton, codePostal, ville, mdp);
             return new ResponseEntity<>("Citizen updated successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error updating citizen: " + e.getMessage());
