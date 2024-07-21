@@ -15,9 +15,4 @@ public interface PublicationRepository  extends JpaRepository<Publication, Integ
     Optional<Publication> findById(int idPublication);
     Optional<Publication> findByDatePub(Date datePub);
     List<Publication> findByCitoyen(Citoyen citoyen);
-   
-
-
-
-
 }

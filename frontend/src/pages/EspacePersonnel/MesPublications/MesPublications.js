@@ -10,6 +10,7 @@ import { FaCircleExclamation } from "react-icons/fa6";
 import { LeafPoll, Result } from 'react-leaf-polls'
 import 'react-leaf-polls/dist/index.css'
 import PollForm from '../../../components/PollForm/PollForm';
+import ErrorModal from '../../../components/ErrorModal/ErrorModal';
 
 const MesPublications = () => {
     useEffect(() => {
@@ -17,74 +18,113 @@ const MesPublications = () => {
     }, []);
 
     const [myUser, setMyUser] = useState({
-        name: 'Mathieu Nowakowski',
+        name: localStorage.getItem('prenom') + ' ' + localStorage.getItem('nom'),
         image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
     });
-    const [users, setUsers] = useState([]);
-    const cheerio = require('cheerio');
-    const [isPublicationPoll, setIsPublicationPoll] = useState(false);
-    const [isPublicationArticle, setIsPublicationArticle] = useState(true);
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            key: '/',
-            name: 'Tous',
-        },
-        {
-            id: 2,
-            key: '/sport',
-            name: 'Sport',
-        },
-        {
-            id: 3,
-            key: '/politique',
-            name: 'Politique',
-        },
-        {
-            id: 4,
-            key: '/culture',
-            name: 'Culture',
-        },
-        {
-            id: 5,
-            key: '/economie',
-            name: 'Economie',
-        },
-        {
-            id: 6,
-            key: '/societe',
-            name: 'Société',
-        },
-        {
-            id: 7,
-            key: '/technologie',
-            name: 'Technologie',
-        },
-        {
-            id: 8,
-            key: '/sante',
-            name: 'Santé',
-        },
-        {
-            id: 9,
-            key: '/environnement',
-            name: 'Environnement',
-        }
-    ]);
+
+    const [categories, setCategories] = useState([]);
     const [articles, setArticles] = useState([]);
     const [articlesToShow, setArticlesToShow] = useState([]);
     const [showPublishModal, setShowPublishModal] = useState(false);
+    const [isPublicationArticle, setIsPublicationArticle] = useState(true);
+    const [isPublicationPoll, setIsPublicationPoll] = useState(false);
     const uri = '/espace-personnel/mes-publications';
+    const cheerio = require('cheerio');
 
-    const getRandomUsers = ($count) => {
+    const api_url = process.env.REACT_APP_API_URI + '/api';
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const fetchCategories = async () => {
         try {
-            axios.get('https://randomuser.me/api/?results=' + $count)
-                .then((response) => {
-                    setUsers(response.data.results);
-                });
+            const queryParams = new URLSearchParams({
+                // No parameters needed
+            }).toString();
+            const response = await axios.get(`${api_url}/categories/list?${queryParams}`);
+            console.log(response.data);
+            const newArray = response.data.map((category) => {
+                console.log(category);
+                return {
+                    id: category.idCategorie,
+                    key: '/' + category.libelle.toLowerCase(),
+                    name: category.libelle,
+                    actif: category.actif,
+                };
+            }).filter((category) => category.actif === true);
+            newArray.unshift({
+                id: 0,
+                key: '/',
+                name: 'Tous',
+                actif: true,
+            });
+            setCategories(newArray);
         } catch (error) {
-            console.error(error);
+            setErrorMessage('Informations : ' + error.response.data.error + ' (Code erreur : ' + error.response.data.status + ')');
+            setShowErrorModal(true);
         }
+    };
+
+    const fetchArticles = async () => {
+        try {
+            const queryParams = new URLSearchParams({
+                // No parameters needed
+            }).toString();
+            const mail = localStorage.getItem('mail');
+            const response = await axios.get(`${api_url}/publications/list/${mail}?${queryParams}`);
+            console.log(response.data);
+
+            const newArray = [];
+            for (const article of response.data) {
+                console.log(article);
+                const processedArticle = await processArticle(article);
+                newArray.push(processedArticle);
+            }
+
+            setArticles(newArray);
+        } catch (error) {
+            setErrorMessage('Informations : ' + error.response.data.error + ' (Code erreur : ' + error.response.data.status + ')');
+            setShowErrorModal(true);
+        }
+    };
+
+    const processArticle = async (article) => {
+        return {
+            id: article.idPublication,
+            type: 'article',
+            category: {
+                id: article.categories[0].idCategorie,
+                name: article.categories[0].libelle,
+            },
+            showComments: false,
+            user: {
+                name: article.citoyen.prenom + ' ' + article.citoyen.nom,
+                image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg'
+            },
+            date: new Date(article.datePub).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+            nbrVue: (article.nbrVues === 0 || article.nbrVues === null) ? 0 : article.nbrVues,
+            seen: false,
+            content: article.description,
+            link: {
+                link: article.ressources[0].lien,
+                image: getImageFromLink(article.ressources[0].lien),
+                title: await getTitleFromLink(article.ressources[0].lien),
+                description: await getDescriptionFromLink(article.ressources[0].lien),
+            },
+            comments: processComments(article.commentaires),
+        };
+    };
+
+    const processComments = (comments) => {
+        return comments.map((comment) => {
+            return {
+                id: comment.idCommentaire,
+                user: {
+                    name: comment.citoyen.prenom + ' ' + comment.citoyen.nom,
+                    image: 'https://randomuser.me/api/portraits/thumb/men/1.jpg'
+                },
+                content: comment.tewtCommentaire,
+            };
+        });
     };
 
     const formatImage = ($image, $size) => {
@@ -93,41 +133,14 @@ const MesPublications = () => {
         );
     };
 
-    const getUserName = ($user) => {
-        return $user.name.first + ' ' + $user.name.last;
-    };
-
-    const getRandomLink = async ($index = 0) => {
-        try {
-            // const response = await axios.get('https://api.publicapis.org/random');
-            const response = await axios.get('https://newsapi.org/v2/top-headlines?country=fr&apiKey=d0e60c7b2f674ee29b6cbb4b1820b595');
-            // return response.data.entries[$index];
-            return response.data.articles[$index];
-        } catch (error) {
-            console.error(error);
-            return null;
-        }
-    };
-
-    const getArticleLink = ($link) => {
-        // return $link.Link;
-        return $link.url;
-    };
-
     const getImageFromLink = ($link) => {
         return 'https://www.google.com/s2/favicons?domain=' + $link + '&sz=64';
     };
 
     const getTitleFromLink = async ($link) => {
-        // return $link.API;
-        // return $link.author;
-        if ($link.url)
-            return $link.author;
-
         try {
             const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
                 const $res = cheerio.load(response.data);
-                // get the title of the website (ex: Google or Facebook or L'Équipe)
                 return $res('meta[property="og:site_name"]').attr('content') || 'Titre introuvable';
             });
             return response;
@@ -138,11 +151,6 @@ const MesPublications = () => {
     };
 
     const getDescriptionFromLink = async ($link) => {
-        // return $link.Description;
-        // return $link.title;
-        if ($link.url)
-            return $link.title;
-
         try {
             const response = await axios.get(`${process.env.REACT_APP_PROXY_URL}` + $link).then((response) => {
                 const $res = cheerio.load(response.data);
@@ -155,66 +163,31 @@ const MesPublications = () => {
         }
     };
 
-    const getRandomArticleContent = ($count) => {
-        let $content = '';
-        let $paragraphs = Math.floor(Math.random() * 3) + 1;
-        for (let i = 0; i < $paragraphs; i++) {
-            let $sentences = $count;
-            for (let j = 0; j < $sentences; j++) {
-                $content += 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-            }
+    const increaseView = async ($articleId) => {
+        let $article = articles.find((article) => article.id === $articleId);
+        if ($article.seen) {
+            return;
         }
-        return $content;
+        $article.nbrVue++;
+        $article.seen = true;
+        setArticles([...articles]);
+        try {
+            const response = await axios.post(`${api_url}/publications/increase_views/${$articleId}`);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const getRandomComments = ($count) => {
-        let $comments = [];
-        for (let i = 0; i < $count; i++) {
-            let $user = users[Math.floor(Math.random() * users.length)];
-            $comments.push({
-                id: i,
-                user: {
-                    name: getUserName($user),
-                    image: $user.picture.thumbnail,
-                },
-                content: getRandomArticleContent(Math.floor(Math.random() * 2) + 1),
-            });
-        }
-        return $comments;
-    };
+    useEffect(() => {
+        fetchCategories();
+        fetchArticles();
+    }, []);
 
-    const setRandomArticles = async () => {
-        let $articles = [];
-        for (let i = 0; i < users.length; i++) {
-            let $category = categories[Math.floor(Math.random() * (categories.length - 1)) + 1]; // Exclude 'Tous'
-            // let $randomLink = await getRandomLink(); // for the API PublicAPI
-            let $randomLink = await getRandomLink(i); // for the API NewAPI
-            let $articleLink = getArticleLink($randomLink);
-            $articles.push({
-                id: i,
-                type: 'article',
-                category: $category,
-                isLiked: false,
-                showComments: false,
-                user: {
-                    name: myUser.name,
-                    image: myUser.image,
-                },
-                nbrVue: Math.floor(Math.random() * 1000),
-                seen: false,
-                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                content: getRandomArticleContent(Math.floor(Math.random() * 3) + 1),
-                link: {
-                    link: $articleLink,
-                    image: getImageFromLink($articleLink),
-                    title: await getTitleFromLink($randomLink),
-                    description: await getDescriptionFromLink($randomLink),
-                },
-                comments: getRandomComments(Math.floor(Math.random() * 10) + 1),
-            });
-        }
-        setArticles($articles);
-    };
+    useEffect(() => {
+        console.log(articles);
+        setArticlesToShow(articles);
+    }, [articles]);
 
     const addComment = ($articleId) => {
         let $article = articles.find((article) => article.id === $articleId);
@@ -231,6 +204,19 @@ const MesPublications = () => {
             $article.showComments = true;
             setArticles([...articles]);
             document.querySelector(('.commentForm' + $articleId + ' input')).value = '';
+        }
+    };
+
+    const reportComment = async ($commentId) => {
+        if (window.confirm('Voulez-vous vraiment signaler ce commentaire ?')) {
+            try {
+                const response = await axios.put(`${api_url}/commentaires/signale/${$commentId}?commentaireSignale=true`);
+                console.log(response.data);
+                alert('Commentaire signalé !');
+            } catch (error) {
+                console.error(error);
+                alert('Erreur lors de la signalisation du commentaire.');
+            }
         }
     };
 
@@ -293,6 +279,25 @@ const MesPublications = () => {
         }
     };
 
+    const sendArticleToBackend = async ($article) => {
+        try {
+            const queryParams = new URLSearchParams({
+                description: $article.content,
+                categories: [$article.category.id],
+                lien: $article.link.link,
+            }).toString();
+            const headers = {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            };
+            const response = await axios.post(`${api_url}/publications/publish?${queryParams}`, {}, { headers });
+            console.log(response.data);
+            return true;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    };
+
     const publishArticle = async () => {
         const categoryId = parseInt(document.getElementById('publishCategory').value);
         const category = categories.find((cat) => cat.id === categoryId);
@@ -300,7 +305,7 @@ const MesPublications = () => {
         let link = '';
         let resIPQS = null;
         let poll = null;
-
+        
         if (isPublicationArticle) {
             content = document.getElementById('publishContent').value || '';
             link = document.getElementById('publishLink').value || '';
@@ -322,7 +327,7 @@ const MesPublications = () => {
                 })),
             };
         }
-
+        
         if ((content && link) || (poll && poll.title && poll.answers.length)) {
             const articleBase = {
                 id: articles.length + 1,
@@ -338,7 +343,7 @@ const MesPublications = () => {
                 date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
                 comments: [],
             };
-
+            
             const article = isPublicationArticle ? {
                 ...articleBase,
                 type: 'article',
@@ -354,10 +359,15 @@ const MesPublications = () => {
                 type: 'poll',
                 poll,
             };
-
+            
+            if (await sendArticleToBackend(article) !== true) {
+                alert('Erreur lors de la publication de l\'article.');
+                handlePublishButton(false);
+                return;
+            }
             articles.unshift(article);
             setArticles([...articles]);
-
+            
             if (isPublicationPoll) {
                 document.getElementById('pollTitle').value = '';
                 document.querySelector('input[name="inlineRadioOptions"]:checked').checked = false;
@@ -371,6 +381,7 @@ const MesPublications = () => {
                 document.getElementById('publishLink').value = '';
             }
 
+
             handlePublishButton(false);
             alert('Article publié !');
             console.log(article);
@@ -383,24 +394,21 @@ const MesPublications = () => {
         }
         let $article = articles.find((article) => article.id === $articleId);
         let $index = articles.indexOf($article);
+
+        try {
+            const headers = {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            };
+            const response = axios.delete(`${api_url}/publications/delete/${$articleId}`, { headers });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+
         articles.splice($index, 1);
         setArticles([...articles]);
         alert('Article supprimé !');
     };
-
-    useEffect(() => {
-        getRandomUsers(Math.floor(Math.random() * 10) + 1);
-    }, []);
-
-    useEffect(() => {
-        setRandomArticles();
-    }, [users]);
-
-    useEffect(() => {
-        console.log(users);
-        console.log(articles);
-        setArticlesToShow(articles);
-    }, [articles, users]);
 
     return (
         <div className="Content">
@@ -479,11 +487,9 @@ const MesPublications = () => {
                             }
                         </div>
                         {
-                            articles.length === 0
-                                ? <p>Chargement...</p>
-                                : articlesToShow.length === 0
-                                    ? <p>Aucun article à afficher</p>
-                                    : null
+                            articlesToShow.length === 0
+                                ? <p>Aucun article à afficher</p>
+                                : null
                         }
                         {articlesToShow.map((article) => (
                             <div className="Article whiteBox p-3" key={article.id}>
@@ -505,7 +511,7 @@ const MesPublications = () => {
                                 {article.type === 'article' ?
                                     <div className="w-100 mb-4">
                                         <p>{article.content}</p>
-                                        <div className="ArticleLink" onClick={() => { window.open(article.link.link, '_blank'); }}>
+                                        <div className="ArticleLink" onClick={() => { window.open(article.link.link, '_blank'); increaseView(article.id); }}>
                                             <img src={article.link.image} alt={article.link.title} />
                                             <div>
                                                 <h4>{article.link.title}</h4>
@@ -541,10 +547,10 @@ const MesPublications = () => {
                                     : null}
                                 <div className='w-100'>
                                     <div className="d-flex align-items-center justify-content-between mb-4">
-                                        <button className='btn d-flex align-items-center' onClick={() => { article.showComments = true; setArticles([...articles]); setTimeout(() => { document.querySelector(('.commentForm' + article.id + ' input')).focus(); }, 100); }}>
+                                        <button className='btn d-flex align-items-center' onClick={() => { article.showComments = true; setArticles([...articles]); setTimeout(() => { document.querySelector(('.commentForm' + article.id + ' input')).focus(); }, 100); increaseView(article.id); }}>
                                             <BsChat />&nbsp;&nbsp;Commenter
                                         </button>
-                                        <button className='btn' style={{ color: 'grey' }} onClick={() => { article.showComments = !article.showComments; setArticles([...articles]); }}>
+                                        <button className='btn' style={{ color: 'grey' }} onClick={() => { article.showComments = !article.showComments; setArticles([...articles]); increaseView(article.id); }}>
                                             <small>{article.showComments ? ('Masquer' + (article.comments.length > 1 ? ' les commentaires' : ' le commentaire')) : ('Voir' + (article.comments.length > 1 ? ' les ' + article.comments.length + ' commentaires' : ' le commentaire'))}</small>
                                         </button>
                                     </div>
@@ -566,7 +572,7 @@ const MesPublications = () => {
                                                     </div>
                                                     <div className="commentContent">
                                                         <p>{comment.content}</p>
-                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { alert('Commentaire de ' + comment.user.name + ' signalé !') }}>
+                                                        <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => { reportComment(comment.id); }}>
                                                             <FaCircleExclamation fill='red' />
                                                         </div>
                                                     </div>
@@ -580,6 +586,13 @@ const MesPublications = () => {
                     </div>
                 </div>
             </div>
+
+            <ErrorModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Erreur"
+                message={errorMessage}
+            />
         </div>
     );
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Ressource {
@@ -18,7 +19,7 @@ public class Ressource {
     public String lien;
 
     // relation 1,n avec Publication
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "publication_idpublication")
     private Publication publication;
 
@@ -36,6 +37,14 @@ public class Ressource {
 
     public void setLien(String lien) {
         this.lien = lien;
+    }
+
+    public Publication getPublication() {
+        return publication;
+    }
+
+    public void setPublication(Publication publication) {
+        this.publication = publication;
     }
 
 }

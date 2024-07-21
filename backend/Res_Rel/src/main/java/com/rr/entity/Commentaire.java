@@ -33,6 +33,10 @@ public class Commentaire {
     @JoinColumn(name = "publication_idpublication")
     private Publication publication;
 
+    public Commentaire() {
+        // Auto-generated constructor
+    }
+
 
     public int getIdCommentaire() {
         return idCommentaire;
@@ -64,5 +68,13 @@ public class Commentaire {
 
     public void setType(boolean type) {
         this.type = type;
+    }
+
+    public Citoyen getCitoyen() {
+        return citoyen;
+    }
+
+    public void setCitoyen(Citoyen citoyen) {
+        this.citoyen = citoyen;
     }
 }
