@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'; // Pour la validation de formulaire
-import { useNavigate, useLocation } from 'react-router-dom'; // Hooks de React Router pour la navigation
+import { useNavigate, useLocation, json } from 'react-router-dom'; // Hooks de React Router pour la navigation
 import { AuthContext } from '../../utils/authContext'; // Contexte d'authentification
 import axios from 'axios'; // Pour les requêtes HTTP
 import ErrorModal from '../../components/ErrorModal/ErrorModal';
@@ -30,9 +30,13 @@ const LoginForm = () => {
         motDePasse: values.password
       }).toString();
       const response = await axios.post(`${api_url}/auth/login?${queryParams}`);
-      console.log(response);
-      if (response.status === 200 && !response.data.includes('incorrect')) {
-        login(response.data.token); // Connexion de l'utilisateur avec le token reçu
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('role', response.data.role);
+      localStorage.setItem('mail', response.data.mail);
+      localStorage.setItem('prenom', response.data.prenom);
+      localStorage.setItem('nom', response.data.nom);
+      if (response.status === 200) {
+        login(response.data.token, response.data.role, response.data.mail, response.data.prenom, response.data.nom);
         const { from } = location.state || { from: { pathname: '/' } };
         navigate(from); // Redirection vers la page précédente
       }

@@ -36,7 +36,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String mail, @RequestParam String motDePasse) {
         try {
-            String userInfos = authService.login(mail, motDePasse);
+            Map<String, String> userInfos = authService.login(mail, motDePasse);
             return new ResponseEntity<>(userInfos, HttpStatus.OK);
         } catch (BadCredentialsException e) {
             System.err.println("Invalid credentials: " + e.getMessage());
