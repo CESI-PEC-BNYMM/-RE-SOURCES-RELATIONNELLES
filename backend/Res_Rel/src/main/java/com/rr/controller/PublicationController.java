@@ -157,6 +157,106 @@ public class PublicationController {
     }
 
     /**
+     * Retrieves a publication by the email of a user mail.
+     * 
+     * @param mail The email of the user.
+     * @return A list of publications or an error message.
+     * @example GET /list/{mail}
+     */
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/list/{mail}")
+    public ResponseEntity<?> getPublicationsByCitoyenEmail(@PathVariable String mail) {
+        try {
+            Citoyen citoyen = citoyenRepository.findById(mail)
+                    .orElseThrow(() -> new ResourceNotFoundException("Citoyen not found"));
+            List<Publication> publications = publicationRepository.findByCitoyen(citoyen);
+
+            // Convert to DTO
+            List<PublicationDTO> publicationDTOs = publications.stream().map(pub -> {
+                PublicationDTO dto = new PublicationDTO();
+                dto.setIdPublication(pub.getIdPublication());
+                dto.setDescription(pub.getDescription());
+                dto.setDatePub(pub.getDatePub());
+                dto.setPubValidee(pub.isPubValidee());
+                dto.setPubSignalee(pub.isPubSignalee());
+                dto.setNbrVues(pub.getNbrVues());
+
+                // Map categories
+                dto.setCategories(pub.getCategories().stream().map(cat -> {
+                    CategorieDTO catDto = new CategorieDTO();
+                    catDto.setIdCategorie(cat.getIdCategorie());
+                    catDto.setLibelle(cat.getLibelle());
+                    return catDto;
+                }).collect(Collectors.toSet()));
+
+                // Map ressources
+                if (pub.getRessource() != null) {
+                    RessourceDTO resDto = new RessourceDTO();
+                    resDto.setIdRessource(pub.getRessource().getIdRessource());
+                    resDto.setLien(pub.getRessource().getLien());
+                    dto.setRessources(java.util.Set.of(resDto)); // Wrap in a Set for consistency
+                } else {
+                    dto.setRessources(java.util.Set.of()); // Handle case where there's no associated resource
+                }
+
+                // Map commentaires
+                dto.setCommentaires(pub.getCommentaires().stream().map(comment -> {
+                    CommentaireDTO comDto = new CommentaireDTO();
+                    comDto.setIdCommentaire(comment.getIdCommentaire());
+                    comDto.setTewtCommentaire(comment.getTewtCommentaire());
+                    comDto.setCommentaireSignale(comment.isCommentaireSignale());
+
+                    // Map citoyen for comment
+                    CitoyenDTO citoyenDto = new CitoyenDTO();
+                    Citoyen citoyenComment = comment.getCitoyen();
+                    if (citoyenComment != null) {
+                        citoyenDto.setMail(citoyenComment.getMail());
+                        citoyenDto.setNom(citoyenComment.getNom());
+                        citoyenDto.setPrenom(citoyenComment.getPrenom());
+                        citoyenDto.setNumTel(citoyenComment.getNumTel());
+                        citoyenDto.setRole(citoyenComment.getRole());
+                        citoyenDto.setDateNaissance(citoyenComment.getDateNaissance());
+                        citoyenDto.setSexe(citoyenComment.getSexe());
+                        citoyenDto.setActif(citoyenComment.getActif());
+                        citoyenDto.setValidaton(citoyenComment.getValidaton());
+                        citoyenDto.setCodePostal(citoyenComment.getCodePostal());
+                        citoyenDto.setVille(citoyenComment.getVille());
+                        citoyenDto.setDateDerniereConnexion(citoyenComment.getDateDerniereConnexion());
+                    }
+                    comDto.setCitoyen(citoyenDto);
+                    return comDto;
+                }).collect(Collectors.toSet()));
+
+                // Map citoyen
+                CitoyenDTO citoyenDto = new CitoyenDTO();
+                Citoyen citoyenPub = pub.getCitoyen();
+                if (citoyenPub != null) {
+                    citoyenDto.setMail(citoyenPub.getMail());
+                    citoyenDto.setNom(citoyenPub.getNom());
+                    citoyenDto.setPrenom(citoyenPub.getPrenom());
+                    citoyenDto.setNumTel(citoyenPub.getNumTel());
+                    citoyenDto.setRole(citoyenPub.getRole());
+                    citoyenDto.setDateNaissance(citoyenPub.getDateNaissance());
+                    citoyenDto.setSexe(citoyenPub.getSexe());
+                    citoyenDto.setActif(citoyenPub.getActif());
+                    citoyenDto.setValidaton(citoyenPub.getValidaton());
+                    citoyenDto.setCodePostal(citoyenPub.getCodePostal());
+                    citoyenDto.setVille(citoyenPub.getVille());
+                    citoyenDto.setDateDerniereConnexion(citoyenPub.getDateDerniereConnexion());
+                }
+                dto.setCitoyen(citoyenDto);
+
+                return dto;
+            }).collect(Collectors.toList());
+
+            return ResponseEntity.ok(publicationDTOs);
+        } catch (Exception e) {
+            System.err.println("Error retrieving publications by email: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error retrieving publications by email");
+        }
+    }
+
+    /**
      * Deletes a publication.
      * 
      * @param token         The authentication token of the user.
