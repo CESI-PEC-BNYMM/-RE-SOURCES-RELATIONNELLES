@@ -119,3 +119,4 @@ public class AuthService {
         // Return a success message
         return "Inscription réussi";
     }
+}
