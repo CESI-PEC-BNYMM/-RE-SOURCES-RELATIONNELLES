@@ -112,7 +112,21 @@ public class CitoyenController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
-
+        @CrossOrigin(origins = "http://localhost:3000")
+        @GetMapping("/getcitoyen/{emailUser}")
+        public ResponseEntity<?> getcitoyen(@PathVariable String emailUser) {
+            try{
+            Optional<Citoyen> citoyen = citoyenRepository.findByMail(emailUser);
+            return new ResponseEntity<>(citoyen, HttpStatus.OK);
+            }catch (Exception e) {
+                System.err.println("Error getting citizen: " + e.getMessage());
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "Error getting citizen");
+                errorResponse.put("error", e.getMessage());
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            }
+        }
+        
     /**
      * Update a citizen's details.
      *
