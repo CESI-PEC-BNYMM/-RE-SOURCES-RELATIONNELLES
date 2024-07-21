@@ -1,7 +1,7 @@
 .QuestionAnswer {
     max-height: 0;
     overflow: auto;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s ease !important;
     color: black !important;
 }
 
