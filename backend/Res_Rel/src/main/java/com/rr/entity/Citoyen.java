@@ -3,6 +3,7 @@ package com.rr.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -21,6 +22,7 @@ public class Citoyen {
     @Column(name = "mail")
     private String mail;
 
+    @JsonBackReference
     @Column(name = "mdp")
     private String mdp;
 

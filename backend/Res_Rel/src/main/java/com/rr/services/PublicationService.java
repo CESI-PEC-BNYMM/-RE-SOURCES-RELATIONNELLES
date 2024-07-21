@@ -43,19 +43,11 @@ public class PublicationService {
     public void validatePublication(Integer idPublication) {
         Publication publication = publicationRepository.findById(idPublication).orElseThrow();
         publication.setPubValidee(true);
+        publication.setDatePub(new Date());
         publicationRepository.save(publication);  // Save the updated publication
     }
 
     public Optional<Publication> findById(int idPublication) {
         return publicationRepository.findById(idPublication);
-    }
-
-    public void publishPublication(Integer idPublication) {
-        Publication publication = publicationRepository.findById(idPublication).orElseThrow();
-        if (publication.isPubValidee()) {
-            Date aujourdhui = new Date();
-            publication.setDatePub(aujourdhui);
-            publicationRepository.save(publication);  // Save the updated publication
-        }
     }
 }

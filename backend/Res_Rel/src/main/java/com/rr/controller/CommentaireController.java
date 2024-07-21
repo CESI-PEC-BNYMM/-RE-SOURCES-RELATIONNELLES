@@ -44,12 +44,9 @@ public class CommentaireController {
     @PutMapping("/signale/{idCommentaire}")
     public ResponseEntity<?> signaleCommentaire(@PathVariable int idCommentaire, @RequestParam boolean commentaireSignale) {
         try {
-            Commentaire existingCommentaire = commentaireRepository.findById(idCommentaire)
-                .orElseThrow(() -> new RuntimeException("Commentaire not found"));
-            boolean originalSignale = existingCommentaire.isCommentaireSignale();
-            existingCommentaire.setCommentaireSignale(!originalSignale);
-            commentaireRepository.save(existingCommentaire);
-            commentaireRepository.signaleCommentaire(existingCommentaire, idCommentaire);
+            Commentaire commentaire = commentaireRepository.findById(idCommentaire).orElseThrow();
+            commentaire.setCommentaireSignale(commentaireSignale);
+            commentaireRepository.save(commentaire);
             return new ResponseEntity<>("Commentaire signaled successfully", HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error signaling commentaire: " + e.getMessage());
@@ -116,7 +113,7 @@ public class CommentaireController {
      * Response: HTTP 200 OK with a list of comments or HTTP 500 INTERNAL SERVER ERROR with error message.
      */
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/type/{type}/signale/{signal}")
+    @GetMapping("/type/{type}/signale/{commentaireSignale}")
     public ResponseEntity<?> findByTypeAndSignal(@PathVariable Boolean type, @PathVariable Boolean commentaireSignale) {
         try {
             List<Commentaire> commentaires = commentaireService.findByTypeAndCommentaireSignale(type, commentaireSignale);
