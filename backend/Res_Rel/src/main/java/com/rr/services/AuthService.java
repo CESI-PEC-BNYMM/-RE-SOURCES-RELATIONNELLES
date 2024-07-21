@@ -3,7 +3,6 @@ package com.rr.services;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +20,7 @@ public class AuthService {
     private CitoyenRepository utilisateurRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    public BCryptPasswordEncoder passwordEncoder;
 
     public AuthService(CitoyenRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
