@@ -75,4 +75,14 @@ public class DemandeAmiService {
         demandeAmiRepository.deleteById(demandeId);
     }
 
+    // findByCitoyenreceveurMail
+
+    /**
+     * Retrieves all AmiRequest entities from the database that are associated with a specific user.
+     * @param email The email address of the user to retrieve AmiRequest entities for.
+     * @return A list of AmiRequest entities associated with the specified user.
+     */
+    public List<DemandeAmi> findByCitoyenreceveurMail(String email) {
+        return demandeAmiRepository.findByCitoyenreceveurMail(email);
+    }
 }

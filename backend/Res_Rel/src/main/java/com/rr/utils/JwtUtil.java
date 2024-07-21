@@ -17,36 +17,31 @@ public class JwtUtil {
 
     @jakarta.annotation.PostConstruct
     public void init() {
-        byte[] keyBytes = Base64.getDecoder().decode(generateSecretKey());
-        key = Keys.hmacShaKeyFor(keyBytes);
+        key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(generateSecretKey()));
     }
 
     private static String generateSecretKey() {
-        byte[] keyBytes = new byte[256];
-        new SecureRandom().nextBytes(keyBytes);
-        return Base64.getEncoder().encodeToString(keyBytes);
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[32];
+        random.nextBytes(bytes);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     public static String generateToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
+        return Jwts.builder().setSubject(email).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public static String getEmailFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        token = token.replace("Bearer ", "");
+
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     public static boolean validateToken(String token) {
         try {
+            token = token.replace("Bearer ", "");
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {

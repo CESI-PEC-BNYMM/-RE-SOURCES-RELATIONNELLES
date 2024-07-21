@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rr.utils.JwtUtil;
 
@@ -23,6 +24,7 @@ public class Citoyen {
     @Column(name = "mail")
     private String mail;
 
+    @JsonBackReference
     @Column(name = "mdp")
     private String mdp;
 

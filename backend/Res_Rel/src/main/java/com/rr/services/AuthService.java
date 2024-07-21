@@ -1,7 +1,9 @@
 package com.rr.services;
 
 import java.util.Date;
+import java.util.HashMap;
 
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,7 +60,7 @@ public class AuthService {
         }
         citoyen.setDateDerniereConnexion(new Date());
         utilisateurRepository.save(citoyen);
-        Map<String, String> userInfos = new HashMap<>();
+        java.util.Map<String, String> userInfos = new HashMap<>();
         userInfos.put("token", JwtUtil.generateToken(mail));
         userInfos.put("prenom", citoyen.getPrenom());
         userInfos.put("nom", citoyen.getNom());

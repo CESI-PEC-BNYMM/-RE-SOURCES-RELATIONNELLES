@@ -35,15 +35,14 @@ public class Publication {
     private Integer NbrVues;
 
     //relation avec la table catégorie de type N,M (une pub peyt avoir plusieurs catégorie et une catégorie peut avoir plueireus publication
-    @ManyToMany
-    @JoinTable(name = "categorie_publication",
-            joinColumns = @JoinColumn(name = "publication_id"),
-            inverseJoinColumns = @JoinColumn(name = "categorie_id"))
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "pub_cat",
+            joinColumns = @JoinColumn(name = "publication_idpublication"),
+            inverseJoinColumns = @JoinColumn(name = "categorie_idcategorie"))
     private Set<Categorie> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "publication")
     private Set<Commentaire> commentaires; // Liste des commentaires associés à la publication
-
 
     // relation avec la table citoyen où publication contient la clé étrangère de citoyen
     @ManyToOne(fetch = FetchType.LAZY)

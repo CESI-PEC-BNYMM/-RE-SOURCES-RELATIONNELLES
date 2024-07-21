@@ -189,7 +189,7 @@
     `demande_validee` TINYINT(1) NULL DEFAULT 0,
     `citoyen_mail` VARCHAR(45) NOT NULL,
     `citoyen_mail1` VARCHAR(45) NOT NULL,
-    `id_demande_ami` VARCHAR(45) NOT NULL,
+    `id_demande_ami` INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`id_demande_ami`),
     INDEX `fk_demande_ami_citoyen1_idx` (`citoyen_mail` ASC) ,
     INDEX `fk_demande_ami_citoyen2_idx` (`citoyen_mail1` ASC) ,
