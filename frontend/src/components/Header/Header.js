@@ -23,19 +23,28 @@ const Header = () => {
         setIsUserDropdownActive(!isUserDropdownActive)
     };
     const [notifications, setNotifications] = React.useState([]);
+    const user = {
+        prenom: localStorage.getItem('prenom'),
+        nom: localStorage.getItem('nom'),
+        token: localStorage.getItem('token'),
+        mail: localStorage.getItem('mail'),
+        role: localStorage.getItem('role')
+    };
 
-    // const handleLogout = async () => {
-    //     try {
-    //         const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${process.env.REACT_APP_API_ROUTE_LOGOUT}`, {
-    //             token: localStorage.getItem('token'),
-    //             user: user.username,
-    //         });
-    //         localStorage.removeItem('token');
-    //         window.location.reload();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    const handleLogout = async () => {
+        try {
+            //only remove token, prenom, nom, mail, role from localStorage
+            localStorage.removeItem('token');
+            localStorage.removeItem('prenom');
+            localStorage.removeItem('nom');
+            localStorage.removeItem('mail');
+            localStorage.removeItem('role');
+            window.location.href = '/';
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleLeftNavDropdown = ($id, $dataPath) => {
         document.getElementById($id).classList.toggle('show');
@@ -45,33 +54,37 @@ const Header = () => {
     return (
         <div className='Header'>
             <div className="topNav">
-                <div className="actions" style={{ cursor: 'pointer' }}>
-                    <NavLink to={`/register`} data-path="/register" className="register">
-                        <div>Inscription</div>
-                    </NavLink>
-                </div>
-                <div className="actions" style={{ cursor: 'pointer' }}>
-                    <NavLink to={`/login`} data-path="/login" className="login">
-                        <div>Se connecter</div>
-                    </NavLink>
-                </div>
-                <div className="user">
-                    <FaUser onClick={handleUserDropdown} style={{ cursor: 'pointer' }} fontSize="1.3rem" />
-                    {isUserDropdownActive && (
-                        <div className="dropdownContent">
-                            {/* <p>Connecté en tant que <b>{user.username}</b></p> */}
-                            <p>Connecté en tant que *TODO*</p>
-                            <NavLink to={`/parametres-du-site`} data-path="/parametres-du-site" className="websiteSettings">
-                                <p>Paramètres du site</p>
+                {user.token === null &&
+                    <>
+                        <div className="actions" style={{ cursor: 'pointer' }}>
+                            <NavLink to={`/register`} data-path="/register" className="register">
+                                <div>Inscription</div>
                             </NavLink>
-                            <NavLink to={`/parametres-du-compte`} data-path="/parametres-du-compte" className="profileSettings">
-                                <p>Paramètres du compte</p>
-                            </NavLink>
-                            {/* <button onClick={handleLogout} className="logout">Déconnexion</button> */}
-                            <button className="logout">Déconnexion</button>
                         </div>
-                    )}
-                </div>
+                        <div className="actions" style={{ cursor: 'pointer' }}>
+                            <NavLink to={`/login`} data-path="/login" className="login">
+                                <div>Se connecter</div>
+                            </NavLink>
+                        </div>
+                    </>
+                }
+                {user.token !== null &&
+                    <div className="user">
+                        <FaUser onClick={handleUserDropdown} style={{ cursor: 'pointer' }} fontSize="1.3rem" />
+                        {isUserDropdownActive && (
+                            <div className="dropdownContent">
+                                <p>Connecté en tant que <b>{user.prenom} {user.nom}</b></p>
+                                <NavLink to={`/parametres-du-site`} data-path="/parametres-du-site" className="websiteSettings">
+                                    <p>Paramètres du site</p>
+                                </NavLink>
+                                <NavLink to={`/parametres-du-compte`} data-path="/parametres-du-compte" className="profileSettings">
+                                    <p>Paramètres du compte</p>
+                                </NavLink>
+                                <button onClick={handleLogout} className="logout">Déconnexion</button>
+                            </div>
+                        )}
+                    </div>
+                }
             </div>
             <div className="leftNav">
                 <div className="logo">
@@ -84,22 +97,26 @@ const Header = () => {
                         <FaHouse />
                         <p>Fil d'actualité</p>
                     </NavLink>
-                    <button className="menuItem" to={`/espace-personnel`} onClick={() => handleLeftNavDropdown('dropdown-espace-personnel', "/espace-personnel")} data-path="/espace-personnel">
-                        <FaPerson />
-                        <p>Espace personnel</p>
-                    </button>
-                    <div id="dropdown-espace-personnel" className="dropdown" dropdown-parent="/espace-personnel">
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/mes-publications`} data-path="/espace-personnel/mes-publications">
-                            <span></span>
-                            <FaBorderAll />
-                            <p>Mes publications</p>
-                        </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/gestion-d-amis`} data-path="/espace-personnel/gestion-d-amis">
-                            <span></span>
-                            <FaUserGroup />
-                            <p>Gestion d'amis</p>
-                        </NavLink>
-                    </div>
+                    {user.token !== null &&
+                        <>
+                            <button className="menuItem" to={`/espace-personnel`} onClick={() => handleLeftNavDropdown('dropdown-espace-personnel', "/espace-personnel")} data-path="/espace-personnel">
+                                <FaPerson />
+                                <p>Espace personnel</p>
+                            </button>
+                            <div id="dropdown-espace-personnel" className="dropdown" dropdown-parent="/espace-personnel">
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/mes-publications`} data-path="/espace-personnel/mes-publications">
+                                    <span></span>
+                                    <FaBorderAll />
+                                    <p>Mes publications</p>
+                                </NavLink>
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/espace-personnel/gestion-d-amis`} data-path="/espace-personnel/gestion-d-amis">
+                                    <span></span>
+                                    <FaUserGroup />
+                                    <p>Gestion d'amis</p>
+                                </NavLink>
+                            </div>
+                        </>
+                    }
                     <button className="menuItem" to={`/support`} onClick={() => handleLeftNavDropdown('dropdown-support', "/support")} data-path="/support">
                         <FaLifeRing />
                         <p>Support</p>
@@ -116,38 +133,41 @@ const Header = () => {
                             <p>FAQ</p>
                         </NavLink>
                     </div>
-
-                    <button className="menuItem" to={`/demandes`} onClick={() => handleLeftNavDropdown('dropdown-administration', "/administration")} data-path="/administration">
-                        <FaWrench />
-                        <p>Administration</p>
-                    </button>
-                    <div id="dropdown-administration" className="dropdown" dropdown-parent="/administration">
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/utilisateurs`} data-path="/administration/utilisateurs">
-                            <span></span>
-                            <FaUsersGear />
-                            <p>Utilisateurs</p>
-                        </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/articles`} data-path="/administration/articles">
-                            <span></span>
-                            <BsPostcardFill />
-                            <p>Articles</p>
-                        </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/categories`} data-path="/administration/categories">
-                            <span></span>
-                            <BiSolidCategory />
-                            <p>Catégories</p>
-                        </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/commentaires`} data-path="/administration/commentaires">
-                            <span></span>
-                            <FaComments />
-                            <p>Commentaires</p>
-                        </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/tickets`} data-path="/administration/tickets">
-                            <span></span>
-                            <IoTicketSharp />
-                            <p>Tickets</p>
-                        </NavLink>
-                    </div>
+                    {(user.role === "Superadministateur" || user.role === "Administrateur" || user.role === "Modérateur") &&
+                        <>
+                            <button className="menuItem" to={`/demandes`} onClick={() => handleLeftNavDropdown('dropdown-administration', "/administration")} data-path="/administration">
+                                <FaWrench />
+                                <p>Administration</p>
+                            </button>
+                            <div id="dropdown-administration" className="dropdown" dropdown-parent="/administration">
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/utilisateurs`} data-path="/administration/utilisateurs">
+                                    <span></span>
+                                    <FaUsersGear />
+                                    <p>Utilisateurs</p>
+                                </NavLink>
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/articles`} data-path="/administration/articles">
+                                    <span></span>
+                                    <BsPostcardFill />
+                                    <p>Articles</p>
+                                </NavLink>
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/categories`} data-path="/administration/categories">
+                                    <span></span>
+                                    <BiSolidCategory />
+                                    <p>Catégories</p>
+                                </NavLink>
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/commentaires`} data-path="/administration/commentaires">
+                                    <span></span>
+                                    <FaComments />
+                                    <p>Commentaires</p>
+                                </NavLink>
+                                <NavLink className={({ isActive }) => isActive ? "active menuItem dropdown-content" : "menuItem dropdown-content"} to={`/administration/tickets`} data-path="/administration/tickets">
+                                    <span></span>
+                                    <IoTicketSharp />
+                                    <p>Tickets</p>
+                                </NavLink>
+                            </div>
+                        </>
+                    }
                     <NavLink to={`/rgpd`} data-path="/rgpd" className={({ isActive }) => isActive ? "active menuItem" : "menuItem"}>
                         <GoLaw />
                         <p>RGPD</p>

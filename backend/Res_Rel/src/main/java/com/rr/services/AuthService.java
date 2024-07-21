@@ -37,7 +37,7 @@ public class AuthService {
      * @throws BadCredentialsException If the email or password is incorrect.
      */
     @Transactional(readOnly = false) // Specifies that the query is only for reading information
-    public String login(String mail, String motdePasse) {
+    public java.util.Map<String, String> login(String mail, String motdePasse) {
         // Find the user by their email
         var resu = utilisateurRepository.findByMail(mail);
 
@@ -67,7 +67,7 @@ public class AuthService {
         userInfos.put("nom", citoyen.getNom());
         userInfos.put("mail", citoyen.getMail());
         userInfos.put("role", citoyen.getRole());
-        return userInfos.toString();
+        return userInfos;
     }
 
     /**
