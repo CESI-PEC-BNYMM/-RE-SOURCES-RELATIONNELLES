@@ -27,11 +27,13 @@ public class AuthService {
     }
 
     /**
-     * Authenticates a user by checking their email and password against the database.
+     * Authenticates a user by checking their email and password against the
+     * database.
      *
-     * @param mail The email address of the user.
+     * @param mail       The email address of the user.
      * @param motdePasse The password of the user.
-     * @return A success message if authentication is successful, or an error message.
+     * @return A success message if authentication is successful, or an error
+     *         message.
      * @throws BadCredentialsException If the email or password is incorrect.
      */
     @Transactional(readOnly = false) // Specifies that the query is only for reading information
@@ -68,15 +70,37 @@ public class AuthService {
         return userInfos.toString();
     }
 
-
-    @Transactional(rollbackFor = Exception.class) // pour dire que si jamais ça marche mal,
+    /**
+     * Sign up a new user.
+     *
+     * @param mail The email address of the user.
+     * @param motdePasse The password of the user.
+     * @param nom The last name of the user.
+     * @param prenom The first name of the user.
+     * @param numTel The phone number of the user.
+     * @param numSec The social security number of the user.
+     * @param dateNaissance The date of birth of the user.
+     * @param sexe The gender of the user.
+     * @param codePostal The postal code of the user.
+     * @param ville The city of the user.
+     * @return A success message if the sign-up is successful, or an error message.
+     * @throws BadCredentialsException If the email is already used.
+     */
+    @Transactional(rollbackFor = Exception.class) // Specifies that if anything goes wrong, the entire transaction will be rolled back
     public String signup(String mail, String motdePasse, String nom, String prenom, String numTel,
                             String numSec, Date dateNaissance, char sexe, String codePostal, String ville) {
+        // Find the user by their email
         var resu = utilisateurRepository.findByMail(mail);
+
+        // If the user already exists, throw an exception
         if (resu.isPresent()) {
             throw new BadCredentialsException("Cet identifiant est déjà utilisé");
         }
+
+        // Create a new user object
         Citoyen nouveauCitoyen = new Citoyen();
+
+        // Set the user's attributes
         nouveauCitoyen.setMail(mail);
         nouveauCitoyen.setMdp(passwordEncoder.encode(motdePasse));
         nouveauCitoyen.setPrenom(prenom);
@@ -87,9 +111,11 @@ public class AuthService {
         nouveauCitoyen.setSexe(sexe);
         nouveauCitoyen.setCodePostal(codePostal);
         nouveauCitoyen.setVille(ville);
-        nouveauCitoyen.setRole("citoyen");
+        nouveauCitoyen.setRole("citoyen"); // Set the user's role to "citoyen"
+
+        // Save the user to the database
         utilisateurRepository.save(nouveauCitoyen);
 
+        // Return a success message
         return "Inscription réussi";
     }
-}
